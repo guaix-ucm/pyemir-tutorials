@@ -1,5 +1,5 @@
-PyEmir Documentation
-====================
+PyEmir tutorials
+================
 
 Welcome. This is the Documentation for PyEmir (version |version|), 
 
@@ -14,17 +14,6 @@ Maintainers: Sergio Pascual (sergiopr@fis.ucm.es), and Nicolás Cardiel
 (cardiel@ucm.es)
 
 
-.. warning::
-
-   If you are reducing EMIR data obtained with read-out mode RAMP, please,
-   have a look to the instructions provided at `Checking the RAMPs
-   <http://research.iac.es/proyecto/emir/pages/observing-with-emir/observing-utilities/checking-ramp-raw-data.php>`_.
-
-   It is very easy to check the employed read-out mode using the auxiliary
-   script ``fitsheader`` (provided in the astropy package). For example:
-
-   ``$ fitsheader *.fits -k readmode -f``
-
 .. only:: html
 
    Document index:
@@ -32,14 +21,9 @@ Maintainers: Sergio Pascual (sergiopr@fis.ucm.es), and Nicolás Cardiel
 .. toctree::
    :maxdepth: 1
    
-   installation/index
-   preliminaries/preliminaries
    tutorial_imaging/index
    tutorial_mos/index
    tutorial_flat/index
-   user/index 
-   reference/index
-   glossary
 
 .. _GTC: http://www.gtc.iac.es
 .. _EMIR: http://www.gtc.iac.es/instruments/emir

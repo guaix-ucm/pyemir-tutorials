@@ -32,9 +32,8 @@ import os
 # This is required by autodoc to work
 sys.path.insert(0, os.path.abspath('../'))
 
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.imgmath',
-              'sphinx.ext.coverage', 'sphinx.ext.intersphinx',
-              'sphinx.ext.napoleon']
+extensions = ['sphinx.ext.imgmath',
+              'sphinx.ext.intersphinx']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -49,7 +48,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'PyEmir'
+project = u'PyEmir tutorials'
 copyright = u'2010-2020, Universidad Complutense de Madrid'
 
 # The version info for the project you're documenting, acts as replacement for
@@ -73,7 +72,7 @@ release = '0.15.dev1'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['_build']
+exclude_patterns = ['build']
 
 # The reST default role (used for this markup: `text`) to use for all
 # documents.
