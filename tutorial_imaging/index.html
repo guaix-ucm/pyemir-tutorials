@@ -1,0 +1,154 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Imaging mode tutorial: combination of dithered exposures &#8212; PyEmir tutorials 0.15.dev1 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Preliminary combination" href="preliminary_combination.html" />
+    <link rel="prev" title="PyEmir tutorials" href="../index.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="preliminary_combination.html" title="Preliminary combination"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="PyEmir tutorials"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="imaging-mode-tutorial-combination-of-dithered-exposures">
+<span id="imaging-tutorial"></span><h1>Imaging mode tutorial: combination of dithered exposures<a class="headerlink" href="#imaging-mode-tutorial-combination-of-dithered-exposures" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the commands are assumed to be executed in a terminal running the <strong>bash
+shell</strong>.</p>
+<p>Don’t forget to activate the same Python environment employed to install
+PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
+is the case.</p>
+</div>
+<p>This tutorial provides an easy introduction to the use of PyEmir (via Numina),
+focusing on the combination of dithered exposures.</p>
+<p>For detailed documentation concerning the installation of PyEmir, see the
+<span class="xref std std-ref">pyemir_installation</span> guide.</p>
+<p>We strongly recommend to follow the different sections of this tutorial in the
+provided order, starting with the simplest combination method, before
+attempting to refine the combination procedure.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Two aspects that are still not covered by PyEmir in imaging mode are the
+following:</p>
+<ul class="simple">
+<li><p>Only integer offsets between images are considered: this is not especially
+important considering that the PSF is well oversampled. The benefit of
+using integer offsets is that the reduction speed is not increased.</p></li>
+<li><p>Image distortions are not considered yet: this should be incorporated in a
+future release. Until them, the objects at the border of the combined
+images appear distorted (sorry!). The inclusion of this correction will
+imply the use of fractions of pixels for a proper image rectification
+prior to the combination, which will probably make the reduction more cpu
+demanding. Meanwhile, a temporary solution may be to combine the images
+using offsets between images computed using as references objects located
+in the image region where one requires the best image alignment.</p></li>
+</ul>
+</div>
+<p><strong>Tutorial index:</strong></p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="preliminary_combination.html">Preliminary combination</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="preliminary_combination.html#step-1-basic-reduction-of-individual-exposures">Step 1: basic reduction of individual exposures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="preliminary_combination.html#step-2-image-combination">Step 2: image combination</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="refined_combination.html">Improving the image combination</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-offsets-method-1">Improving offsets (method #1)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-offsets-method-2">Improving offsets (method #2)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-offsets-method-3">Improving offsets (method #3)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-the-sky-background-problem-1">Improving the sky background (problem #1)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-the-sky-background-problem-2">Improving the sky background (problem #2)</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../index.html"
+                        title="previous chapter">PyEmir tutorials</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="preliminary_combination.html"
+                        title="next chapter">Preliminary combination</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial_imaging/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="preliminary_combination.html" title="Preliminary combination"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../index.html" title="PyEmir tutorials"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2020, Universidad Complutense de Madrid.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

@@ -1,0 +1,825 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Simple example: arc exposure &#8212; PyEmir tutorials 0.15.dev1 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="MOS example" href="mos_example.html" />
+    <link rel="prev" title="Understanding the data: image distortions" href="understanding.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="mos_example.html" title="MOS example"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="understanding.html" title="Understanding the data: image distortions"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Spectroscopic mode tutorial: MOS data</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="simple-example-arc-exposure">
+<span id="simple-example"></span><h1>Simple example: arc exposure<a class="headerlink" href="#simple-example-arc-exposure" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the commands are assumed to be executed in a terminal running the <strong>bash
+shell</strong>.</p>
+<p>Don’t forget to activate the same Python environment employed to install
+PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
+is the case.</p>
+</div>
+<p>The rectification and wavelength calibration of any EMIR spectroscopic image
+can be obtained with two levels of quality:</p>
+<ul class="simple">
+<li><p><strong>Preliminary (empirical) calibration</strong>, without auxiliary calibration
+images, computed from the empirical calibration derived by the instrument
+team.</p>
+<ul>
+<li><p>This is the on-line reduction perfomed at the GTC while gathering the
+images.</p></li>
+<li><p>Note that although the empirical calibrations were computed using a large
+set of initial calibration (continuum and arc) images, <em>it is not
+expected that the absolute wavelength calibration to be correct within a
+few pixels nor the relative wavelength calibration between slitlets to
+agree within one pixel</em>. For that reason, this rectified and wavelength
+calibrated image has been defined as a preliminary version. In addition,
+<em>the boundaries between slitlets can also exhibit small deviations (a few
+pixels) with respect to the empirical calibration</em>. Anyhow, this empirical
+calibration constitutes a good starting point in order to have a look to
+the data.</p></li>
+</ul>
+</li>
+<li><p><strong>Refined calibration</strong>, which requires either auxilary arc exposures or a
+more detailed reduction of scientific images with good signal on the airglow
+emission (OH emission lines). In this case, the preliminary calibration is
+refined <em>in order to guarantee that both, the absolute wavelength calibration
+and the relative wavelength calibration between slitlets do agree within a
+fraction of a pixel</em>. In addition, the boundaries between the slitlets can
+also be shifted in order to match the real data.</p></li>
+</ul>
+<div class="section" id="preliminary-rectification-and-wavelength-calibration">
+<h2>Preliminary rectification and wavelength calibration<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before continuing, make sure that you have already initialize the file tree
+structure by following the instructions provided in the
+<span class="xref std std-ref">initial_file_tree</span> section of this documentation.</p>
+</div>
+<p>Assume you want to perform the rectification and wavelength calibration of the
+following raw spectroscopic images (corresponding in this case to spectral arc
+lamps):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+</pre></div>
+</div>
+<p>These images should be similar since they were taken consecutively with the
+same instrument configuration. In this case, the median of the three raw images
+will be computed and a preliminary rectified and wavelength calibrated image
+will be generated from that median image.</p>
+<p>Those three files (together with some additional files that you will need to
+follow this simple example) are available as a compressed tgz file:
+<a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz">pyemir_arc_calibration_tutorial_v1.tgz</a>.</p>
+<p>Move to the directory where you have deployed the initial file tree structure
+containing the basic PyEmir calibration files (see  <span class="xref std std-ref">initial_file_tree</span>).</p>
+<p>Decompress there the previously mentioned tgz file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_arc_calibration_tutorial_v1.tgz
+...
+...
+(emir) $ rm pyemir_arc_calibration_tutorial_v1.tgz
+</pre></div>
+</div>
+<p>This action should have populated the file tree with the 3 arc exposures
+(placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
+.
+├── 0_preliminary_calibration.yaml
+├── 1_refined_calibration.yaml
+├── control.yaml
+└── data
+    ├── 0001041345-20160917-EMIR-TEST0.fits
+    ├── 0001041348-20160917-EMIR-TEST0.fits
+    ├── 0001041351-20160917-EMIR-TEST0.fits
+    ├── master_bpm.fits
+    ├── master_dark_zeros.fits
+    ├── master_flat_ones.fits
+    ├── master_flat_spec.fits
+    ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
+    ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
+    ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
+    ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
+    └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
+</pre></div>
+</div>
+<p>You can easily examine the header of the three arc files using the astropy
+utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/00010413*fits -k object -k grism -k filter -k exptime -k date-obs -f
+                filename                       OBJECT      GRISM FILTER EXPTIME         DATE-OBS
+---------------------------------------- ----------------- ----- ------ -------- ----------------------
+data/0001041345-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:29.61
+data/0001041348-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:32.68
+data/0001041351-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:35.74
+</pre></div>
+</div>
+<p>Have a look to any of the tree raw arc images (the three images are similar).
+For that purpose you can use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> or the visualization tool provided with
+numina:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0001041345-20160917-EMIR-TEST0.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0001041345_raw.png"><img alt="Image 0001041345 raw" src="../_images/0001041345_raw.png" style="width: 100%;" /></a>
+<p>The wavelength direction corresponds to the horizontal axis, whereas the
+spatial direction is the vertical axis. This image was obtained with all the
+slitlets configured in longslit format. The arc lines exhibit an important
+geometric distortion when moving along the spatial direction even in this
+longslit configuration.</p>
+<p>The slitlet configuration can be easily displayed using the auxiliay PyEmir
+script <code class="docutils literal notranslate"><span class="pre">pyemir-display_slitlet_arrangement</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-display_slitlet_arrangement data/0001041345-20160917-EMIR-TEST0.fits
+...
+...
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0001041345_csu_configuration.png"><img alt="Image 0001041345 csu configuration" src="../_images/0001041345_csu_configuration.png" style="width: 100%;" /></a>
+<p>The above image clearly shows that all CSU bars were configured to create
+aligned slitlets forming a (pseudo) longslit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Remember that the <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines.
+In order to execute PyEmir recipes you should use type something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;observation_result_file.yaml&gt;</span></code> is an observation result file in
+YAML format, and <code class="docutils literal notranslate"><span class="pre">&lt;requirements_files.yaml&gt;</span></code> is a requirements file, also
+in YAML format.</p>
+<p>YAML is a human-readable data serialization language (for details see
+<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax</a>)</p>
+</div>
+<p>The current directory contains the following two files required
+to execute the reduction recipe needed in this case:</p>
+<p><strong>The observation result file:</strong> <code class="docutils literal notranslate"><span class="pre">0_preliminary_calibration.yaml</span></code></p>
+<p>This is what we call an observation result file, which basically
+contains the reduction recipe to be applied and the images involved.</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001041345</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<ul class="simple">
+<li><p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> value is an arbitrary label that is employed to generate the name
+of two auxiliary subdirectories. In this example the two subdirectories will
+be named <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_work</span></code> and <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_results</span></code> (see
+below), where the intermediate results and the final results are going to be
+stored, respectively. Note that we have arbitrarily chosen the 10 digits of
+the unique running number assigned to the first image of this set.</p></li>
+<li><p>Not surprisingly, the key <code class="docutils literal notranslate"><span class="pre">instrument</span></code> is set to EMIR (do not forget that
+Numina also is at present also employed to reduce MEGARA data, and hopefully,
+future GTC instruments).</p></li>
+<li><p>The key <code class="docutils literal notranslate"><span class="pre">mode</span></code> indicates the identification of the reduction recipe
+(<code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> in this example).</p></li>
+<li><p>The key <code class="docutils literal notranslate"><span class="pre">frames</span></code> lists the images to be combined.</p></li>
+<li><p>The key <code class="docutils literal notranslate"><span class="pre">enabled:</span> <span class="pre">True</span></code> indicates that this block is going to be reduced.
+As it is going to be shown later, it is possible to concatenate several
+blocks in the same observation result file; the user can easily
+activate/deactivate the execution of particular reduction recipes (i.e.
+blocks in this file) just by modifying this flag.</p></li>
+</ul>
+<p><strong>The requirements file:</strong> <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code></p>
+<p>This is the requirements file, containing the expected name
+of generic calibration files. You do not need to modify anything here.</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">products</span><span class="p">:</span>
+  <span class="n">EMIR</span><span class="p">:</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterBadPixelMask&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_bpm.fits&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterDark&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_dark_zeros.fits&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterIntensityFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterSpectralFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_J_filter_J.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_H_filter_H.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_J_filter_J.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_H_filter_H.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
+  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">EMIR</span><span class="p">:</span>
+    <span class="n">default</span><span class="p">:</span>
+     <span class="n">FULL_DITHERED_IMAGE</span><span class="p">:</span>
+      <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="s1">&#39;x_offsets&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;ref_object_pos.txt&#39;</span><span class="p">}</span>
+</pre></div>
+</td></tr></table></div>
+<p><strong>Numina execution</strong></p>
+<p>You are ready to execute the reduction recipe indicated in the file
+<code class="docutils literal notranslate"><span class="pre">0_preliminary_calibration.yaml</span></code> (in this case the reduccion recipe named
+<code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_preliminary_calibration.yaml -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>After the execution of the previous command line, two subdirectories should
+have been created:</p>
+<ul class="simple">
+<li><p>a work subdirectory: <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_work/</span></code></p></li>
+<li><p>a results subdirectory: <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_results/</span></code></p></li>
+</ul>
+<div class="section" id="the-work-subdirectory">
+<h3>The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory<a class="headerlink" href="#the-work-subdirectory" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001041345_work/
+obsid_0001041345_work/
+├── 0001041345-20160917-EMIR-TEST0.fits
+├── 0001041348-20160917-EMIR-TEST0.fits
+├── 0001041351-20160917-EMIR-TEST0.fits
+├── ds9_arc_rawimage.reg
+├── ds9_arc_rectified.reg
+├── ds9_boundaries_rawimage.reg
+├── ds9_boundaries_rectified.reg
+├── ds9_frontiers_rawimage.reg
+├── ds9_frontiers_rectified.reg
+├── ds9_oh_rawimage.reg
+├── ds9_oh_rectified.reg
+├── index.pkl
+├── master_bpm.fits
+├── master_dark_zeros.fits
+├── master_flat_spec.fits
+├── median_spectra_full.fits
+├── median_spectra_slitlets.fits
+├── median_spectrum_slitlets.fits
+└── reduced_image.fits
+</pre></div>
+</div>
+<p>All the relevant raw images <code class="docutils literal notranslate"><span class="pre">00010413*-EMIR-TEST0.fits</span></code> have been copied into
+this working directory in order to preserve the original files.</p>
+<p><em>When disk space is an issue, it is possible to execute numina indicating that
+links (instead of actual copies of the original raw files) must be placed in
+the ``work`` subdirectory.</em> This behaviour is set using the parameter
+<code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_preliminary_calibration.yaml --link-files -r control.yaml
+...
+...
+(emir) $ tree obsid_0001041345_work/
+obsid_0001041345_work/
+├── 0001041345-20160917-EMIR-TEST0.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/0001041345-20160917-EMIR-TEST0.fits
+├── 0001041348-20160917-EMIR-TEST0.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/0001041348-20160917-EMIR-TEST0.fits
+├── 0001041351-20160917-EMIR-TEST0.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/0001041351-20160917-EMIR-TEST0.fits
+├── ds9_arc_rawimage.reg
+├── ds9_arc_rectified.reg
+├── ds9_boundaries_rawimage.reg
+├── ds9_boundaries_rectified.reg
+├── ds9_frontiers_rawimage.reg
+├── ds9_frontiers_rectified.reg
+├── ds9_oh_rawimage.reg
+├── ds9_oh_rectified.reg
+├── index.pkl
+├── master_bpm.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_bpm.fits
+├── master_dark_zeros.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_dark_zeros.fits
+├── master_flat_spec.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_flat_spec.fits
+├── median_spectra_full.fits
+├── median_spectra_slitlets.fits
+├── median_spectrum_slitlets.fits
+└── reduced_image.fits
+</pre></div>
+</div>
+<p>In addition, some intermediate images are also stored here during the execution
+of the reduction recipe. In particular:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>: result of applying, to the combination of the
+three <code class="docutils literal notranslate"><span class="pre">00010413*fits</span> <span class="pre">files</span></code>, the bad-pixel mask, bias, dark and flatfield.
+<strong>Note that, albeit its name, this is not a rectified and wavelength
+calibrated image.</strong> This is simply a temporary image, stored in this working
+directory for double-checking purposes.</p></li>
+<li><p>ds9-region files for raw images (before rectification and wavelength
+calibration):</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rawimage.reg</span></code>: ds9-region file with the frontiers
+between slitlets, valid for the raw-type images (images with the original
+distortions).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_boundaries_rawimage.reg</span></code>: ds9-region file with the boundaries
+for each slitlet, valid for the raw-type images (images with the original
+distortions).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_arc_rawimage.reg</span></code>: ds9-region file with expected location of
+arc lines from the EMIR calibration lamps.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_oh_rawimage.reg</span></code>: ds9-region file with expected location of airglow
+(OH) sky lines.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>ds9-region files for rectified and wavelength calibrated images:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rectified</span></code>: ds9-region file with the frontiers between
+slitlets, valid for rectified and wavelength calibrated images.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_boundaries_rectified</span></code>: ds9-region file with the boundaries for each
+slitlet, valid for rectified and wavelength calibrated images.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_arc_rectified.reg</span></code>: ds9-region file with expected location of arc
+lines from the EMIR calibration lamps.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_oh_rectified.reg</span></code>: ds9-region file with expected location of
+airglow (OH) sky lines.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>images with averaged spectra:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">median_spectra_full.fits</span></code>: image with the same size as the rectified
+and wavelength calibrated image, where the individual 38 spectra of each
+slitlet have been replaced by its median spectrum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">median_spectra_slitlets.fits</span></code>: image with simply 55 spectra,
+corresponding to the 55 median spectrum of each slitlet.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">median_spectrum_slitlets.fits</span></code>: single median spectrum, with signal in
+all pixels with wavelength coverage in any of the 55 slitlets.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</div>
+<div class="section" id="the-results-subdirectory">
+<h3>The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory<a class="headerlink" href="#the-results-subdirectory" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001401345_results/
+obsid_0001401345_results/
+├── processing.log
+├── rectwv_coeff.json
+├── reduced_mos.fits
+├── result.json
+└── task.json
+</pre></div>
+</div>
+<p>The main results are stored separately in this last subdirectory. The
+important files here are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_mos.fits</span></code> is the preliminary version of the rectified and
+wavelength calibrated image (please, keep reading).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code>: rectification and wavelength calibration polinomial
+coefficients derived from the empirical model, and computed for the specific
+CSU configuration of the considered raw images.</p></li>
+</ul>
+<p>You can easily display the last image using <code class="docutils literal notranslate"><span class="pre">ds9</span></code> or the visualization tool
+provided with numina:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0001041345_results/reduced_mos.fits --z1z2 0,1000
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/stare_preliminary_version.png"><img alt="Stare image preliminary version" src="../_images/stare_preliminary_version.png" style="width: 100%;" /></a>
+<ul>
+<li><p>The wavelength calibration coefficientes are stored in the usual FITS
+keywords <code class="docutils literal notranslate"><span class="pre">CRPIX1</span></code>, <code class="docutils literal notranslate"><span class="pre">CRVAL1</span></code> and <code class="docutils literal notranslate"><span class="pre">CDELT1</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader obsid_0001041345_results/reduced_mos.fits -k crpix1 -k crval1 -k cdelt1 -f
+                 filename                 CRPIX1  CRVAL1 CDELT1
+----------------------------------------- ------ ------- ------
+obsid_0001041345_results/reduced_mos.fits    1.0 11200.0   0.77
+</pre></div>
+</div>
+<p>Prefixed <code class="docutils literal notranslate"><span class="pre">CRVAL1</span></code> and <code class="docutils literal notranslate"><span class="pre">CDELT1</span></code> values have been stablished for the
+different grism+filter combinations (<code class="docutils literal notranslate"><span class="pre">CRPIX1=1</span></code> is employed in all cases).
+The goal is that all the rectified and wavelength calibrated images,
+corresponding to raw images obtained the same grism+filter, have the same
+linear coverage and sampling in wavelength, which should facilitate the
+scientific analysis of images obtained with distinct CSU configurations.</p>
+</li>
+<li><p>Note that the image dimensions are now NAXIS1=3400 and NAXIS2=2090:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader obsid_0001041345_results/reduced_mos.fits -k naxis* -f
+                 filename                 NAXIS NAXIS1 NAXIS2
+----------------------------------------- ----- ------ ------
+obsid_0001041345_results/reduced_mos.fits     2   3400   2090
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">NAXIS1</span></code> has been enlarged in order to accommodate wavelength calibrated
+spectra for slitlets in different locations along the spectral direction
+(i.e., with different wavelength coverage). For that reason there are empty
+leading and trailing areas (with signal set to zero) in the wavelength
+direction. <code class="docutils literal notranslate"><span class="pre">NAXIS2</span></code> has also been slightly enlarged (from 2048 to 2090) in
+order to guarantee that all the rectified slitlets have exactly the same
+extent in the spatial direction (38 pixels). In the configuration of this
+particular example (grism J + filter J) slitlet#1 and slitlet#55 fall
+partially or totally outside of the spatial coverage of the EMIR detector.
+For that reason the first 38 pixels (slitlet #1) and the last 38 pixels
+(slitlet#55) in the vertical (spatial) direction are also set to zero in the
+reduced image.</p>
+</li>
+<li><p>The coordinates of the useful rectangular region of each slitlet in the
+rectified and wavelength calibrated image are stored in the FITS header under
+the keywords:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">IMNSLT??</span></code> (minimum Y pixel)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IMXSLT??</span></code> (maximum Y pixel)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JMNSLT??</span></code> (minimum X pixel)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">JMXSLT??</span></code> (maximum X pixel)</p></li>
+</ul>
+<p>where <code class="docutils literal notranslate"><span class="pre">??</span></code> runs from 01 to 55 (slitlet number). In principle <code class="docutils literal notranslate"><span class="pre">IMNSLT??</span></code>
+and <code class="docutils literal notranslate"><span class="pre">IMXSLT??</span></code> are always the same for all the grism + filter combinations,
+and are independent of the slitlet location along the wavelength direction (X
+axis). This guarantees that reduced images will have each slitlet always
+spanning the same location in the spatial direction (Y axis). However,
+<code class="docutils literal notranslate"><span class="pre">JMNSLT??</span></code> and <code class="docutils literal notranslate"><span class="pre">JMXSLT??</span></code> will change with the location of the slitlets
+in the spectral direction (X axis), since the actual location of each slitlet
+determines its resulting wavelength coverage.</p>
+</li>
+</ul>
+<p>In the simple example just described, we have straightforwardly executed the
+reduction recipe <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> using the empirical model for
+rectification and wavelength calibration. This is good enough for a preliminary
+inspection of the data (for example when observing at the telescope), but it is
+possible to do a better job with some extra effort. For example, having a look
+to the preliminary rectified and wavelength calibrated image (making a zoom in
+a relatively narrow range in the X direction) it is clear that the relative
+wavelength calibration between slitlets does not agree within roughtly 1 pixel:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0001041345_results/reduced_mos.fits --bbox 1920,2050,1,2090 --z1z2 0,11000
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/stare_preliminary_zoom.png"><img alt="Stare image preliminary zoom" src="../_images/stare_preliminary_zoom.png" style="width: 100%;" /></a>
+<p>In addition, the absolute wavelength calibration is also wrong by a few pixels,
+as it is described below.</p>
+</div>
+</div>
+<div class="section" id="refined-rectification-and-wavelength-calibration">
+<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h2>
+<p>The user can obtain a more refined rectified and wavelength calibrated image
+using precise wavelength calibration data. For this purpose one can use arc
+exposures (obtained just before or after de scientific images), or even the
+scientific images themselves, when the airglow emission (OH emission lines) are
+brigth enough to be employed as wavelength signposts).</p>
+<p>In this simple example, since the image we are trying to reduce is precisely an
+arc exposure, we are using its own arc-line set to refine the calibration.</p>
+<p><strong>Important:</strong> The following process only works for arc images obtained when
+the 3 types of arc lamps were simultaneously ON during the exposure time. An
+easy way to check that this was really the case is to examine the corresponding
+status keywords:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader obsid_0001041345_results/reduced_mos.fits -k lampxe* -k lampne* -k lamphg* -f
+                 filename                 LAMPXE1 LAMPXE2 LAMPNE1 LAMPNE2 LAMPHG1 LAMPHG2
+----------------------------------------- ------- ------- ------- ------- ------- -------
+obsid_0001041345_results/reduced_mos.fits       1       1       1       1       1       1
+</pre></div>
+</div>
+<p>Note that the EMIR calibration unit has 3 types of arc lamps: Xe, Ne, and Hg
+(actually two lamps of each type). In principle the six lamps should be ON
+(keyword = 1) for the refinement procedure to work properly.  If separate
+exposures were obtained for each lamp type, the user must previously combine
+the images, multiplying each frame by the appropiate factor in order to
+simulate simultaneous exposures of the three arc lamp types <em>with the same
+exposure time</em>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before attempting to obtain a reasonable rectified and wavelength calibrated
+image, it is important to understand that the empirical calibration does not
+guarantee a perfect job when determining the slitlet location along the
+spatial direction (Y axis) nor in the wavelength direction (X axis). These
+two effects can be estimated either making use of the script
+<code class="docutils literal notranslate"><span class="pre">pyemir-overplot_boundary_model</span></code>, or by overplotting ds9-region files on
+the images. Both methods are described in the next subsections).</p>
+</div>
+<div class="section" id="checking-the-spatial-direction-y-axis">
+<h3>Checking the spatial direction (Y axis)<a class="headerlink" href="#checking-the-spatial-direction-y-axis" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> instead of the default PyEmir graphical output
+for the following examples, please keep reading anyway and wait for
+additional explanations below.</p>
+</div>
+<p>For example, we can execute the auxiliary script
+<code class="docutils literal notranslate"><span class="pre">pyemir-overplot_boundary_model</span></code> with the first of the three raw arc images
+previously used (since the three images were obtained consecutively with
+exactly the same configuration, we can choose any of them):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-overplot_boundary_model \
+  data/0001041345-20160917-EMIR-TEST0.fits \
+  --rect_wpoly_MOSlibrary data/rect_wpoly_MOSlibrary_grism_J_filter_J.json
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/overplot_boundary1.png"><img alt="Overplot boundary 1" src="../_images/overplot_boundary1.png" style="width: 100%;" /></a>
+<p>Zooming in the lower region:</p>
+<a class="reference internal image-reference" href="../_images/overplot_boundary2.png"><img alt="Overplot boundary 2" src="../_images/overplot_boundary2.png" style="width: 100%;" /></a>
+<p>Zooming in the middle region:</p>
+<a class="reference internal image-reference" href="../_images/overplot_boundary3.png"><img alt="Overplot boundary 3" src="../_images/overplot_boundary3.png" style="width: 100%;" /></a>
+<p>Zooming in the upper region:</p>
+<a class="reference internal image-reference" href="../_images/overplot_boundary4.png"><img alt="Overplot boundary 4" src="../_images/overplot_boundary4.png" style="width: 100%;" /></a>
+<p>The above plots show the selected image with the <strong>frontiers</strong> and
+<strong>boundaries</strong> of each slitlet overplotted. Here a clarification is needed:</p>
+<ul class="simple">
+<li><p><strong>Frontiers</strong>: separation between slitlets. In the above plots frontiers are
+displayed with blue lines running from left to right. These lines are curved
+due to the geometric distortions.</p></li>
+<li><p><strong>Boundaries</strong>: more conservative slitlet limits, avoiding a few pixels too
+close to the frontiers. Boundaries have been determined by examining
+continuum lamp exposures and selecting regions were the slitlet illumination
+is relatively flat. Note that, by construction, the CSU bars create a small
+(but detectable) decrease in the slitlet width at the frontiers between bars.
+The boundary limits are displayed alternatively with cyan and magenta lines
+(with the same color as the one employed in the label indicating the slitlet
+number; in this example all the labels appear centered in the image along the
+X axis). One can easily check that with grism J + filter J the slitlets
+number 1 and 55 fall partially outside the detector.</p></li>
+</ul>
+<p>Although the (pseudo) longslit configuration in this example makes difficult to
+distinguish the frontiers between slitlets in the data, a reasonable zoom
+(showing consecutive slitlets with slightly different slit widths), helps to
+check that the predicted frontiers (blue lines) properly separate the slitlet
+data:</p>
+<a class="reference internal image-reference" href="../_images/overplot_boundary5.png"><img alt="Overplot boundary 5" src="../_images/overplot_boundary5.png" style="width: 100%;" /></a>
+<p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> for this task, remember that some useful auxiliary
+ds9-region files have been created under the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_work</span></code>
+subdirectory.  In particular:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rawimage.reg</span></code>: the ds9-region file with the frontiers for
+the raw image</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ds9_boundaries_rawimage.reg</span></code>: the ds9-region file with the boundaries for
+the raw image</p></li>
+</ul>
+<p>Open <code class="docutils literal notranslate"><span class="pre">ds9</span></code> with the same image</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 data/0001041345-20160917-EMIR-TEST0.fits
+</pre></div>
+</div>
+<p>and load the two region files:</p>
+<ul class="simple">
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_work/ds9_frontiers_rawimage.reg</span></code></p></li>
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_work/ds9_boundaries_rawimage.reg</span></code></p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/ds9_frontiers1.png"><img alt="ds9 frontiers 1" src="../_images/ds9_frontiers1.png" style="width: 100%;" /></a>
+<p>Zooming to check the slitlet frontiers:</p>
+<a class="reference internal image-reference" href="../_images/ds9_frontiers2.png"><img alt="ds9 frontiers 2" src="../_images/ds9_frontiers2.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="checking-the-wavelength-direction-x-axis">
+<h3>Checking the wavelength direction (X axis)<a class="headerlink" href="#checking-the-wavelength-direction-x-axis" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> instead of the default PyEmir graphical output
+for the following examples, please keep reading anyway and wait for
+additional explanations below.</p>
+</div>
+<p>Since we know that the raw data correspond to arc images, we can overplot the
+expected locations of the some of the brightest arc lines by using the
+additional parameter <code class="docutils literal notranslate"><span class="pre">--arc_lines</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-overplot_boundary_model \
+  data/0001041345-20160917-EMIR-TEST0.fits \
+  --rect_wpoly_MOSlibrary data/rect_wpoly_MOSlibrary_grism_J_filter_J.json \
+  --arc_lines
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/overplot_arclines1.png"><img alt="overplot arclines 1" src="../_images/overplot_arclines1.png" style="width: 100%;" /></a>
+<p>Zooming:</p>
+<a class="reference internal image-reference" href="../_images/overplot_arclines2.png"><img alt="overplot arclines 2" src="../_images/overplot_arclines2.png" style="width: 100%;" /></a>
+<p>The observed arc lines appear around 3 pixels towards the left of the predicted
+locations (marked by the cyan circles).</p>
+<p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> for this task, it is also possible to use the
+auxiliary ds9-region with the expected location of the arc lines, created under
+the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_work</span></code> subdirectory. In this case, open <code class="docutils literal notranslate"><span class="pre">ds9</span></code> with the
+same image:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 data/0001041345-20160917-EMIR-TEST0.fits
+</pre></div>
+</div>
+<p>and load the region file:</p>
+<ul class="simple">
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_work/ds9_arc_rawimage.reg</span></code></p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/ds9_arclines1.png"><img alt="ds9 arc lines 1" src="../_images/ds9_arclines1.png" style="width: 100%;" /></a>
+<p>Zooming:</p>
+<a class="reference internal image-reference" href="../_images/ds9_arclines2.png"><img alt="ds9 arc lines 2" src="../_images/ds9_arclines2.png" style="width: 100%;" /></a>
+<p>Here it is also clear that the observed arc lines appear around 3 pixels
+towards the left of the expected locations (indicated by the ds9 regions).</p>
+</div>
+<div class="section" id="improving-the-rectification-and-wavelength-calibration">
+<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h3>
+<p>Once you have estimated the potential integer offsets (in X and Y) of your
+image relative to the expected slitlet frontiers (Y axis) and arc line
+locations (X axis), it is possible to rerun the reduction recipe
+<code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> making use of that information.</p>
+<p>In our case, we have estimated that there is no offset in the spatial direction
+(Y axis), and an offset of around 3 pixels in the wavelength direction (X
+axis). Those offsets should be introduced in the observation result file. For
+that purpose, we have created a modified version of
+<code class="docutils literal notranslate"><span class="pre">0_preliminary_calibrationyaml</span></code> with the name <code class="docutils literal notranslate"><span class="pre">1_refined_calibration.yaml</span></code>:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001041345_refined</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">global_integer_offset_x_pix</span> <span class="p">:</span> <span class="mi">3</span> 
+  <span class="n">global_integer_offset_y_pix</span> <span class="p">:</span> <span class="mi">0</span> 
+</pre></div>
+</td></tr></table></div>
+<p>This file is the same as <code class="docutils literal notranslate"><span class="pre">0_preliminary_calibration.yaml</span></code> but with a
+different <code class="docutils literal notranslate"><span class="pre">id</span></code> (to generate different <cite>work</cite> and <cite>results</cite> subdirectories
+that do not overwrite the initial reduction), and four extra lines at the end.
+In particular, we are specifying a few parameters that are going to modify the
+behavior of the reduction recipe:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">refine_wavecalib_mode</span></code>: 2: this indicates that the image correspond to an
+arc exposure and that we are asking for a refinement of the wavelength
+calibration using that information. Note that, by default, this parameter is
+set to zero, which means that no refinement is carried out (being the rest of
+the refinement parameters ignored). The value <code class="docutils literal notranslate"><span class="pre">2</span></code> indicates that the
+refinement is performed with the help or arc lines; a value of <code class="docutils literal notranslate"><span class="pre">12</span></code>
+indicates that the refinement process will use airglow (OH) lines.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix</span></code>: 3: integer offset (pixels) that must be
+applied to the image data for the arc lines to fall at the expected location.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix</span></code>: 0: integer offset (pixels) that must be applied to the image data for the frontiers to fall at the expected location.</p></li>
+</ul>
+<p>Execute the reduction recipe using the new observation result file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_refined_calibration.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>Now the execution of the code takes longer (the median spectrum of each slitlet
+is crosscorrelated with an expected arc spectrum in order to guarantee that the
+wavelength calibration of the different slitlets matches).</p>
+<p>The new <code class="docutils literal notranslate"><span class="pre">reduced_mos.fits</span></code> image now does exhibit a much better wavelength calibration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0001041345_refined_results/reduced_mos.fits \
+  --bbox 1920,2050,1,2090 --z1z2 0,11000
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/stare_refined_zoom.png"><img alt="stare image refined zoom" src="../_images/stare_refined_zoom.png" style="width: 100%;" /></a>
+<p>Within the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_refined_work</span></code> subdirectory you can find a new
+auxiliary file called <code class="docutils literal notranslate"><span class="pre">expected_catalog_lines.fits</span></code> which contains the
+expected locations of the arc lines in the rectified and wavelength calibrated
+sampling (i.e., with the same dimensions as <code class="docutils literal notranslate"><span class="pre">reduced_mos.fits</span></code>). We can then
+display that new image zooming into the same region employed in the last plot
+(note that the intensity of the arc lines in <code class="docutils literal notranslate"><span class="pre">expected_catalog_lines.fits</span></code>
+ranges from 0.0 to 1.0):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0001041345_refined_work/expected_catalog_lines.fits \
+  --bbox 1920,2050,1,2090 --z1z2 0,0.4
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/stare_expected_refined_zoom.png"><img alt="expected stare image refined zoom" src="../_images/stare_expected_refined_zoom.png" style="width: 100%;" /></a>
+<p>Remember that in the work directory you can still find the ds9-region files
+with the frontiers (<code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rectified.reg</span></code>), boundaries
+(<code class="docutils literal notranslate"><span class="pre">ds9_boundaries_rectified.reg</span></code>) and expected arc line locations
+(<code class="docutils literal notranslate"><span class="pre">ds9_arc_rectified.reg</span></code>) for the rectified and wavelength calibrated image.
+Note that in this case the expected frontiers and boundaries lines are
+perfectly horizontal, whereas the expected arc lines are vertical (the image
+has been rectified!). These region files are useful to locate individual
+slitlets by number.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 obsid_0001041345_refined_results/reduced_mos.fits
+</pre></div>
+</div>
+<p>and load the region files:</p>
+<ul class="simple">
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_refined_work/ds9_boundaries_rectified.reg</span></code></p></li>
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_refined_work/ds9_frontiers_rectified.reg</span></code></p></li>
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">-&gt;</span> <span class="pre">obsid_0001041345_refined_work/ds9_arc_rectified.reg</span></code></p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/ds9_rectified.png"><img alt="ds9 rectified image" src="../_images/ds9_rectified.png" style="width: 100%;" /></a>
+<p>Zooming:</p>
+<a class="reference internal image-reference" href="../_images/ds9_rectified_zoom.png"><img alt="ds9 rectified image zoom" src="../_images/ds9_rectified_zoom.png" style="width: 100%;" /></a>
+<p>In the <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_refined_work</span></code> subdirectory you should also find a
+new file named <code class="docutils literal notranslate"><span class="pre">crosscorrelation.pdf</span></code> which contains a graphical summary of
+the cross-correlation process. In particular, you have an individual plot for
+each slitlet showing the cross-correlation function:</p>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0001041345_crosscorrelation0.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0001041345_crosscorrelation1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0001041345_crosscorrelation2.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0001041345_crosscorrelation3.png" style="width: 100%;" /></a>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Simple example: arc exposure</a><ul>
+<li><a class="reference internal" href="#preliminary-rectification-and-wavelength-calibration">Preliminary rectification and wavelength calibration</a><ul>
+<li><a class="reference internal" href="#the-work-subdirectory">The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory</a></li>
+<li><a class="reference internal" href="#the-results-subdirectory">The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#refined-rectification-and-wavelength-calibration">Refined rectification and wavelength calibration</a><ul>
+<li><a class="reference internal" href="#checking-the-spatial-direction-y-axis">Checking the spatial direction (Y axis)</a></li>
+<li><a class="reference internal" href="#checking-the-wavelength-direction-x-axis">Checking the wavelength direction (X axis)</a></li>
+<li><a class="reference internal" href="#improving-the-rectification-and-wavelength-calibration">Improving the rectification and wavelength calibration</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="understanding.html"
+                        title="previous chapter">Understanding the data: image distortions</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="mos_example.html"
+                        title="next chapter">MOS example</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial_mos/simple_example.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="mos_example.html" title="MOS example"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="understanding.html" title="Understanding the data: image distortions"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Spectroscopic mode tutorial: MOS data</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2020, Universidad Complutense de Madrid.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

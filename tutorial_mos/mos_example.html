@@ -1,0 +1,2286 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>MOS example &#8212; PyEmir tutorials 0.15.dev1 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="NGC7798" href="ngc7798.html" />
+    <link rel="prev" title="Simple example: arc exposure" href="simple_example.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="ngc7798.html" title="NGC7798"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="simple_example.html" title="Simple example: arc exposure"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Spectroscopic mode tutorial: MOS data</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="mos-example">
+<span id="id1"></span><h1>MOS example<a class="headerlink" href="#mos-example" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the commands are assumed to be executed in a terminal running the <strong>bash
+shell</strong>.</p>
+<p>Don’t forget to activate the same Python environment employed to install
+PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
+is the case.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is assumed that the reader has already followed the previous section of
+this tutorial <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>. Some of the concepts already introduced
+there are not going to be repeated here with the same level of detail (or
+even mentioned at all!).</p>
+</div>
+<p>Let’s consider the rectification and wavelength calibration of a MOS image with
+slitlets configured in a non-longslit pattern. In this case, the scientific
+observations are deep enough to allow the use of the airglow OH lines to
+produce a good wavelength calibration. This means that no arc exposures are
+needed!</p>
+<div class="section" id="downloading-the-tutorial-data">
+<h2>Downloading the tutorial data<a class="headerlink" href="#downloading-the-tutorial-data" title="Permalink to this headline">¶</a></h2>
+<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz">pyemir_mos_tutorial.tgz</a>.</p>
+<p>Move to the directory where you have deployed the initial file tree structure
+containing the basic PyEmir calibration files (see  <span class="xref std std-ref">initial_file_tree</span>).</p>
+<p>Decompress there the previously mentioned tgz file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_mos_tutorial_v1.tgz
+...
+...
+(emir) $ rm pyemir_mos_tutorial_v1.tgz
+</pre></div>
+</div>
+<p>This action should have populated the file tree with 24 science exposures
+(placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
+...
+</pre></div>
+</div>
+<p>You can easily examine the header of the 12 science files using the astropy
+utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0002004* -k object -k grism -k filter -k exptime -k date-obs -f
+                    filename                         OBJECT    GRISM FILTER  EXPTIME          DATE-OBS
+------------------------------------------------ ------------- ----- ------ ---------- ----------------------
+data/0002004226-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:40:52.36
+data/0002004255-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:46:58.26
+data/0002004284-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:53:02.05
+data/0002004313-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:59:09.00
+data/0002004342-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:05:30.72
+data/0002004371-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:11:37.67
+data/0002004400-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:17:41.46
+data/0002004429-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:23:49.46
+data/0002004458-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:30:12.23
+data/0002004487-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:36:20.24
+data/0002004516-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:42:24.03
+data/0002004545-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:48:32.03
+data/0002004574-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:54:54.80
+data/0002004603-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:01:02.81
+data/0002004632-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:07:06.59
+data/0002004661-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:13:14.60
+data/0002004690-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:19:37.37
+data/0002004719-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:25:45.38
+data/0002004748-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:31:49.16
+data/0002004777-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:37:57.17
+data/0002004806-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:44:19.93
+data/0002004835-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:50:27.94
+data/0002004864-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:56:31.73
+data/0002004893-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T03:02:40.79
+</pre></div>
+</div>
+<p>It is also useful to display additional FITS keywords that store relevant
+information concerning the observation strategy:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0002004*fits -k OBSBLOCK -k NIMGOBBL -k IMGOBBL -k NFRSEC -k FRSEC -k READMODE -f
+                 filename                     OBSBLOCK NIMGOBBL IMGOBBL NFRSEC FRSEC READMODE
+------------------------------------------------ -------- -------- ------- ------ ----- --------
+data/0002004226-20190424-EMIR-STARE_SPECTRA.fits        1        4       1     28     0     RAMP
+data/0002004255-20190424-EMIR-STARE_SPECTRA.fits        1        4       2     28     0     RAMP
+data/0002004284-20190424-EMIR-STARE_SPECTRA.fits        1        4       3     28     0     RAMP
+data/0002004313-20190424-EMIR-STARE_SPECTRA.fits        1        4       4     28     0     RAMP
+data/0002004342-20190424-EMIR-STARE_SPECTRA.fits        2        4       1     28     0     RAMP
+data/0002004371-20190424-EMIR-STARE_SPECTRA.fits        2        4       2     28     0     RAMP
+data/0002004400-20190424-EMIR-STARE_SPECTRA.fits        2        4       3     28     0     RAMP
+data/0002004429-20190424-EMIR-STARE_SPECTRA.fits        2        4       4     28     0     RAMP
+data/0002004458-20190424-EMIR-STARE_SPECTRA.fits        3        4       1     28     0     RAMP
+data/0002004487-20190424-EMIR-STARE_SPECTRA.fits        3        4       2     28     0     RAMP
+data/0002004516-20190424-EMIR-STARE_SPECTRA.fits        3        4       3     28     0     RAMP
+data/0002004545-20190424-EMIR-STARE_SPECTRA.fits        3        4       4     28     0     RAMP
+data/0002004574-20190424-EMIR-STARE_SPECTRA.fits        4        4       1     28     0     RAMP
+data/0002004603-20190424-EMIR-STARE_SPECTRA.fits        4        4       2     28     0     RAMP
+data/0002004632-20190424-EMIR-STARE_SPECTRA.fits        4        4       3     28     0     RAMP
+data/0002004661-20190424-EMIR-STARE_SPECTRA.fits        4        4       4     28     0     RAMP
+data/0002004690-20190424-EMIR-STARE_SPECTRA.fits        5        4       1     28     0     RAMP
+data/0002004719-20190424-EMIR-STARE_SPECTRA.fits        5        4       2     28     0     RAMP
+data/0002004748-20190424-EMIR-STARE_SPECTRA.fits        5        4       3     28     0     RAMP
+data/0002004777-20190424-EMIR-STARE_SPECTRA.fits        5        4       4     28     0     RAMP
+data/0002004806-20190424-EMIR-STARE_SPECTRA.fits        6        4       1     28     0     RAMP
+data/0002004835-20190424-EMIR-STARE_SPECTRA.fits        6        4       2     28     0     RAMP
+data/0002004864-20190424-EMIR-STARE_SPECTRA.fits        6        4       3     28     0     RAMP
+data/0002004893-20190424-EMIR-STARE_SPECTRA.fits        6        4       4     28     0     RAMP
+</pre></div>
+</div>
+<p>The last summary shows that:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OBSBLOCK</span></code>: (counter of the block sequence) runs from 1 to 6</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NIMGOBBL=4</span></code> (requested number of images per observing block): each block
+correspond to a typical ABBA dithering pattern along the slit.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">IMGOBBL</span></code> (counter of the image sequence) runs from 1 to 4 within each
+block.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">NFRSEC=28</span></code> (frames produced per detector exposure): note that
+<code class="docutils literal notranslate"><span class="pre">READMODE=RAMP</span></code>, so 28 reads are performed in each exposure. Note that
+these frames are what GTC calls <em>raw</em> frames: each one of them corresponds to
+a single read in the ramp. These files are provided by GTC with the suffix
+<code class="docutils literal notranslate"><span class="pre">*_raw.fits</span></code>. The images we are reducing here are the result of the fit of
+ramps to the collection of 28 reads (in each detector pixel). In this
+tutorial we are using the adjective <em>raw</em> to refer to the latter FITS images
+resulting from the ramp fitting process.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FRSEC=0</span></code> (counter of the frame sequence): in this case, a value of <code class="docutils literal notranslate"><span class="pre">0</span></code>
+indicates that the FITS image is the result of the ramp fitting process. In
+the individual FITS images <code class="docutils literal notranslate"><span class="pre">*_raw.fits</span></code> (not provided), corresponding to
+each detector read, this keyword runs from 1 to 28.</p></li>
+</ul>
+<p>In summary, the 24 science images provided correspond to 6 ABBA blocks.
+Have a look to any of these images.  For that purpose you can use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> or
+the visualization tool provided with numina:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0002004226-20190424-EMIR-STARE_SPECTRA.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002004226_raw.png"><img alt="Image 0002004226 raw" src="../_images/0002004226_raw.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="the-csu-configuration">
+<h2>The CSU configuration<a class="headerlink" href="#the-csu-configuration" title="Permalink to this headline">¶</a></h2>
+<p>It is clear from the previous figure that the EMIR slitlets were not configured
+in <cite>longslit</cite> mode, but in <cite>MOS</cite> mode. In addition, it is important to
+highlight that not all the slitlets were opened (i.e., the slits not assigned
+to a particular scientific target were closed in order to avoid spurious
+spectra in the image; note that even for the closed slitlets the corresponding
+CSU bars are not completely closed to avoid collisions)</p>
+<p>The slitlet configuration can be easily displayed with the help of the
+auxiliary PyEmir script <code class="docutils literal notranslate"><span class="pre">pyemir-display_slitlet_arrangement</span></code> (please, note
+the use in this case of the additional parameter <code class="docutils literal notranslate"><span class="pre">--n_clusters</span> <span class="pre">2</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-display_slitlet_arrangement \
+  data/0002004226-20190424-EMIR-STARE_SPECTRA.fits \
+  --n_clusters 2 --longslits
+...
+...
+---&gt; separator:   1.475
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002004226_csu_configuration.png"><img alt="Image 0002004226 csu configuration" src="../_images/0002004226_csu_configuration.png" style="width: 100%;" /></a>
+<p>The first figure displays the slitlet arrangement.</p>
+<a class="reference internal image-reference" href="../_images/0002004226_slitlet_widths.png"><img alt="Image 0002004226 slitlet widths" src="../_images/0002004226_slitlet_widths.png" style="width: 100%;" /></a>
+<p>Note that in this case we have employed the parameter <code class="docutils literal notranslate"><span class="pre">--n_clusters</span> <span class="pre">2</span></code>, that
+forces the script to display a histogram of slitlet widths, and to compute two
+clusters and a separating value (in this case 1.475 mm) which classifies the
+slitlets in two groups: slitlets closed (widths &lt; 1.475 mm) and opened (width &gt;
+1.475 mm). This number will be used later.</p>
+</div>
+<div class="section" id="preliminary-rectification-and-wavelength-calibration-using-oh-lines">
+<h2>Preliminary rectification and wavelength calibration using OH lines<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines" title="Permalink to this headline">¶</a></h2>
+<p>As explained in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>, the rectification and wavelength
+calibration of any EMIR spectroscopic image can be obtained with two levels of
+quality:</p>
+<ul class="simple">
+<li><p><strong>preliminary calibration</strong>: without auxiliary calibration images, computed
+from the empirical calibration derived by the instrument team.</p></li>
+<li><p><strong>refined calibration</strong>: that refines the empirical calibration by making use
+of either additional calibration images (i.e., arcs) or by using the airglow
+(OH) emission lines. The latter approach is going to be use in this example.</p></li>
+</ul>
+<p><em>The refinement process requires an initial estimation of the offsets in the
+spatial (Y axis) and spectral (X axis) directions between the empirical
+calibration and the actual data. These two offsets can be easily estimated
+after computing the preliminary calibration.</em></p>
+<p><strong>At this point we are going to describe a new auxiliary script</strong>
+<code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code> <strong>(not available in previous PyEmir versions)
+which helps to create the observation result files required to execute the
+reduction recipes. This is an excellent alternative to the manual edition and
+writing of this kind of files.</strong></p>
+<p>Before using the auxiliary script, one needs to generate a simple text file,
+arbitrarily named <code class="docutils literal notranslate"><span class="pre">list_abba.txt</span></code>,
+with the list of scientific images (note that the list of files is generated
+within the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory to avoid having the subdirectory name in front
+of the file name):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cd data
+
+(emir) $ ls 0002004*fits &gt; list_abba.txt
+
+(emir) $ cat list_abba.txt
+
+0002004226-20190424-EMIR-STARE_SPECTRA.fits
+0002004255-20190424-EMIR-STARE_SPECTRA.fits
+0002004284-20190424-EMIR-STARE_SPECTRA.fits
+0002004313-20190424-EMIR-STARE_SPECTRA.fits
+0002004342-20190424-EMIR-STARE_SPECTRA.fits
+0002004371-20190424-EMIR-STARE_SPECTRA.fits
+0002004400-20190424-EMIR-STARE_SPECTRA.fits
+0002004429-20190424-EMIR-STARE_SPECTRA.fits
+0002004458-20190424-EMIR-STARE_SPECTRA.fits
+0002004487-20190424-EMIR-STARE_SPECTRA.fits
+0002004516-20190424-EMIR-STARE_SPECTRA.fits
+0002004545-20190424-EMIR-STARE_SPECTRA.fits
+0002004574-20190424-EMIR-STARE_SPECTRA.fits
+0002004603-20190424-EMIR-STARE_SPECTRA.fits
+0002004632-20190424-EMIR-STARE_SPECTRA.fits
+0002004661-20190424-EMIR-STARE_SPECTRA.fits
+0002004690-20190424-EMIR-STARE_SPECTRA.fits
+0002004719-20190424-EMIR-STARE_SPECTRA.fits
+0002004748-20190424-EMIR-STARE_SPECTRA.fits
+0002004777-20190424-EMIR-STARE_SPECTRA.fits
+0002004806-20190424-EMIR-STARE_SPECTRA.fits
+0002004835-20190424-EMIR-STARE_SPECTRA.fits
+0002004864-20190424-EMIR-STARE_SPECTRA.fits
+0002004893-20190424-EMIR-STARE_SPECTRA.fits
+
+(emir) $ cd ..
+</pre></div>
+</div>
+<p>Generate the observation result file to perform a preliminary rectification
+and wavelength calibration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+  --step 0 --npreliminary 4 --outfile 0_rectwv_preliminary.yaml
+
+Expected sequence pattern: ABBA
+Number of sequences......: 6
+Full set of images.......: ABBAABBAABBAABBAABBAABBA
+--&gt; File 0_rectwv_preliminary.yaml generated!
+</pre></div>
+</div>
+<p>Note that the first argument after the name of the script in the text file
+containing the list of scientific images. The rest of the arguments are:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">0</span></code>: this number indicates the kind of observation result file that
+is going to be generated. The different options are
+<code class="docutils literal notranslate"><span class="pre">0</span></code> (initial rectification and wavelength calibration),
+<code class="docutils literal notranslate"><span class="pre">1</span></code> (refined rectificacion and wavelength calibration),
+<code class="docutils literal notranslate"><span class="pre">2</span></code> (fast reduction of ABBA observations), and
+<code class="docutils literal notranslate"><span class="pre">3</span></code> (careful reduction of ABBA observations).
+At this point we are interested in the initial calibration. The other options
+are going to be described later.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--npreliminary</span> <span class="pre">4</span></code>: although we have a total of 24 scientific images
+the initial rectification and wavelength calibration coefficients will be
+computed for the combined result of the first 4 images (i.e., the first ABBA
+sequence). We could use the 24 images in the combination but, since it is
+possible that the images exhibit small offsets as a function of time, it is
+safer to use a smaller bunch of files. The OH lines in these images are
+bright enough to provide a good wavelength calibration even in a single
+exposure.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--outfile</span> <span class="pre">0_rectwv_preliminary.yaml</span></code>: indicates the name chosen for
+the observation result file. This file (shown below) has a single block
+making use of the reduction recipe <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+2
+3
+4
+5
+6
+7
+8
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv_preliminary</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+</li>
+</ul>
+<p>At this point, the preliminary rectification and wavelength calibration can be
+carried out:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">emir</span><span class="p">)</span> <span class="n">numina</span> <span class="n">run</span> <span class="mi">0</span><span class="n">_rectwv_preliminary</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">link</span><span class="o">-</span><span class="n">files</span> <span class="o">-</span><span class="n">r</span> <span class="n">control</span><span class="o">.</span><span class="n">yaml</span>
+<span class="o">...</span>
+<span class="o">...</span>
+</pre></div>
+</div>
+<p>As expected, two new subdirectories have been created:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_preliminary_results</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_preliminary_work</span></code></p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow \
+  obsid_0002004226_rectwv_preliminary_results/reduced_mos.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002004226_preliminary.png"><img alt="Image 0002004226 preliminary" src="../_images/0002004226_preliminary.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="refined-rectification-and-wavelength-calibration">
+<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h2>
+<p>Although the rectified and wavelength calibration image that we have just
+obtained appears to be fine, looking in detail it is possible to realize that
+both the absolute and relative wavelength calibration between slitlets are
+still not perfect, and that there exists a small offset between the expected
+and the observed slitlet frontiers. Fortunately, both problems can be easily
+solved.</p>
+<p>Two approaches are possible:</p>
+<ol class="arabic simple">
+<li><p><strong>Manual determination of X and Y offsets:</strong> We can proceed following
+the same process previously described in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>.</p></li>
+<li><p><strong>Automatic determination of X and Y offsets:</strong> The fact that the scientific
+images correspond to a real MOS observation, and not a longslit observation
+performed by alignining the slitlets, facilitates the use of 2D
+cross-correlation to estimate the offsets between the expected and the
+observed image distortions. Note that if the slitlets are aligned to
+simulate a longslit, the cross-correlation in the vertical direction is
+unable to determine the vertical offset.</p></li>
+</ol>
+<p>In this tutorial we are describing both approaches.</p>
+<div class="section" id="manual-determination-of-x-and-y-offsets">
+<h3>Manual determination of X and Y offsets<a class="headerlink" href="#manual-determination-of-x-and-y-offsets" title="Permalink to this headline">¶</a></h3>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>As described in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>, the task of visually finding the
+offsets can be performed with either the auxiliary PyEmir script
+<code class="docutils literal notranslate"><span class="pre">pyemir-overplot_boundary_model</span></code>, or by using <code class="docutils literal notranslate"><span class="pre">ds9</span></code> with the auxiliary
+ds9-region files created during the preliminary rectification and wavelength
+calibration reduction. In the following two subsections we are using the
+latter option.</p>
+</div>
+<p><strong>Checking the spatial direction (Y axis)</strong></p>
+<p>The offset in the spatial direction (Y axis) can be estimated by plotting the
+expected slitlet frontiers (file <code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rawimage.reg</span></code> placed within
+the subdirectory <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_preliminary_work</span></code>), derived in the
+preliminary rectification and wavelength calibration, over the raw image:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 data/0002004226-20190424-EMIR-STARE_SPECTRA.fits &amp;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>select <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">--&gt;</span> <span class="pre">zscale</span></code></p></li>
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span>
+<span class="pre">obsid_0002004226_rectwv_preliminary_work/ds9_frontiers_rawimage.reg</span></code></p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot1.png"><img alt="Image 0002004226 overplot 1" src="../_images/0002004226_overplot1.png" style="width: 100%;" /></a>
+<p>Zooming:</p>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot2.png"><img alt="Image 0002004226 overplot 2" src="../_images/0002004226_overplot2.png" style="width: 100%;" /></a>
+<p>From this visual examination one concludes that <code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix:</span>
+<span class="pre">-3</span></code>. Note that the sign of the offset is chosen to align the actual data
+with the predicted frontiers (displayed with dotted blue lines).</p>
+<p><strong>Checking the wavelength direction (X axis)</strong></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The refinement process here described is based on the use of airglow (OH)
+emission lines in the science frames. This assumes that airglow emission is
+much brighter than the target spectra. If this is not the case (for example
+when observing bright sources with short exposure times), the user should
+employ calibration arc images obtained before and/or after the science
+images. The refinement process should then be carried out as described in
+<a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>.</p>
+</div>
+<p>Continuing with the same <code class="docutils literal notranslate"><span class="pre">ds9</span></code> interface, overplot the expected location of
+the airglow (OH) emission lines:</p>
+<ul class="simple">
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span>
+<span class="pre">obsid_0002004226_rectwv_preliminary_work/ds9_oh_rawimage.reg</span></code></p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot3.png"><img alt="Image 0002004226 overplot 3" src="../_images/0002004226_overplot3.png" style="width: 100%;" /></a>
+<p>Note that the location of only the brightest OH lines are displayed. The visual
+examination reveals that in this case <code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span> <span class="pre">1</span></code>. Note
+that the sign of the offset is chosen to place the observed OH lines on the
+predicted locations (displayed in cyan and magenta for the odd- and
+even-numbered slitlets, respectively).</p>
+</div>
+<div class="section" id="improving-the-rectification-and-wavelength-calibration">
+<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h3>
+<p>We are ready to obtain the refined rectification and wavelength calibration
+coefficients using the integer offsets previously estimated. For that purpose
+it is advisable to make use of the same auxiliary script that we used before:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+  --step 1 \
+  --refine_wavecalib_mode 12 \
+  --minimum_slitlet_width_mm 1.475 \
+  --maximum_slitlet_width_mm 3.0 \
+  --global_integer_offset_x_pix 1 \
+  --global_integer_offset_y_pix -3 \
+  --rectwv_combined \
+  --outfile 1_rectwv_combined.yaml
+
+Expected sequence pattern: ABBA
+Number of sequences......: 6
+Full set of images.......: ABBAABBAABBAABBAABBAABBA
+--&gt; File 1_rectwv_combined.yaml generated!
+</pre></div>
+</div>
+<p>Note that in this case the following arguments have been used:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">1</span></code>: this indicates that the reduction recipe
+<code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> must carry out a refined estimation of the
+rectification and wavelength calibration coefficients.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--refine_wavecalib_mode</span> <span class="pre">12</span></code>: this indicates that the image corresponds to
+a science exposure, deep enough to detect OH sky lines, and that we are
+asking for a refinement of the wavelength calibration using that information.
+Note that if we were using an arc image, this parameter should be set to 2
+instead of 12 (as described in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--minimum_slitlet_width_mm</span> <span class="pre">1.475</span></code> and <code class="docutils literal notranslate"><span class="pre">--maximum_slitlet_width_mm</span> <span class="pre">3.0</span></code>:
+minimum and maximum slitlet widths (mm) for a slitlet to be considered as a
+scientific slitlet. Note that these numbers are compatible with the histogram
+of slitlet widths that we have obtained previously using
+<code class="docutils literal notranslate"><span class="pre">pyemir-display_slitlet_arrangement</span></code> with the parameter <code class="docutils literal notranslate"><span class="pre">--n_clusters</span> <span class="pre">2</span></code>.
+Only the slitlets which width was set within the specified range will be
+employed to derive a median sky spectrum (needed for the cross-correlation
+algorithm that is taking place during the refinement process). This allows to
+skip unused slitlets which could introduce noise in the cross-correlation
+method employed in the wavelength direction.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--global_integer_offset_x_pix</span> <span class="pre">1</span></code> and <code class="docutils literal notranslate"><span class="pre">--global_integer_offset_y_pix</span>
+<span class="pre">-3</span></code>: these are the offsets between the raw images and the expected
+empirical calibration, estimated as previously described.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code> is just a flag (i.e. it is present or not, but has no
+associated value). <strong>This flag is very important:</strong> when present it indicates
+that all the images will be combined in a single image before computing the
+refined rectification and wavelength calibration coefficients. This implies
+that the calibration coefficients file <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> will be the same
+for all the images. When the are offsets in the location of the OH lines (X
+direction) or in the location of the slitlet frontiers (Y direction), this
+flat must not be present. In this latter scenario, an individual
+rectification and wavelength calibration coefficients file
+<code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> will be generated for each individual image.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--outfile</span> <span class="pre">1_rectwv_combined.yaml</span></code> indicates the name chosen for the
+observation result file. This file (shown below) has a single block making
+use of the reduction recipe <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>:</p></li>
+</ul>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv_combined</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>This file contains a single block with the 12 images. The <code class="docutils literal notranslate"><span class="pre">requirements</span></code>
+section appears with the parameters employed when invoking the script
+<code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>.</p>
+<p>Execute the reduction recipe:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_rectwv_combined.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>As expected, two new subdirectories have been created:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_work</span></code>: temporary subdirectory where all
+the relevant files have been copied (or linked), and where the auxiliary
+<code class="docutils literal notranslate"><span class="pre">ds9</span></code> region lines have been stored.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_results</span></code>: subdirectory where the
+results of the recipe are saved. In this case:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0002004226_rectwv_combined_results/
+
+obsid_0002004226_rectwv_combined_results/
+├── processing.log
+├── rectwv_coeff.json
+├── reduced_mos.fits
+├── result.json
+└── task.json
+</pre></div>
+</div>
+<p>The interesting files here are <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code>, containing the refined
+rectification and wavelength calibration coefficients, and
+<code class="docutils literal notranslate"><span class="pre">reduced_mos.fits</span></code>, which is the rectified and wavelength calibrated image
+corresponding to the combination of all the images listed under the keyword
+<code class="docutils literal notranslate"><span class="pre">frames:</span></code> (line 4) in the observation result file
+<code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code>.</p>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The refined rectification and wavelength calibration has been saved in the
+file <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> stored in the
+<code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_results</span></code> subdirectory. This file can be
+applied, as described below, to any raw image (with the same CSU
+configuration).</p>
+<p>The file <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> is stored in JSON format, and contains all
+the relevant information necessary to carry out the rectification and
+wavelength calibration of any image.</p>
+<p>Note: JSON is an open-standard file format that uses human readable text to
+transmit data objects (see details in <a class="reference external" href="https://www.json.org/">JSON description</a>).</p>
+</div>
+<p>We can have a look to the reduced image:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0002004226_rectwv_combined_results/reduced_mos.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002004226_refined.png"><img alt="Image 0002004226 refined" src="../_images/0002004226_refined.png" style="width: 100%;" /></a>
+<p>Comparing this new result with the preliminary rectified and wavelength
+calibrated image shows that, apart from a global offset in the wavelength
+calibration, the OH lines are much more aligned when moving along the spatial
+direction:</p>
+<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" style="width: 800px;" /></a>
+<p>It is also possible to display the synthetic image, generated during the
+execution of the reduction recipe, with the expected location of the airglow
+(OH) lines (line intensities are normalized in the range from 0.0 to 1.0):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits \
+  --z1z2 0,0.3
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002004226_expected_oh_lines.png"><img alt="Image 0002004226 expected oh lines" src="../_images/0002004226_expected_oh_lines.png" style="width: 100%;" /></a>
+<p>In the <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_work</span></code> subdirectory you can also find
+a file named <code class="docutils literal notranslate"><span class="pre">crosscorrelation.pdf</span></code> which contains a graphical summary of the
+cross-correlation process in the wavelength direction for each useful slitlet.
+A few pages of that file are the following:</p>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0002004226_crosscorrelation0.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0002004226_crosscorrelation1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0002004226_crosscorrelation2.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0002004226_crosscorrelation3.png" style="width: 100%;" /></a>
+</div>
+<div class="section" id="automatic-determination-of-x-and-y-offsets">
+<h3>Automatic determination of X and Y offsets<a class="headerlink" href="#automatic-determination-of-x-and-y-offsets" title="Permalink to this headline">¶</a></h3>
+<p>As previously mentioned, the integer offsets in X and Y, that we have estimated
+before with some effort, can be automatically determined by PyEmir when the
+spectroscopic images correspond to MOS observations with the slitlets not
+following a longslit pattern.</p>
+<p>In order to use this option, copy the previous observation result file and
+introduce the changes that are described next:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cp 1_rectwv_combined.yaml 1_rectwv_combined_auto.yaml
+
+(emir) $ edit 1_rectwv_combined_auto.yaml
+...
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv_combined_auto</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="n">global_integer_offsets_mode</span><span class="p">:</span> <span class="n">auto</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>Changes in <code class="docutils literal notranslate"><span class="pre">1_rectwv_combined_auto.yaml</span></code> in comparison with
+<code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code>:</p>
+<ul class="simple">
+<li><p>Line 1: the suffix <code class="docutils literal notranslate"><span class="pre">_auto</span></code> has been added to the block <code class="docutils literal notranslate"><span class="pre">id</span></code></p></li>
+<li><p>Lines 33 and 34: both integer global offsets have been set to 0 (they are
+going to be estimated automatically!)</p></li>
+<li><p>Insert the new line 35, indicating <code class="docutils literal notranslate"><span class="pre">global_integer_offsets_mode:</span> <span class="pre">auto</span></code>.
+This is the important keyword here: we are indicating that the integer global
+offsets should be computed automatically. In this sense, the previous two
+keywords <code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span></code> and
+<code class="docutils literal notranslate"><span class="pre">global_interger_offset_y_pix</span></code> must have been set to zero (or you’ll get an
+error otherwise).</p></li>
+</ul>
+<p>Execute the reduction recipe:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_rectwv_combined_auto.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>The reduction now includes the generation of a synthetic image with the
+expected location of the OH lines. This image is stored in the
+<code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_auto_work</span></code> subdirectory with the name
+<code class="docutils literal notranslate"><span class="pre">synthetic_raw_image.fits</span></code>.</p>
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic.png"><img alt="synthetic images with OH lines" src="../_images/0002004226_synthetic.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" style="width: 800px;" /></a>
+<p>The automatic procedure has determined the following offset values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span> <span class="pre">1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix:</span> <span class="pre">-3</span></code></p></li>
+</ul>
+<p>These numbers are the same as the ones that we estimated previously. For that
+reason, the resulting refined rectification and wavelength calibrations
+coefficients are the same:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ diff \
+  obsid_0002004226_rectwv_combined_auto_results/rectwv_coeff.json \
+  obsid_0002004226_rectwv_combined_results/rectwv_coeff.json
+
+8c8
+&lt;   &quot;uuid&quot;: &quot;1139443e-99db-11e9-b393-3c15c2e3dc50&quot;,
+---
+&gt;   &quot;uuid&quot;: &quot;aca6d82e-99da-11e9-abf7-3c15c2e3dc50&quot;,
+18c18
+&lt;     &quot;creation_date&quot;: &quot;2019-06-28T19:29:37.736426&quot;,
+---
+&gt;     &quot;creation_date&quot;: &quot;2019-06-28T19:26:49.004673&quot;,
+</pre></div>
+</div>
+<p>Note that the contents of both files are identical except for the unique
+<code class="docutils literal notranslate"><span class="pre">uuid</span></code> (that identifies each particular calibration) and the
+<code class="docutils literal notranslate"><span class="pre">creation_date</span></code>.</p>
+</div>
+</div>
+<div class="section" id="fast-abba-combination">
+<h2>Fast ABBA combination<a class="headerlink" href="#fast-abba-combination" title="Permalink to this headline">¶</a></h2>
+<p>The reduction recipe `` ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
+combination since it employs a single rectification and wavelength calibration
+solution for all the individual images. For that reason, all the A images in
+the ABBA sequences can be combined before rectification and wavelength
+calibration. The same occurs with the B images. The resulting A minus B
+combination is then rectified and wavelength calibrated (i.e., the
+rectification and wavelength calibration process is carried out only once).</p>
+<p><strong>Note that this recipe assumes that the images listed in the file</strong>
+<code class="docutils literal notranslate"><span class="pre">data/list_abba.txt</span></code> <strong>follow an ABBA pattern</strong>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+  --step 2 --rectwv_combined --outfile 2_abba_fast.yaml
+
+ Expected sequence pattern: ABBA
+ Number of sequences......: 6
+ Full set of images.......: ABBAABBAABBAABBAABBAABBA
+ --&gt; File 2_abba_fast.yaml generated!
+</pre></div>
+</div>
+<p>The observation result file <code class="docutils literal notranslate"><span class="pre">2_abba_fast.yaml</span></code> has the following content:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_abba_fast</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">ABBA_SPECTRA_FAST_RECTWV</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
+  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+  <span class="n">method_kwargs</span><span class="p">:</span>
+    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">voffset_pix</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section (lines 29-36) is now different:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">pattern</span></code>: indicates that the images in the <code class="docutils literal notranslate"><span class="pre">frames</span></code> sections correspond
+to ABBA sequences. That means that the total number of images must be an
+interger multiple of 4.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rectwv_coeff</span></code>: the value that appears here is the expected file name for
+the rectification and wavelength calibration coefficients of the first image.
+Since the calibrations are assumed to be placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+subdirectory, note that the path of this calibration starts with a <code class="docutils literal notranslate"><span class="pre">../</span></code> in
+order to indicate that the calibration is not in the default place but in the
+<code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory corresponding to the reduction of a particular image
+Another alternative is to copy that <code class="docutils literal notranslate"><span class="pre">rectwv_json.file</span></code> into the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+subdirectory, in which case you do not need to include any path (note that in
+this case it is advisable to rename the json file to avoid name collisions
+with similar calibration files).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method</span></code>: combination method. The three available possibilities are
+<code class="docutils literal notranslate"><span class="pre">sigmaclip</span></code>, <code class="docutils literal notranslate"><span class="pre">mean</span></code> and <code class="docutils literal notranslate"><span class="pre">median</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">method_kwargs</span></code>: additional parameters that control the behavior of the
+combination method. These options are only available for the <code class="docutils literal notranslate"><span class="pre">sigmaclip</span></code>
+method, where the user can set the <code class="docutils literal notranslate"><span class="pre">low</span></code> and <code class="docutils literal notranslate"><span class="pre">high</span></code> rejection limits (in
+units of the standard deviation).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code>: indicates the offset (in pixels) between the A and B images.
+Leaving this number as zero means that no attempt to merge the A and B images
+is going to be performed.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 2_abba_fast.yaml --link-files -r control.yaml
+</pre></div>
+</div>
+<p>Two results are produced by this recipe (see subdirectory
+<code class="docutils literal notranslate"><span class="pre">obsid_abba_fast_results</span></code>):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_mos_abba.fits</span></code>: computed as the sum of all the A images minus the
+sum of all the B images. This image should exhibit A spectra with positive
+signal (white) and B spectra with negative signal (black).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_mos_abba_combined.fits</span></code>: in this image the coadded A and B spectra
+are combined by multiplying the coadded B spectra in
+<code class="docutils literal notranslate"><span class="pre">reduced_mos_abba.fits</span></code> by minus one (in order to obtain spectra with
+positive signal), shifting the result along the spatial direction by
+<code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code> pixels, and summing the coadded A spectra. When
+<code class="docutils literal notranslate"><span class="pre">voffset_pix=0</span></code> this image is empty.</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_fast.png"><img alt="fast combination of ABBA images" src="../_images/0002004226_abba_fast.png" style="width: 100%;" /></a>
+<p>Making a zoom in the resulting combined image, we estimate that the vertical
+offsets between A and B spectra (white and black, respectively) is around 38
+pixels. We can introduce this number in the requirement <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cp 2_abba_fast.yaml 2_abba_fast_bis.yaml
+
+(emir) $ edit 2_abba_fast_bis.yaml
+...
+</pre></div>
+</div>
+<p>We modify the label in line 1 (adding the suffix <code class="docutils literal notranslate"><span class="pre">_bis</span></code>), and set the
+vertical offset to 38 pixels in line 36:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="hll"><span class="nb">id</span><span class="p">:</span> <span class="n">_abba_fast_bis</span>
+</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">ABBA_SPECTRA_FAST_RECTWV</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
+  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+  <span class="n">method_kwargs</span><span class="p">:</span>
+    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="hll">  <span class="n">voffset_pix</span><span class="p">:</span> <span class="mi">38</span>
+</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>Execute the again the same reduction recipe but using the new observation
+result file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 2_abba_fast_bis.yaml --link-files -r control.yaml
+</pre></div>
+</div>
+<p>Since we have provided a non-zero value for <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code>, the image
+<code class="docutils literal notranslate"><span class="pre">reduced_mos_abba_combined.fits</span></code> is not empty but contains the proper
+coaddition of all the A and B spectra. All the targets that have been properly
+observed in the A and the B images should appear here three times: two in
+negative (black spectra) and one in positive (white spectrum in between the
+black ones).</p>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_fast_combined.png"><img alt="fast combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_fast_combined.png" style="width: 100%;" /></a>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is important to keep in mind how the signal in the combined images has
+been scaled:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_mos_abba.fits</span></code>: each target spectrum should appear twice: one
+in positive (white) and one in negative (black). The signal in both
+spectra must have a similar number of counts. Each spectrum has the signal
+corresponding to <code class="docutils literal notranslate"><span class="pre">EXPTIME</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reduced_mos_abba_combined.fits</span></code>: each target spectrum should appear
+three times: one in positive (white) and two in negative (black; at both
+sides of the positive spectrum). The signal in the white spectrum (which
+is the combination of the A and B spectra in the previous image
+<code class="docutils literal notranslate"><span class="pre">reduced_mos_abba.fits</span></code>) corresponds to <code class="docutils literal notranslate"><span class="pre">EXPTIME</span></code>.  This means that
+the signal in each of the negative spectrum has been scaled to
+<code class="docutils literal notranslate"><span class="pre">EXPTIME/2</span></code>.</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="careful-abba-combination">
+<h2>Careful ABBA combination<a class="headerlink" href="#careful-abba-combination" title="Permalink to this headline">¶</a></h2>
+<p>In the previous combination we have assumed that in all the A images the
+targets were in exactly the same location in the slitlets. The same was assumed
+for the B images.</p>
+<p>However, it is possible to check whether this was actually the case by looking
+in detail at some bright sources. For example, in these observations, 4 stars
+were employed to align the CSU on sky. The brightest one was placed in slitlet
+number 2. Let’s select all the A images and display a zoom around this slitlet
+region:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ list_a=`fitsheader data/0002004*.fits -k IMGOBBL -f | awk &#39;$2 == 1 || $2 == 4 {print $1}&#39;`
+
+(emir) $  numina-ximshow $list_a \
+ --bbox 86,2047,9,70 \
+ --z1z2 0,1100 \
+ --pdffile brightspectrum_a.pdf \
+ --keystitle ra,dec,rotang.&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;
+</pre></div>
+</div>
+<p>The first command defines the list of images for which the keyword <code class="docutils literal notranslate"><span class="pre">IMGOBBL</span></code>
+is either 1 or 4 (A images). The second command generates a PDF file in which
+a zoom around slitlet number 2 is displayed for all the selected images.</p>
+<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" style="width: 800px;" /></a>
+<p>It is clear that the actual location of the A spectra changed along the
+sequence. Unfortunately, there were no bright spectra in the B images to check
+what was happening with the spectra in the B images (the stars in A images
+disappear when moving from A to B; this was done on purpose with the idea o
+maximizing the number of slitlets devoted to scientific targets).  Note that
+here we are displaying the original FITS images, where the sky background is
+still present. Anyway, it is reasonable to think that similar shifts could have
+also occurred between the individual B images.</p>
+<p>A careful combination method should take care of these offsets along the
+spatial direction before combining the individual images.</p>
+<p>PyEmir tries to handle this problem with the reduction recipe
+<code class="docutils literal notranslate"><span class="pre">ABBA_SPECTRA_RECTWV</span></code> which in principle is able to:</p>
+<ul class="simple">
+<li><p>compute relative offsets between A images before their combination</p></li>
+<li><p>compute relative offsets between B images before their combination</p></li>
+<li><p>compute relative offsets between the combined A images and the combined B
+images before generating the final combined image</p></li>
+</ul>
+<p>In addition, this recipe can use the same rectification and wavelength
+calibration coefficients for all the individual images (as we have done
+previously) or different calibrations for each one.</p>
+<div class="section" id="including-relative-offsets-between-a-and-b-images">
+<h3>Including relative offsets between A and B images<a class="headerlink" href="#including-relative-offsets-between-a-and-b-images" title="Permalink to this headline">¶</a></h3>
+<p>Since, as we have just seen, it is possible that there are offsets between the
+different A and B locations, a first thing one can fix is the proper alignment
+of all the A images before coadding them, and the same with the B images.</p>
+<p>Without going into too many details, the recipe <code class="docutils literal notranslate"><span class="pre">ABBA_SPECTRA_RECTWV</span></code>
+computes an averaged spatial profile of a particular target (hopefully bright
+enough) in the all the A images, and the same for an object in the B images.
+Cross-correlating these spatial profiles it is possible to compute de relative
+offsets of all the A images relative to the first A image. The same process is
+carried out with the B images, using in this case the first B image as
+reference. Note that bright OH sky lines are masked before computing the
+spatial profiles.</p>
+<p>When the object selected for the A and B images is the same, the recipe is also
+able to compute the relative offset between the combined A and the combined B
+images. However, sometimes the science targets are too faint to provide useful
+spatial profiles for the cross-correlation method to work properly, and the
+bright stars employed to align the slitlets on the sky are only present in the
+A images (in order to maximize the number of slitlets allocated to science
+targets). In the latter scenario, the relative offset between the combined A
+images and the combined B images cannot be automatically computed.</p>
+<p>A template of observation result file making use of this recipe can be
+generated with the help of the auxiliary script
+<code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code> with the argument <code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">3</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+  --step 3 --rectwv_combined --outfile 3_abba_template.yaml
+
+Expected sequence pattern: ABBA
+Number of sequences......: 6
+Full set of images.......: ABBAABBAABBAABBAABBAABBA
+--&gt; File 3_abba_template.yaml generated!
+</pre></div>
+</div>
+<p>The observation result generated, <code class="docutils literal notranslate"><span class="pre">3_abba_template.yaml</span></code>, has the following
+content:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="hll"><span class="nb">id</span><span class="p">:</span> <span class="n">_abba</span>
+</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">ABBA_SPECTRA_RECTWV</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
+  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+  <span class="n">method_kwargs</span><span class="p">:</span>
+    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="hll">  <span class="n">refine_target_along_slitlet</span><span class="p">:</span>
+</span><span class="hll">    <span class="n">npix_removed_near_ohlines</span><span class="p">:</span> <span class="mi">3</span>
+</span><span class="hll">    <span class="n">nwidth_medfilt</span><span class="p">:</span> <span class="mi">11</span>
+</span><span class="hll">    <span class="n">save_individual_images</span><span class="p">:</span> <span class="mi">0</span>
+</span><span class="hll">    <span class="n">ab_different_target</span><span class="p">:</span> <span class="n">TBD</span>
+</span><span class="hll">    <span class="n">vpix_region_a_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll">    <span class="n">vpix_region_a_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll">    <span class="n">vpix_region_b_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll">    <span class="n">vpix_region_b_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll">    <span class="n">list_valid_wvregions_a</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+</span><span class="hll">    <span class="n">list_valid_wvregions_b</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> label (line 1) is again different (to avoid overwriting the previous
+reductions). The <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section now contains a new subsection called
+<code class="docutils literal notranslate"><span class="pre">refine_target_along_slitlet</span></code> (lines 36-46), where specific parameters for
+the computation of the relative offsets between images appear.  Some of them
+are predefined, but others need to be inserted by the user (in particular,
+all the <em>To Be Defined</em> <code class="docutils literal notranslate"><span class="pre">TBD</span></code> values):</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">npix_removed_near_ohlines</span></code>: before computing the spatial profiles of the
+selected targets in the A and B images, the bright OH lines are masked. This
+parameter indicates the number of pixels (at each side of the expected
+location of the lines) that are masked. For grism J, H and K (high
+resolution), a reasonable number is 2 or 3. For grism LR (low resolution)
+this number should be 1 or even 0 (zero means that only the central pixel is
+masked), since the number of pixels between OH lines is not too large.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nwidth_medfilt</span></code>: after masking the bright OH lines, a median filter is
+applied in the spectral direction with a size given by this parameter.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_individual_images</span></code>: a value of 0 indicates that some intermediate
+images (e.g. the individual shifted images after computing the relative
+offsets with respect to the first A or B images) do not need to be saved in
+the <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory. This is useful to save disk space. Setting this
+parameter to 1 allows those images to be saved.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ab_different_target</span></code>:</p>
+<ul>
+<li><p>Setting this parameter to 0 means that the target chosen to determine the
+offsets within the A and within the B images is the same. In that case the
+recipe will automatically compute the relative offset between the A and B
+images using cross-correlation again.</p></li>
+<li><p>Setting this parameter to 1 or -1 indicates that the target is different
+and the recipe will apply the offset computed from the WCS information in
+the image headers. In this case, the sign of this parameter indicates the
+relative position of A and B targets in the images: a value of 1 means that
+the B targets appear above the A targets in the original images, whereas
+-1 means that the B targets appear below the A targets.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vpix_region_a_target</span></code>: pixel interval in the spatial direction enclosing
+the bright target in the A images. This should include not only the target
+itself but some sky region around it. <strong>Note that these numbers must be
+measured in the rectified and wavelength calibrated images</strong>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vpix_region_a_sky</span></code>: pixel interval in the spatial direction where the sky
+level can be estimated for the previous bright target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vpix_region_b_target</span></code> and <code class="docutils literal notranslate"><span class="pre">vpix_region_b_sky</span></code> play the same role as
+the previous two parameters, but for the bright B target.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list_valid_wvregions_a</span></code>: list (python-style, between brackets) of
+wavelength intervals to be employed to compute the average spatial profile of
+the bright A target. If this parameter does not appear in the observation
+result file, it means that the whole spectral range will be employed. This
+parameter is useful when the target is only bright in some wavelength ranges,
+or when, for any reason, the user wants to select particular wavelength
+ranges.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">list_valid_wvregions_b</span></code>: this parameter is analogous to the previous one,
+but for the bright B target.</p></li>
+</ul>
+<p>In order to decide appropriate values for these parameters, it is useful to
+examine the result of the previous reduction, overplotting the ds9 regions
+corresponding to the boundaries of the different slitlets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 obsid_abba_fast_bis_results/reduced_mos_abba.fits &amp;
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>select <code class="docutils literal notranslate"><span class="pre">scale</span> <span class="pre">--&gt;</span> <span class="pre">zscale</span></code></p></li>
+<li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span> <span class="pre">obsid_abba_fast_bis_work/ds9_boundaries_rectified.reg</span></code></p></li>
+</ul>
+<p>The distribution tgz file of this example already generated a file in our
+directory tree named <code class="docutils literal notranslate"><span class="pre">3_abba.yaml</span></code>. Note that in the <code class="docutils literal notranslate"><span class="pre">requirements</span></code>
+section of this file you can find the relevant parameters already set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ $ diff 3_abba_template.yaml 3_abba.yaml
+40,46c40,46
+&lt;     ab_different_target: TBD
+&lt;     vpix_region_a_target: [TBD, TBD]
+&lt;     vpix_region_a_sky: [TBD, TBD]
+&lt;     vpix_region_b_target: [TBD, TBD]
+&lt;     vpix_region_b_sky: [TBD, TBD]
+&lt;     list_valid_wvregions_a: [ [TBD, TBD], [TBD, TBD] ]
+&lt;     list_valid_wvregions_b: [ [TBD, TBD], [TBD, TBD] ]
+---
+&gt;     ab_different_target: 1
+&gt;     vpix_region_a_target: [41, 76]
+&gt;     vpix_region_a_sky: [67, 74]
+&gt;     vpix_region_b_target: [853, 910]
+&gt;     vpix_region_b_sky: [853, 871]
+&gt;     list_valid_wvregions_a: [ [11600, 12677], [12702, 12850] ]
+&gt;     list_valid_wvregions_b: [ [11700, 12677], [12702, 12960] ]
+</pre></div>
+</div>
+<p>In this example we do not have spectra of any of the bright 4 stars in the B
+images. This means that although we can choose the bright star spectrum in
+slitlet 2 as the reference target of the A images, for the B images we must
+conform with the brightest (although much fainter) science target spectrum,
+that appears in slitlet 24.  Since both reference targets are different, we
+must set <code class="docutils literal notranslate"><span class="pre">ab_different_target</span></code> to a non-zero value, which implies that the
+final combination of A and B spectra will be performed by using the WCS
+information in the image headers to determine the offset between both set of
+images. Finally, since B spectra appear above the A exposures, this parameter
+should be set to 1 (instead of -1).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 3_abba.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>The execution time of this recipe is larger than the time required by the
+faster <code class="docutils literal notranslate"><span class="pre">ABBA_SPECTRA_FAST_RECTWV</span></code> recipe because now:</p>
+<ul class="simple">
+<li><p>every single image has to be rectified and wavelength calibrated
+independently, prior to the determination of the relative offsets between
+images</p></li>
+<li><p>after the offset determination (via cross-correlation) the images have to be
+shifted in the spatial direction (using fractions of pixels, which takes
+additional time)</p></li>
+</ul>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_combined.png"><img alt="careful combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_combined.png" style="width: 100%;" /></a>
+</div>
+</div>
+<div class="section" id="using-a-different-rectification-and-wavelength-calibration-for-each-image">
+<h2>Using a different rectification and wavelength calibration for each image<a class="headerlink" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image" title="Permalink to this headline">¶</a></h2>
+<p>So far we have derived a single rectification and wavelength calibration
+coefficients file <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> that has been applied to the 24
+scientific images. However, it is possible that for long ABBA sequences, some
+offsets between the scientific images themselves may appear. These offsets must
+not be confused with the different location of the targets along the spatial
+direction (which are due to errors in the dithering pattern). In this case we
+are referring to offsets that can be detected as variations in
+the location of the OH lines (X direction) or in the slitlet frontiers (Y
+direction) when comparing different images. These variations are easy to detect
+(when present) making a zoom in a relatively small are of the images:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0002004*fits --bbox 1180,1320,1180,1280  \
+  --z1z2 0,1100 --pdffile abba_imageoffsets.pdf  \
+  --keystitle ra,dec,rotang.&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" style="width: 800px;" /></a>
+<p>Although the previous animation does not show an apparent variation in the
+location of the OH lines throughout the whole ABBA sequence, we are going to
+illustrate here how to proceed if that were the case.</p>
+<p>A way to confront a situation in which there are offsets between the individual
+images is to employ an individual
+<code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file, specifically computed for each single scientific
+image.</p>
+<p>The simple way to do it is making again use of the auxiliary script
+<code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+  --step 1 \
+  --refine_wavecalib_mode 12 \
+  --minimum_slitlet_width_mm 1.475 \
+  --maximum_slitlet_width_mm 3.0 \
+  --global_integer_offset_x_pix 1 \
+  --global_integer_offset_y_pix -3 \
+  --outfile 1_rectwv_individual.yaml
+
+Expected sequence pattern: ABBA
+Number of sequences......: 6
+Full set of images.......: ABBAABBAABBAABBAABBAABBA
+--&gt; File 1_rectwv_individual.yaml generated!
+</pre></div>
+</div>
+<p>Note that here we have used the script with the same parameters that we
+employed above to generate <code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code>, but here we have omitted
+the flat <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>. Leaving out this parameter leads to the
+following observation result file (that we have named
+<code class="docutils literal notranslate"><span class="pre">1_rectwv_individual.yaml</span></code> to avoid overwritting the previous one):</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183
+184
+185
+186
+187
+188
+189
+190
+191
+192
+193
+194
+195
+196
+197
+198
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211
+212
+213
+214
+215
+216
+217
+218
+219
+220
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249
+250
+251
+252
+253
+254
+255
+256
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271
+272
+273
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286
+287
+288
+289
+290
+291
+292
+293
+294
+295
+296
+297
+298
+299
+300
+301
+302
+303
+304
+305
+306
+307
+308
+309
+310
+311</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004255_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004284_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004313_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004342_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004371_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004400_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004429_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004458_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004487_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004516_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004545_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004574_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004603_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004632_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004661_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004690_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004719_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004748_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004777_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004806_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004835_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004864_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="o">---</span>
+<span class="nb">id</span><span class="p">:</span> <span class="n">_0002004893_rectwv</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">12</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.475</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">1</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">3</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>The new file is much larger because it contains an individual block for each
+individual image. The <code class="docutils literal notranslate"><span class="pre">requirements</span></code> parameters have the same values as those
+in the previous <code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code> file. The execution of the new
+observation result file will logically take longer since now the reduction
+recipe will be executed 24 times instead of one:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_rectwv_individual.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>The previous execution will have created the corresponding <code class="docutils literal notranslate"><span class="pre">work</span></code> and
+<code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectories for each individual frame, i.e.:</p>
+<ul class="simple">
+<li><p>24 subdirectories <code class="docutils literal notranslate"><span class="pre">obsid_0002004???_rectwv_work</span></code></p></li>
+<li><p>24 subdirectories <code class="docutils literal notranslate"><span class="pre">obsid_0002004???_rectwv_results</span></code></p></li>
+</ul>
+<p>The combination of all the ABBA images should now be performed using an
+observation result file that must contain the list of all the files
+<code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> generated within the  <code class="docutils literal notranslate"><span class="pre">obsid_0002004???_rectwv_work</span></code>
+subdirectories. This file can be generated automatically using, once again, the
+auxiliary script <code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt --step 3 --outfile 3_abba_template_individual.yaml
+</pre></div>
+</div>
+<p>Note that in this case we have not employed the flag <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>
+(that we used previously when generating <code class="docutils literal notranslate"><span class="pre">3_abba_template.yaml</span></code>). The new
+observation result file <code class="docutils literal notranslate"><span class="pre">3_abba_template_individual.yaml</span></code> has the following
+content:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_abba</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">ABBA_SPECTRA_RECTWV</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002004226</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004255</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004284</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004313</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004342</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004371</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004400</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004429</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004458</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004487</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004516</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004545</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004574</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004603</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004632</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004661</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004690</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004719</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004748</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004777</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004806</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004835</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004864</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
+<span class="hll">  <span class="n">list_rectwv_coeff</span><span class="p">:</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004255_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004284_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004313_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004342_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004371_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004400_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004429_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004458_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004487_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004516_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004545_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004574_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004603_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004632_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004661_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004690_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004719_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004748_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004777_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004806_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004835_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004864_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll">    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004893_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+  <span class="n">method_kwargs</span><span class="p">:</span>
+    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">refine_target_along_slitlet</span><span class="p">:</span>
+    <span class="n">npix_removed_near_ohlines</span><span class="p">:</span> <span class="mi">3</span>
+    <span class="n">nwidth_medfilt</span><span class="p">:</span> <span class="mi">11</span>
+    <span class="n">save_individual_images</span><span class="p">:</span> <span class="mi">0</span>
+    <span class="n">ab_different_target</span><span class="p">:</span> <span class="n">TBD</span>
+    <span class="n">vpix_region_a_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+    <span class="n">vpix_region_a_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+    <span class="n">vpix_region_b_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+    <span class="n">vpix_region_b_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+    <span class="n">list_valid_wvregions_a</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+    <span class="n">list_valid_wvregions_b</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>The difference between the new file <code class="docutils literal notranslate"><span class="pre">3_abba_template_individual.yaml</span></code> and the
+previous <code class="docutils literal notranslate"><span class="pre">3_abba_template.yaml</span></code> is that the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section now
+contains the keyword <code class="docutils literal notranslate"><span class="pre">list_rectwv_coeff</span></code> (line 31) followed by a list of the
+24 locations of the individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files (lines 32 to 55).</p>
+<p>Before making use of this file via numina, we have to fill the <code class="docutils literal notranslate"><span class="pre">TBD</span></code>
+parameters under the <code class="docutils literal notranslate"><span class="pre">refine_target_along_slitlet</span></code> block.</p>
+<p>The distribution tgz file of this example already generated a file in our
+directory tree named <code class="docutils literal notranslate"><span class="pre">3_abba_individual.yaml</span></code>. Note that in the
+<code class="docutils literal notranslate"><span class="pre">requirements</span></code> section of this file you can find the relevant parameters
+already set:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ diff 3_abba_template_individual.yaml 3_abba_individual.yaml
+
+1c1
+&lt; id: _abba
+---
+&gt; id: _abba_individual
+64,70c64,70
+&lt;     ab_different_target: TBD
+&lt;     vpix_region_a_target: [TBD, TBD]
+&lt;     vpix_region_a_sky: [TBD, TBD]
+&lt;     vpix_region_b_target: [TBD, TBD]
+&lt;     vpix_region_b_sky: [TBD, TBD]
+&lt;     list_valid_wvregions_a: [ [TBD, TBD], [TBD, TBD] ]
+&lt;     list_valid_wvregions_b: [ [TBD, TBD], [TBD, TBD] ]
+---
+&gt;     ab_different_target: 1
+&gt;     vpix_region_a_target: [41, 76]
+&gt;     vpix_region_a_sky: [67, 74]
+&gt;     vpix_region_b_target: [853, 910]
+&gt;     vpix_region_b_sky: [853, 871]
+&gt;     list_valid_wvregions_a: [ [11600, 12677], [12702, 12850] ]
+&gt;     list_valid_wvregions_b: [ [11700, 12677], [12702, 12960] ]
+</pre></div>
+</div>
+<p>Note that, apart from the filled <code class="docutils literal notranslate"><span class="pre">TBD</span></code> numbers, we have also modified the
+first line of the observation result file to provide a different <code class="docutils literal notranslate"><span class="pre">id</span></code> label a
+avoid overwriting previous reductions:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 3_abba_individual.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>Finally, we can compare the result of this reduction, in which we have employed
+an individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file for each of the 24 scientific images,
+with the one derived using the same <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> for all of them:</p>
+<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" style="width: 800px;" /></a>
+<p>Not surprisingly, the combination obtained after using the 24 individual
+<code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files is not very different from the one derived
+employing a single <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file, since there were not apparent
+offsets between the images. In any case, the combination with the 24 individual
+calibrations exhibits larger residuals at the locations of the bright airglow
+OH lines (the target spectra between the lines are basically unchanged). This
+increase in the residuals may come from the inherent errors in the wavelength
+calibration coefficients: even small errors in the wavelength calibration imply
+a slightly different resampling of the bright lines.</p>
+<p>The conclusion of this comparison is:</p>
+<ul class="simple">
+<li><p>When there are no apparent offsets between individual images, employ a single
+<code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file.</p></li>
+<li><p>When there are apparent offsets, you can:</p>
+<ul>
+<li><p>Use the method described in this last section to generate an individual
+<code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file for each image (even though you may get larger
+OH line residuals).</p></li>
+<li><p>Segregate your ABBA blocks in different subsets (within which no apparent
+offsets between images are detected) and reduce each subset separately,
+using a single <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> for each one.</p></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">MOS example</a><ul>
+<li><a class="reference internal" href="#downloading-the-tutorial-data">Downloading the tutorial data</a></li>
+<li><a class="reference internal" href="#the-csu-configuration">The CSU configuration</a></li>
+<li><a class="reference internal" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines">Preliminary rectification and wavelength calibration using OH lines</a></li>
+<li><a class="reference internal" href="#refined-rectification-and-wavelength-calibration">Refined rectification and wavelength calibration</a><ul>
+<li><a class="reference internal" href="#manual-determination-of-x-and-y-offsets">Manual determination of X and Y offsets</a></li>
+<li><a class="reference internal" href="#improving-the-rectification-and-wavelength-calibration">Improving the rectification and wavelength calibration</a></li>
+<li><a class="reference internal" href="#automatic-determination-of-x-and-y-offsets">Automatic determination of X and Y offsets</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#fast-abba-combination">Fast ABBA combination</a></li>
+<li><a class="reference internal" href="#careful-abba-combination">Careful ABBA combination</a><ul>
+<li><a class="reference internal" href="#including-relative-offsets-between-a-and-b-images">Including relative offsets between A and B images</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image">Using a different rectification and wavelength calibration for each image</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="simple_example.html"
+                        title="previous chapter">Simple example: arc exposure</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ngc7798.html"
+                        title="next chapter">NGC7798</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial_mos/mos_example.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="ngc7798.html" title="NGC7798"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="simple_example.html" title="Simple example: arc exposure"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Spectroscopic mode tutorial: MOS data</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2020, Universidad Complutense de Madrid.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>

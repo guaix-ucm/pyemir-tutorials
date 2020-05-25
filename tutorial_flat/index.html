@@ -1,0 +1,454 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Flatfield generation &#8212; PyEmir tutorials 0.15.dev1 documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="NGC7798" href="../tutorial_mos/ngc7798.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../tutorial_mos/ngc7798.html" title="NGC7798"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="flatfield-generation">
+<span id="flat-generation"></span><h1>Flatfield generation<a class="headerlink" href="#flatfield-generation" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the commands are assumed to be executed in a terminal running the <strong>bash
+shell</strong>.</p>
+<p>Don’t forget to activate the same Python environment employed to install
+PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
+is the case.</p>
+</div>
+<p>This example provides an easy introduction to the generation of flatfield
+images with PyEmir (via Numina),</p>
+<p>For detailed documentation concerning the installation of PyEmir, see the
+<span class="xref std std-ref">pyemir_installation</span> guide.</p>
+<div class="section" id="pixel-to-pixel-variation">
+<h2>Pixel-to-pixel variation<a class="headerlink" href="#pixel-to-pixel-variation" title="Permalink to this headline">¶</a></h2>
+<p>Concerning pixel-to-pixel variation, in principle PyEmir distinguishes between:</p>
+<ul class="simple">
+<li><p>Imaging flatfield: identified as <code class="docutils literal notranslate"><span class="pre">MasterIntensityFlat</span></code> in the file
+<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>. This should be set to the flatfield to be applied when
+reducing data obtained in imaging mode: for example, when using the recipe
+<code class="docutils literal notranslate"><span class="pre">STARE_IMAGE</span></code> when performing the basic initial reduction of the images.</p></li>
+<li><p>Spectroscopic flatfield: identified as <code class="docutils literal notranslate"><span class="pre">MasterSpectralFalt</span></code> in the file
+<code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>. This should be set to the flatfield to be applied when
+reducing data obtained in spectroscopic mode: for example, when using the
+recipe <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> to generate the rectification and wavelength
+calibration coefficients, or the recipe <code class="docutils literal notranslate"><span class="pre">ABBA_SPECTRA_RECTWV</span></code> to combine
+dithered spectroscopic observations following an ABBA pattern.</p></li>
+</ul>
+<p>A master pixel-to-pixel flatfield from spectroscopic data,
+<code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>, is provided in the initial file tree structure
+provided in <span class="xref std std-ref">initial_file_tree</span>.  Interestingly, as shown in that section,
+the pixel-to-pixel variation is quite constant along the different spectral
+ranges. For that reason we consider that this image can safely be used for most
+purposes for both, imaging and spectroscopic observations.</p>
+<p>Furthermore, imaging mode observations, as those described in
+<a class="reference internal" href="../tutorial_imaging/index.html#imaging-tutorial"><span class="std std-ref">Imaging mode tutorial: combination of dithered exposures</span></a>, are reduced by generating a superflatfield from the
+sky signal in different images.  In this sense, the use of a pixel-to-pixel
+flatfield in the initial basic reduction of the original images is not
+essential. The user can easily check this by setting <code class="docutils literal notranslate"><span class="pre">MasterIntensityFlat</span></code> to
+<code class="docutils literal notranslate"><span class="pre">master_flat_ones.fits</span></code> in the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> file, i.e.:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterIntensityFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_ones.fits&#39;</span><span class="p">}</span>
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">master_flat_ones.fits</span></code> is a dummy image in which all the pixels
+have been set to 1.0.</p>
+</div>
+<div class="section" id="generating-a-pixel-to-pixel-flatfield-from-spectroscopic-data">
+<h2>Generating a pixel-to-pixel flatfield from spectroscopic data<a class="headerlink" href="#generating-a-pixel-to-pixel-flatfield-from-spectroscopic-data" title="Permalink to this headline">¶</a></h2>
+<p>If for any reason the user needs to compute her own pixel-to-pixel flatfield
+from spectroscopic data, PyEmir provides the reduction recipe
+<code class="docutils literal notranslate"><span class="pre">SPEC_FLAT_PIX2PIX</span></code> that perform this task using, as input, tungsten
+exposures. In this sense, it is important to keep in mind the following
+recommendations:</p>
+<ul class="simple">
+<li><p>The exposures should be obtained with the same MOS configuration
+as the scientific images to which we plan to apply the computed flatfiled;
+otherwise, the pixel-to-pixel reponse may not be available in the wavelength
+range covered by each particular slitlet.</p></li>
+<li><p>For observations covering the K band it is advisable to obtain images with the
+tungsten lamp both ON and OFF, since in this case the OFF images exhibit a
+non-negligible signal.</p></li>
+</ul>
+<p>Here we illustrate the computation of a spectroscopic pixel-to-pixel flatfield
+using the following 20 tungsten lamp exposures in the H band, 10 obtained with
+the lamp ON and 10 with the lamp OFF. Although in principle it is not necessary
+to obtain images with lamp OFF in this spectral range, here we will use both
+kind of input images to illustrate the general procedure, as well as to double
+check that the lamp OFF signal in this case is negligible.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0002069432</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069435</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069438</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069441</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069444</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069447</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069450</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069453</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069456</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069459</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069552</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069555</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069558</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069561</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069564</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069567</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069570</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069573</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069576</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="mi">0002069579</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+</pre></div>
+</div>
+<p>Those files (together with some additional files that you will need to follow
+this imaging example) are available as a compressed tgz file:
+<a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_flatpix2pix_tutorial_v1.tgz">pyemir_flatpix2pix_tutorial_v1.tgz</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Before continuing, make sure that you have already initialize the file tree
+structure by following the instructions provided in the
+<span class="xref std std-ref">initial_file_tree</span> section of this documentation.</p>
+</div>
+<p>Move to the directory where you have deployed the initial file tree structure
+containing the basic PyEmir calibration files (see  <span class="xref std std-ref">initial_file_tree</span>).</p>
+<p>Decompress there the previously mentioned tgz file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_flatpix2pix_tutorial_v1.tgz
+...
+...
+(emir) $ rm pyemir_flatpix2pix_tutorial_v1.tgz
+</pre></div>
+</div>
+<p>This action should have populated the file tree with the
+20 tungsten FITS images (placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+subdirectory) and some additional auxiliary files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
+.
+├── control.yaml
+├── data
+│   ├── 0002069432-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069435-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069438-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069441-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069444-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069447-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069450-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069453-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069456-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069459-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069552-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069555-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069558-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069561-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069564-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069567-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069570-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069573-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069576-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── 0002069579-20190519-EMIR-STARE_SPECTRA.fits
+│   ├── master_bpm.fits
+│   ├── master_dark_zeros.fits
+│   ├── master_flat_ones.fits
+│   ├── master_flat_spec.fits
+│   ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
+│   ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
+│   ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
+│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
+│   └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
+└── flatpix2pix.yaml
+</pre></div>
+</div>
+<p>You can easily examine the header of the scientific FITS images using the
+astropy utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0002069*.fits -k object -k lampincd -k lampintn -f
+                    filename                         OBJECT    LAMPINCD     LAMPINTN
+------------------------------------------------ ------------- -------- ----------------
+data/0002069432-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069435-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069438-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069441-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069444-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069447-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069450-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069453-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069456-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069459-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
+data/0002069552-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069555-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069558-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069561-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069564-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069567-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069570-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069573-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069576-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+data/0002069579-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        0              0.0
+</pre></div>
+</div>
+<p>The value of the following keywords provide the required information to know
+what type of images we are handling:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">LAMPINCD</span></code>: tungsten lamp status (1=ON, 0=OFF)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LAMPINTN</span></code>: tungsten lamp intensity</p></li>
+</ul>
+<p>It is clear that the first 10 images of this sequence correspond to lamp ON
+and the last 10 images to lamp OFF.</p>
+<p>Let’s have a look to the CSU configuration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-display_slitlet_arrangement data/0002069432-20190519-EMIR-STARE_SPECTRA.fits \
+  --longslits --n_clusters 2
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002069432_slitlet_arrangement.png"><img alt="original 0002069432 slitlet arrangement" src="../_images/0002069432_slitlet_arrangement.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002069432_slitlet_width_histo.png"><img alt="original 0002069432 slitlet width histogram" src="../_images/0002069432_slitlet_width_histo.png" style="width: 100%;" /></a>
+<p>The previous histogram indicates that the valid slitlet widths for the present
+CSU configuration are given by:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">minimum_slitlet_width_mm:</span> <span class="pre">1.5</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">maximum_slitlet_width_mm:</span> <span class="pre">2.5</span></code></p></li>
+</ul>
+<p>We can also display the first image with lamp ON and the first with lamp OFF:</p>
+<a class="reference internal image-reference" href="../_images/0002069432_original.png"><img alt="original 0002069432 image" src="../_images/0002069432_original.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002069552_original.png"><img alt="original 0002069552 image" src="../_images/0002069552_original.png" style="width: 100%;" /></a>
+<p>An estimate of the integer vertical offset (in pixels) can be obtained using:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pyemir-overplot_boundary_model data/0002069432-20190519-EMIR-STARE_SPECTRA.fits \
+  --rect_wpoly_MOSlibrary data/rect_wpoly_MOSlibrary_grism_H_filter_H.json
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/0002069432_boundary_model.png"><img alt="0002069432 with boundary model" src="../_images/0002069432_boundary_model.png" style="width: 100%;" /></a>
+<p>Zooming in the previous image:</p>
+<a class="reference internal image-reference" href="../_images/0002069432_boundary_model_zoom.png"><img alt="0002069432 with boundary model" src="../_images/0002069432_boundary_model_zoom.png" style="width: 100%;" /></a>
+<p>From this examination we estimate <code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix:</span> <span class="pre">-2</span></code>. Note
+that to obtain the pixel-to-pixel response we do not need to estimate
+<code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix</span></code>. The reason for that is that the recipe
+responsible for the computation of this kind of flat, <code class="docutils literal notranslate"><span class="pre">SPEC_FLAT_PIX2PIX</span></code>,
+only needs to rectify the spectra of each slitlet without performing a
+wavelength calibration. The averaged rectified spectrum of each slitlet is then
+smoothed and unrectified (i.e., distorted to follow the original image
+distortions) to obtain the pixel-to-pixel variation (dividing the original
+image by the smoothed distorted spectra).</p>
+<p>The required observation result file to reduce these lamp images,
+<code class="docutils literal notranslate"><span class="pre">flatpix2pix.yaml</span></code>, is already provided in the tgz accompanying this example
+data:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_flat</span>
+<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="n">mode</span><span class="p">:</span> <span class="n">SPEC_FLAT_PIX2PIX</span>
+<span class="n">frames</span><span class="p">:</span>
+ <span class="o">-</span> <span class="mi">0002069432</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069435</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069438</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069441</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069444</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069447</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069450</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069453</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069456</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069459</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069552</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069555</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069558</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069561</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069564</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069567</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069570</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069573</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069576</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+ <span class="o">-</span> <span class="mi">0002069579</span><span class="o">-</span><span class="mi">20190519</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
+<span class="n">requirements</span><span class="p">:</span>
+  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+  <span class="n">method_kwargs</span><span class="p">:</span>
+    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+  <span class="n">minimum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">1.5</span>
+  <span class="n">maximum_slitlet_width_mm</span><span class="p">:</span> <span class="mf">2.5</span>
+  <span class="n">global_integer_offset_x_pix</span><span class="p">:</span> <span class="mi">0</span>
+  <span class="n">global_integer_offset_y_pix</span><span class="p">:</span> <span class="o">-</span><span class="mi">2</span>
+  <span class="n">nwindow_median</span><span class="p">:</span> <span class="mi">5</span>
+  <span class="n">minimum_fraction</span><span class="p">:</span> <span class="mf">0.01</span>
+  <span class="n">minimum_value_in_output</span><span class="p">:</span> <span class="mf">0.01</span>
+  <span class="n">maximum_value_in_output</span><span class="p">:</span> <span class="mf">10.0</span>
+<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</td></tr></table></div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">frames</span></code> section of this file contains the list of the 20
+tungsten lamp images, independently of whether the images were obtained with
+the lamp ON or OFF (the order of the images here is not relevant; the recipe
+examines the value of the keyword <code class="docutils literal notranslate"><span class="pre">LAMPINCD</span></code> to determine which images
+correspond to each lamp status).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">requeriments</span></code> section includes some parameters already employed in other
+reduction recipes (like the combination method, the width interval for valid
+slitlets, or the integer offsets between the images and the empirical
+distortion calibration), and some new parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nwindow_median:</span> <span class="pre">5</span></code> is the numbers of pixels employed to smooth (via median
+filtering in the spectral direction) the averaged rectified spectrum of each
+slitlet before unrectifying it.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">mininum_fraction:</span> <span class="pre">0.01</span></code> is the minimum fraction of the maximum signal of
+the tungsten lamp that is employed to estimate the pixel-to-pixel response.
+Pixel values below this limit are receiving a very low illumination and the
+pixel-to-pixel response is highly uncertain.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">minimum_value_in_output:</span> <span class="pre">0.01</span></code> and <code class="docutils literal notranslate"><span class="pre">maximum_value_in_output:</span> <span class="pre">10</span></code> are
+the minimum and maximum pixel-to-pixel value allowed
+in the generated flatfield. This truncation avoids having undesired divisions
+by too small or too large numbers (typically spurious estimates computed at
+the frontiers between slitlets that are not aligned forming a pseudo
+longslit).</p></li>
+</ul>
+<p>In principle, the default values for these last parameters seem to work
+properly for all combinations of grism+filter.</p>
+<p>You can now execute the reduction recipe:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run flatpix2pix.yaml --link-files -r control.yaml
+...
+...
+</pre></div>
+</div>
+<p>The resulting pixel-to-pixel flatfield can be found in the corresponding
+<code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_flat_results/reduced_flatpix2pix.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/flatpix2pix.png"><img alt="flat pixel-to-pixel" src="../_images/flatpix2pix.png" style="width: 100%;" /></a>
+<p>It is very illustrative to compare the derived flatfield with the file
+<code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>, provided in the initial PyEmir tree. Let’s have a
+look to that comparison in a small image region:</p>
+<a class="reference internal image-reference" href="../_images/comparison_flatpix2pix.gif"><img alt="flat pixel-to-pixel" src="../_images/comparison_flatpix2pix.gif" style="width: 800px;" /></a>
+<p>This comparison reveals that the flatfield just computed exhibits:</p>
+<ul class="simple">
+<li><p>gaps in the regions around the frontiers between slitlets</p></li>
+<li><p>defects due to the presence of some ghosts produced by zero order images
+of the slitlets themselves</p></li>
+</ul>
+<p>On the contrary, the file <code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>, which has been built from
+observations of 2000 pairs of tungten lamp ON - OFF with the CSU configured
+simulating longslits at different locations in the spectral direction, does not
+show these problems: the longslit configurations avoid the dark gaps in the
+frontiers between slitlets (that appear when consecutive slitlets are not
+perfectly aligned), and the ghost problems are avoided by combining the
+information of images that do not exhibit these ghots at the central detector
+region. For all those reasons we suggest the use of <code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>
+unless you have a good reason for not doing it.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.png" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Flatfield generation</a><ul>
+<li><a class="reference internal" href="#pixel-to-pixel-variation">Pixel-to-pixel variation</a></li>
+<li><a class="reference internal" href="#generating-a-pixel-to-pixel-flatfield-from-spectroscopic-data">Generating a pixel-to-pixel flatfield from spectroscopic data</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../tutorial_mos/ngc7798.html"
+                        title="previous chapter">NGC7798</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/tutorial_flat/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../tutorial_mos/ngc7798.html" title="NGC7798"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2010-2020, Universidad Complutense de Madrid.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
+    </div>
+  </body>
+</html>
