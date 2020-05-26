@@ -1,0 +1,2 @@
+Diffuse light characterization
+==============================
