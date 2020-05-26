@@ -4,36 +4,32 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <title>Flatfield generation &#8212; PyEmir tutorials 0.15.dev1 documentation</title>
-    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../_static/jquery.js"></script>
-    <script type="text/javascript" src="../_static/underscore.js"></script>
-    <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="../_static/language_data.js"></script>
-    
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="prev" title="NGC7798" href="../tutorial_mos/ngc7798.html" /> 
+    <title>Flatfield generation &#8212; numina-tutorials v0.22 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="MEGARA tutorials" href="../../megara/index.html" />
+    <link rel="prev" title="NGC7798" href="../tutorial_mos/ngc7798.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
   </head><body>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             accesskey="I">index</a></li>
-        <li class="right" >
-          <a href="../tutorial_mos/ngc7798.html" title="NGC7798"
-             accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li> 
-      </ul>
-    </div>  
+  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
+          
+
           <div class="body" role="main">
             
   <div class="section" id="flatfield-generation">
@@ -224,8 +220,8 @@ and the last 10 images to lamp OFF.</p>
   --longslits --n_clusters 2
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002069432_slitlet_arrangement.png"><img alt="original 0002069432 slitlet arrangement" src="../_images/0002069432_slitlet_arrangement.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/0002069432_slitlet_width_histo.png"><img alt="original 0002069432 slitlet width histogram" src="../_images/0002069432_slitlet_width_histo.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/0002069432_slitlet_arrangement.png"><img alt="original 0002069432 slitlet arrangement" src="../../_images/0002069432_slitlet_arrangement.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/0002069432_slitlet_width_histo.png"><img alt="original 0002069432 slitlet width histogram" src="../../_images/0002069432_slitlet_width_histo.png" style="width: 100%;" /></a>
 <p>The previous histogram indicates that the valid slitlet widths for the present
 CSU configuration are given by:</p>
 <ul class="simple">
@@ -233,16 +229,16 @@ CSU configuration are given by:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">maximum_slitlet_width_mm:</span> <span class="pre">2.5</span></code></p></li>
 </ul>
 <p>We can also display the first image with lamp ON and the first with lamp OFF:</p>
-<a class="reference internal image-reference" href="../_images/0002069432_original.png"><img alt="original 0002069432 image" src="../_images/0002069432_original.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/0002069552_original.png"><img alt="original 0002069552 image" src="../_images/0002069552_original.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/0002069432_original.png"><img alt="original 0002069432 image" src="../../_images/0002069432_original.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/0002069552_original.png"><img alt="original 0002069552 image" src="../../_images/0002069552_original.png" style="width: 100%;" /></a>
 <p>An estimate of the integer vertical offset (in pixels) can be obtained using:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pyemir-overplot_boundary_model data/0002069432-20190519-EMIR-STARE_SPECTRA.fits \
   --rect_wpoly_MOSlibrary data/rect_wpoly_MOSlibrary_grism_H_filter_H.json
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002069432_boundary_model.png"><img alt="0002069432 with boundary model" src="../_images/0002069432_boundary_model.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/0002069432_boundary_model.png"><img alt="0002069432 with boundary model" src="../../_images/0002069432_boundary_model.png" style="width: 100%;" /></a>
 <p>Zooming in the previous image:</p>
-<a class="reference internal image-reference" href="../_images/0002069432_boundary_model_zoom.png"><img alt="0002069432 with boundary model" src="../_images/0002069432_boundary_model_zoom.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/0002069432_boundary_model_zoom.png"><img alt="0002069432 with boundary model" src="../../_images/0002069432_boundary_model_zoom.png" style="width: 100%;" /></a>
 <p>From this examination we estimate <code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix:</span> <span class="pre">-2</span></code>. Note
 that to obtain the pixel-to-pixel response we do not need to estimate
 <code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix</span></code>. The reason for that is that the recipe
@@ -369,11 +365,11 @@ properly for all combinations of grism+filter.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_flat_results/reduced_flatpix2pix.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/flatpix2pix.png"><img alt="flat pixel-to-pixel" src="../_images/flatpix2pix.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/flatpix2pix.png"><img alt="flat pixel-to-pixel" src="../../_images/flatpix2pix.png" style="width: 100%;" /></a>
 <p>It is very illustrative to compare the derived flatfield with the file
 <code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>, provided in the initial PyEmir tree. Let’s have a
 look to that comparison in a small image region:</p>
-<a class="reference internal image-reference" href="../_images/comparison_flatpix2pix.gif"><img alt="flat pixel-to-pixel" src="../_images/comparison_flatpix2pix.gif" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../../_images/comparison_flatpix2pix.gif"><img alt="flat pixel-to-pixel" src="../../_images/comparison_flatpix2pix.gif" style="width: 800px;" /></a>
 <p>This comparison reveals that the flatfield just computed exhibits:</p>
 <ul class="simple">
 <li><p>gaps in the regions around the frontiers between slitlets</p></li>
@@ -394,61 +390,78 @@ unless you have a good reason for not doing it.</p>
 
 
           </div>
+          
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.png" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Flatfield generation</a><ul>
-<li><a class="reference internal" href="#pixel-to-pixel-variation">Pixel-to-pixel variation</a></li>
-<li><a class="reference internal" href="#generating-a-pixel-to-pixel-flatfield-from-spectroscopic-data">Generating a pixel-to-pixel flatfield from spectroscopic data</a></li>
+<h1 class="logo"><a href="../../index.html">numina-tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">EMIR tutorials</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_mos/index.html">Spectroscopic mode tutorial: MOS data</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Flatfield generation</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="../../megara/index.html">MEGARA tutorials</a></li>
 </ul>
 
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../tutorial_mos/ngc7798.html"
-                        title="previous chapter">NGC7798</a></p>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="../_sources/tutorial_flat/index.rst.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">EMIR tutorials</a><ul>
+      <li>Previous: <a href="../tutorial_mos/ngc7798.html" title="previous chapter">NGC7798</a></li>
+      <li>Next: <a href="../../megara/index.html" title="next chapter">MEGARA tutorials</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
+    <form class="search" action="../../search.html" method="get">
       <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related" role="navigation" aria-label="related navigation">
-      <h3>Navigation</h3>
-      <ul>
-        <li class="right" style="margin-right: 10px">
-          <a href="../genindex.html" title="General Index"
-             >index</a></li>
-        <li class="right" >
-          <a href="../tutorial_mos/ngc7798.html" title="NGC7798"
-             >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">PyEmir tutorials 0.15.dev1 documentation</a> &#187;</li> 
-      </ul>
+    <div class="footer">
+      &copy;2018-2020, Universidad Complutense de Madrid.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/emir/tutorial_flat/index.rst.txt"
+          rel="nofollow">Page source</a>
     </div>
-    <div class="footer" role="contentinfo">
-        &#169; Copyright 2010-2020, Universidad Complutense de Madrid.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.1.2.
-    </div>
+
+    
+
+    
   </body>
 </html>
