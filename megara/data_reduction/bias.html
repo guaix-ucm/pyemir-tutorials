@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Bias image &#8212; numina-tutorials v0.22 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="MEGARA tools" href="../megara_tools/index.html" />
+    <link rel="prev" title="Data reduction" href="index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="bias-image">
+<h1>Bias image<a class="headerlink" href="#bias-image" title="Permalink to this headline">¶</a></h1>
+<p>Before the Analog-to-Digital conversion is performed, a pedestal (electronic)
+level is added to all images obtained with the MEGARA CCD.
+This is a standard procedure in CCD imaging and spectroscopy applications
+for Astronomy and is intended to minimize the ADC errors produced
+when very low analog values are converted to DUs. To calibrate
+this pedestal level of the detectors, bias images are takken with
+null integration time. We note the user that in the case of the
+MEGARACCD (a 4k x 4k pixels CCD231-84 E2V chip), since the detector is
+always read using two diagonally-opposed amplifiers (to speed up the reading
+process while minimizing electronic cross-talk), the bias is slightly
+different in the upper and bottom halves of the image.
+Note that the Readout Noise (RoN) should be around 2 e–in all cases.
+This recipe processes a set of bias images obtained in Bias Image
+instrument mode. Images are corrected from overscan and trimmed to the
+physical size of the detector. Then, they are corrected from Bad-pixelsMask, if the BPM is available and finally, images are stacked using the median.</p>
+<p>This is an example for the 0_bias.yaml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(megara) bash-3.2$ more 0_bias.yaml
+id: 0_bias
+mode: MegaraBiasImage
+instrument: MEGARA
+frames:
+-0001310880-20170827-MEGARA-MegaraBiasImage.fits
+-0001310881-20170827-MEGARA-MegaraBiasImage.fits
+-0001310882-20170827-MEGARA-MegaraBiasImage.fits
+-0001310883-20170827-MEGARA-MegaraBiasImage.fits
+-0001310884-20170827-MEGARA-MegaraBiasImage.fits
+-0001310885-20170827-MEGARA-MegaraBiasImage.fits
+-0001310886-20170827-MEGARA-MegaraBiasImage.fits
+-0001310887-20170827-MEGARA-MegaraBiasImage.fits
+-0001310888-20170827-MEGARA-MegaraBiasImage.fits
+</pre></div>
+</div>
+<p>The recipe is run as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(megara) bash-3.2$ numina run 0_bias.yaml -r ../control.yaml
+</pre></div>
+</div>
+<p>and the products are stored in the directory obsid0_bias_results/, including
+the master_bias.fits file (see Figure 4). The  user  needs  to  copy  this
+file  to  the  calibration  tree at
+ca3558e3-e50d-4bbc-86bd-da50a0998a48/MasterBias/.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(megara) bash-3.2$ tree obsid0_bias_work/
+obsid0_bias_results/obsid0_bias_work/
+├── 0001310880-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310881-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310882-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310883-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310884-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310885-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310886-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310887-20170827-MEGARA-MegaraBiasImage.fits
+├── 0001310888-20170827-MEGARA-MegaraBiasImage.fits
+├── index.pkl
+└── master_bpm.fit
+obsid0_bias_results/
+├── master_bias.fits
+├── processing.log
+├── result.yaml
+└── task.yaml
+</pre></div>
+</div>
+<div class="figure align-default" id="id1">
+<img alt="../../_images/Figure_4.png" src="../../_images/Figure_4.png" />
+<p class="caption"><span class="caption-text">Example of a MEGARA master bias as created by the MegaraBiasImage recipe.
+Note that this image was obtained with the MEGARA DRP ver. 0.9.
+Later versions fit a spline to the overscan regions of both amplifiers
+(instead of adopting a constant value) so the resulting MegaraBias
+image is typically flatter than the example shown here.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="index.html" title="Previous document">Data reduction</a>
+        </li>
+        <li>
+          <a href="../megara_tools/index.html" title="Next document">MEGARA tools</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">numina-tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../emir/index.html">EMIR tutorials</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">MEGARA tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Data reduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../megara_tools/index.html">MEGARA tools</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">MEGARA tutorials</a><ul>
+  <li><a href="index.html">Data reduction</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Data reduction</a></li>
+      <li>Next: <a href="../megara_tools/index.html" title="next chapter">MEGARA tools</a></li>
+  </ul></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018-2020, Universidad Complutense de Madrid.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/megara/data_reduction/bias.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Preliminaries &#8212; numina-tutorials v0.22 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Imaging mode tutorial: combination of dithered exposures" href="../tutorial_imaging/index.html" />
+    <link rel="prev" title="EMIR tutorials" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="preliminaries">
+<span id="pyemir-preliminaries"></span><h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>All the commands are assumed to be executed in a terminal running the <strong>bash
+shell</strong>.</p>
+<p>Don’t forget to activate the same Python environment employed to install
+PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
+is the case.</p>
+</div>
+<div class="section" id="running-pyemir-recipes-from-numina">
+<h2>Running PyEmir recipes from Numina<a class="headerlink" href="#running-pyemir-recipes-from-numina" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines. In order to execute
+PyEmir recipes you should use execute something like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;observation_result_file.yaml&gt;</span></code> is an observation result in YAML
+format, and <code class="docutils literal notranslate"><span class="pre">&lt;requirements_files.yaml&gt;</span></code> is a reqruirements file, also in YAML
+format.</p>
+<p>Note: YAML is a human-readable data serialization language (for details, see
+<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax desciption</a>)</p>
+</div>
+<div class="section" id="initial-file-tree">
+<span id="id1"></span><h2>Initial file tree<a class="headerlink" href="#initial-file-tree" title="Permalink to this headline">¶</a></h2>
+<p>Here you can find the initial file structure with basic calibrations, required
+to start the data reduction with PyEmir, either in imaging or spectroscopic
+mode.</p>
+<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1.tgz">pyemir_initial_tree_v1.tgz</a>.</p>
+<p>It is advisable to decompress the previous file in a pristine directory where
+you can comfortably start the reduction of your data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ mkdir newdir
+(emir) $ cd newdir
+
+# copy here the downloaded tgz file
+
+(emir) $ tar zxvf pyemir_initial_tree_v1.tgz
+...
+...
+(emir) $ rm pyemir_initial_tree_v1.tgz
+(emir) $ tree
+.
+├── control.yaml
+└── data
+    ├── master_bpm.fits
+    ├── master_dark_zeros.fits
+    ├── master_flat_ones.fits
+    ├── master_flat_spec.fits
+    ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
+    ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
+    ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
+    ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
+    └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
+</pre></div>
+</div>
+<p>The file <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> is a requirements file needed to execute
+the reduction recipes with <code class="docutils literal notranslate"><span class="pre">numina</span></code>. In principle you do not need to modify
+its contents.</p>
+<p>The subdirectory <code class="docutils literal notranslate"><span class="pre">data</span></code> contains the following calibration files:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_bpm</span></code>: master bad-pixel mask (pixels in this image with values
+different from zero are usually interpolated at the beginning of the
+execution of the reduction recipes).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>: pixel-to-pixel flatfield, computed from
+spectroscopic exposures of 2000 lamp ON-OFF tungsten exposures. The small
+variations of the pixel response with wavelength indicate that for most
+purposes it can be used with any filter configuration and observing mode
+(imaging or spectroscopy). The following plots show the flatfield value in
+around 2 million pixels (common detector region of the flatfield images using
+distinct grism + filter combinations) deduced from spectroscopy observations
+using grism J + filter J (X axis) in comparison with the values deduced using
+grism H + filter H, grism K + filter Ksp, grism LR + filter YJ and grism LR +
+filter HK (Y axis). Note that the color scale is given in logarithmic units
+(i.e., most pixels fall in the interval around 1.0 in the 1:1 diagonal line).</p>
+<a class="reference internal image-reference" href="../../_images/pixel2pixel.png"><img alt="variation in the pixel2pixel response using different filters" src="../../_images/pixel2pixel.png" style="width: 100%;" /></a>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">rect_wpoly_MOSlibrary_grism*.json</span></code>: empirical distortion and wavelength
+callibrations for the reduction of spectroscopic data. These calibrations
+allow an initial rectification and wavelength calibration without the need of
+auxiliary calibration images (e.g. arc exposures).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_dark_zeros.fits</span></code>: is a dummy 2048x2048 image of zeros (this image is
+typically not necessary since in the IR the reduction of science observations
+usually requires de subtraction of consecutive images).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">master_flat_ones.fits</span></code> is a dummy 2048x2048 image of ones (employed to
+in the development of the reduction recipes to check the effect of the
+pixel-to-pixel correction; you can ignore it).</p></li>
+</ul>
+</div>
+<div class="section" id="installing-ds9">
+<h2>Installing ds9<a class="headerlink" href="#installing-ds9" title="Permalink to this headline">¶</a></h2>
+<p>Probably you already have ds9 installed in your system. If this is not the
+case, you can use conda to do it!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ conda install ds9
+</pre></div>
+</div>
+<p>Note that we have activated the <code class="docutils literal notranslate"><span class="pre">emir</span></code> environment prior to the installation
+of the new package. That means that this particular ds9 installation will be
+exclusively available from within that environment.</p>
+</div>
+<div class="section" id="use-of-interactive-matplotlib-plots">
+<h2>Use of interactive matplotlib plots<a class="headerlink" href="#use-of-interactive-matplotlib-plots" title="Permalink to this headline">¶</a></h2>
+<p>The interactive plots created by some Numina and PyEmir scripts have been
+tested using the Qt5Agg backend of matplotlib. Note that this will require the
+<code class="docutils literal notranslate"><span class="pre">pyqt</span></code> package to be installed in your environment (see for example <a class="reference external" href="https://anaconda.org/anaconda/pyqt">the
+conda instructions to install pyqt</a>).</p>
+<p>If you want to use the same backend (this is not really necessary), check that
+the following line appears in the file <code class="docutils literal notranslate"><span class="pre">.matplotlib/matplotlibrc</span></code> (under your
+home directory):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span><span class="p">:</span> <span class="n">Qt5Agg</span>
+</pre></div>
+</div>
+<p>If that file does not exist, generate it with the above line.</p>
+<p>In most interactive matplotlib plots created by Numina and Pyemir you can press
+<code class="docutils literal notranslate"><span class="pre">?</span></code> over the graphical window to retrieve a quick help concerning the use of
+some keystrokes to perform useful plot actions, like zooming, panning, setting
+background and foreground levels, etc. Note that some of these actions are
+already available in the navigation toolbar that appears at the top of the
+graphical windows.</p>
+</div>
+</div>
+
+
+          </div>
+              <div class="related bottom">
+                &nbsp;
+  <nav id="rellinks">
+    <ul>
+        <li>
+          &larr;
+          <a href="../index.html" title="Previous document">EMIR tutorials</a>
+        </li>
+        <li>
+          <a href="../tutorial_imaging/index.html" title="Next document">Imaging mode tutorial: combination of dithered exposures</a>
+          &rarr;
+        </li>
+    </ul>
+  </nav>
+              </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">numina-tutorials</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">EMIR tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Preliminaries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_mos/index.html">Spectroscopic mode tutorial: MOS data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../megara/index.html">MEGARA tutorials</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">EMIR tutorials</a><ul>
+      <li>Previous: <a href="../index.html" title="previous chapter">EMIR tutorials</a></li>
+      <li>Next: <a href="../tutorial_imaging/index.html" title="next chapter">Imaging mode tutorial: combination of dithered exposures</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2018-2020, Universidad Complutense de Madrid.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="../../_sources/emir/preliminaries/preliminaries.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
