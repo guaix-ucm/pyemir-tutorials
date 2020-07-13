@@ -1,4 +1,4 @@
-name: Build docs manually
+name: Build docs and deploy manually
 on:
   workflow_dispatch
 
@@ -35,7 +35,14 @@ jobs:
         with:
           name: pyemir-tutorials-docs
           path: build/html
-    
+  deploy_docs:
+    needs: [build_sphinx]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: test-branch
+          fetch-depth: 0
       - uses: actions/download-artifact@v2
         with:
           name: pyemir-tutorials-docs
