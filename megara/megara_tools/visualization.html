@@ -1,17 +1,18 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualization &#8212; numina-tutorials v0.22 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Cubes" href="cubes.html" />
@@ -45,173 +46,173 @@ corresponding MEGARA environment:</p>
 </div>
 <p>As for the other commands, adding the -h flag would provide the help and
 syntax for using this command. The result is the following:</p>
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-wcs-grid">
 <code class="sig-name descname">--wcs-grid</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-wcs-grid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display WCS grid</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-wcs-pa-from-header">
 <code class="sig-name descname">--wcs-pa-from-header</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-wcs-pa-from-header" title="Permalink to this definition">¶</a></dt>
 <dd><p>Use PA angle from PC keys</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-average-region">
 <code class="sig-name descname">--average-region</code><code class="sig-prename descclassname"> AVERAGE_REGION</code><a class="headerlink" href="#cmdoption-visualization-average-region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Region of the RSS averaged on display</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-extname">
-<code class="sig-name descname">--extname</code><code class="sig-prename descclassname"> EXTNAME</code><code class="sig-prename descclassname">, </code><code class="sig-name descname">-e</code><code class="sig-prename descclassname"> EXTNAME</code><a class="headerlink" href="#cmdoption-visualization-extname" title="Permalink to this definition">¶</a></dt>
+<span id="cmdoption-visualization-e"></span><code class="sig-name descname">--extname</code><code class="sig-prename descclassname"> EXTNAME</code><code class="sig-prename descclassname">, </code><code class="sig-name descname">-e</code><code class="sig-prename descclassname"> EXTNAME</code><a class="headerlink" href="#cmdoption-visualization-extname" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the extension used</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-column">
-<code class="sig-name descname">--column</code><code class="sig-prename descclassname"> COLUMN</code><code class="sig-prename descclassname">, </code><code class="sig-name descname">-c</code><code class="sig-prename descclassname"> COLUMN</code><a class="headerlink" href="#cmdoption-visualization-column" title="Permalink to this definition">¶</a></dt>
+<span id="cmdoption-visualization-c"></span><code class="sig-name descname">--column</code><code class="sig-prename descclassname"> COLUMN</code><code class="sig-prename descclassname">, </code><code class="sig-name descname">-c</code><code class="sig-prename descclassname"> COLUMN</code><a class="headerlink" href="#cmdoption-visualization-column" title="Permalink to this definition">¶</a></dt>
 <dd><p>Column of the RSS on display</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-continuum-region">
 <code class="sig-name descname">--continuum-region</code><code class="sig-prename descclassname"> CONTINUUM_REGION CONTINUUM_REGION</code><a class="headerlink" href="#cmdoption-visualization-continuum-region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Region of the RSS used for continuum subtraction</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-coordinate-type">
 <code class="sig-name descname">--coordinate-type</code><code class="sig-prename descclassname"> {pixel,wcs}</code><a class="headerlink" href="#cmdoption-visualization-coordinate-type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Types of coordinates used</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-colormap">
 <code class="sig-name descname">--colormap</code><code class="sig-prename descclassname"> COLORMAP</code><a class="headerlink" href="#cmdoption-visualization-colormap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of a valid matplotlib colormap</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-plot-sky">
 <code class="sig-name descname">--plot-sky</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-plot-sky" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot SKY bundles</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-plot-nominal-config">
 <code class="sig-name descname">--plot-nominal-config</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-plot-nominal-config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Plot nominal configuration, do not use the header</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-hide-values">
 <code class="sig-name descname">--hide-values</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-hide-values" title="Permalink to this definition">¶</a></dt>
 <dd><p>Do not show values out of range</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-title">
 <code class="sig-name descname">--title</code><code class="sig-prename descclassname"> TITLE</code><a class="headerlink" href="#cmdoption-visualization-title" title="Permalink to this definition">¶</a></dt>
 <dd><p>Title of the plot</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-label">
 <code class="sig-name descname">--label</code><code class="sig-prename descclassname"> LABEL</code><a class="headerlink" href="#cmdoption-visualization-label" title="Permalink to this definition">¶</a></dt>
 <dd><p>Legend of the colorbar</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-hex-size">
 <code class="sig-name descname">--hex-size</code><code class="sig-prename descclassname"> HEX_SIZE</code><a class="headerlink" href="#cmdoption-visualization-hex-size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Size of the hexagons (default is 0.443)</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-hex-rel-size">
 <code class="sig-name descname">--hex-rel-size</code><code class="sig-prename descclassname"> HEX_REL_SIZE</code><a class="headerlink" href="#cmdoption-visualization-hex-rel-size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Scale the size of hexagons by a factor</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-min-cut">
 <code class="sig-name descname">--min-cut</code><code class="sig-prename descclassname"> MIN_CUT</code><a class="headerlink" href="#cmdoption-visualization-min-cut" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inferior cut level</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-max-cut">
 <code class="sig-name descname">--max-cut</code><code class="sig-prename descclassname"> MAX_CUT</code><a class="headerlink" href="#cmdoption-visualization-max-cut" title="Permalink to this definition">¶</a></dt>
 <dd><p>Superior cut level</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-percent">
 <code class="sig-name descname">--percent</code><code class="sig-prename descclassname"> PERCENT</code><a class="headerlink" href="#cmdoption-visualization-percent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Compute cuts using percentiles</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-stretch">
 <code class="sig-name descname">--stretch</code><code class="sig-prename descclassname"> {linear,sqrt,power,log,asinh}</code><a class="headerlink" href="#cmdoption-visualization-stretch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the strech method used for display</p>
 </dd></dl>
 
 <p>contouring:</p>
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-pixel-size">
 <code class="sig-name descname">--contour-pixel-size</code><code class="sig-prename descclassname"> CONTOUR_PIXEL_SIZE</code><a class="headerlink" href="#cmdoption-visualization-contour-pixel-size" title="Permalink to this definition">¶</a></dt>
 <dd><p>Pixel size in arc seconds for image reconstruction</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-levels">
 <code class="sig-name descname">--contour-levels</code><code class="sig-prename descclassname"> CONTOUR_LEVELS</code><a class="headerlink" href="#cmdoption-visualization-contour-levels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Contour levels</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour">
 <code class="sig-name descname">--contour</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-contour" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw contours</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-image">
 <code class="sig-name descname">--contour-image</code><code class="sig-prename descclassname"> CONTOUR_IMAGE</code><a class="headerlink" href="#cmdoption-visualization-contour-image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Image for computing contours</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-image-column">
 <code class="sig-name descname">--contour-image-column</code><code class="sig-prename descclassname"> CONTOUR_IMAGE_COLUMN</code><a class="headerlink" href="#cmdoption-visualization-contour-image-column" title="Permalink to this definition">¶</a></dt>
 <dd><p>Column of image used for contouring</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-image-save">
 <code class="sig-name descname">--contour-image-save</code><code class="sig-prename descclassname"> CONTOUR_IMAGE_SAVE</code><a class="headerlink" href="#cmdoption-visualization-contour-image-save" title="Permalink to this definition">¶</a></dt>
 <dd><p>Save image used for contouring</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-image-region">
 <code class="sig-name descname">--contour-image-region</code><code class="sig-prename descclassname"> CONTOUR_IMAGE_REGION</code><a class="headerlink" href="#cmdoption-visualization-contour-image-region" title="Permalink to this definition">¶</a></dt>
 <dd><p>Region of the image used for contouring</p>
 </dd></dl>
 
-<dl class="option">
+<dl class="std option">
 <dt id="cmdoption-visualization-contour-is-density">
 <code class="sig-name descname">--contour-is-density</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-contour-is-density" title="Permalink to this definition">¶</a></dt>
 <dd><p>The data is a magnitude that does not require scaling</p>
 </dd></dl>
 
 <p>positional arguments:</p>
-<dl class="option">
-<dt id="cmdoption-visualization-arg-rss">
-<code class="sig-name descname">RSS</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-arg-rss" title="Permalink to this definition">¶</a></dt>
+<dl class="std option">
+<dt id="cmdoption-visualization-arg-RSS">
+<code class="sig-name descname">RSS</code><code class="sig-prename descclassname"></code><a class="headerlink" href="#cmdoption-visualization-arg-RSS" title="Permalink to this definition">¶</a></dt>
 <dd><p>RSS images to process</p>
 </dd></dl>
 
@@ -287,7 +288,7 @@ specific emission line analyzed with that code would be:</p>
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -304,7 +305,7 @@ specific emission line analyzed with that code would be:</p>
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
