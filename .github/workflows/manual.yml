@@ -49,4 +49,10 @@ jobs:
     
       - name: Display structure of downloaded files
         run: ls -R
+      - name: Commit to branch
+        run: |
+          git config --global user.name 'Sergio Pascual'
+          git config --global user.email 'sergiopasra@users.noreply.github.com'
+          git commit -am "Automated report"
+          git push
         
