@@ -41,7 +41,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          ref: test-branch
+          ref: gh-pages
           fetch-depth: 0
       - uses: actions/download-artifact@v2
         with:
