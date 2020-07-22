@@ -1,2 +1,0 @@
-Extract elliptical apertures
-============================

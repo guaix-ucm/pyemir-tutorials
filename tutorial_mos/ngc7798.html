@@ -1,24 +1,23 @@
 
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NGC7798 &#8212; numina-tutorials v0.22 documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
-    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script src="../../_static/jquery.js"></script>
-    <script src="../../_static/underscore.js"></script>
-    <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
-    <link rel="index" title="Index" href="../../genindex.html" />
-    <link rel="search" title="Search" href="../../search.html" />
+    <title>NGC7798 &#8212; pyemir-tutorials v1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Flatfield generation" href="../tutorial_flat/index.html" />
     <link rel="prev" title="MOS example" href="mos_example.html" />
    
-  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
   
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
@@ -54,7 +53,7 @@ same level of detail (or even mentioned at all!).</p>
 in the central region of the HII galaxy NGC7798 using the J, H and K grisms.
 <strong>The target was observed with all the EMIR slitlets aligned,
 simulating a single (pseudo) longslit.</strong></p>
-<a class="reference internal image-reference" href="../../_images/ngc7798.png"><img alt="NGC 7798" src="../../_images/ngc7798.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/ngc7798.png"><img alt="NGC 7798" src="../_images/ngc7798.png" style="width: 100%;" /></a>
 <p>Since we plan to obtained flux calibrated results, we are also going to reduce
 the spectra of the spectrophotometric standard HD209290 (HIP 108782), observed
 with the same instrumental configuration.</p>
@@ -127,7 +126,7 @@ auxiliary PyEmir script <code class="docutils literal notranslate"><span class="
 <p>12 plots are displayed, one for each raw image. The additional information
 displayed in the terminal show that the CSU configuration was the same for the
 12 images.</p>
-<a class="reference internal image-reference" href="../../_images/0001005178_csu_configuration.png"><img alt="0001005178 csu configuration" src="../../_images/0001005178_csu_configuration.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001005178_csu_configuration.png"><img alt="0001005178 csu configuration" src="../_images/0001005178_csu_configuration.png" style="width: 100%;" /></a>
 <div class="section" id="reduction-of-hd209290">
 <h2>Reduction of HD209290<a class="headerlink" href="#reduction-of-hd209290" title="Permalink to this headline">¶</a></h2>
 <p>The rectification and wavelength calibration of the images corresponding to the
@@ -191,7 +190,7 @@ and another with negavite counts) in each case:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 grismJ_hd209290_A-B.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/ds9_grismJ_hd209290_A-B.png"><img alt="ds9 grismJ A-B" src="../../_images/ds9_grismJ_hd209290_A-B.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/ds9_grismJ_hd209290_A-B.png"><img alt="ds9 grismJ A-B" src="../_images/ds9_grismJ_hd209290_A-B.png" style="width: 100%;" /></a>
 <p><strong>From this point, we continue the reduction of the spectrophotometric standard
 using Python (within a Jupyter notebook).</strong>
 See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduction_hd209290.html">final reduction of HD209290</a>.</p>
@@ -259,11 +258,11 @@ and another with negavite counts) in each case:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 grismJ_ngc7798_A-B.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../../_images/ds9_grismJ_ngc7798_A-B.png"><img alt="ds9 grismJ A-B" src="../../_images/ds9_grismJ_ngc7798_A-B.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/ds9_grismJ_ngc7798_A-B.png"><img alt="ds9 grismJ A-B" src="../_images/ds9_grismJ_ngc7798_A-B.png" style="width: 100%;" /></a>
 <p><strong>From this point, we continue the reduction of the galaxy spectra using
 Python (within a Jupyter notebook).</strong>
 See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduction_ngc7798.html">final reduction of NGC7798</a>.</p>
-<a class="reference internal image-reference" href="../../_images/plot_JHK_ngc7798.png"><img alt="ds9 grismJ A-B" src="../../_images/plot_JHK_ngc7798.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/plot_JHK_ngc7798.png"><img alt="ds9 grismJ A-B" src="../_images/plot_JHK_ngc7798.png" style="width: 100%;" /></a>
 </div>
 </div>
 
@@ -289,7 +288,7 @@ See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduc
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">numina-tutorials</a></h1>
+<h1 class="logo"><a href="../index.html">pyemir-tutorials</a></h1>
 
 
 
@@ -300,25 +299,19 @@ See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduc
 
 <h3>Navigation</h3>
 <ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../index.html">EMIR tutorials</a><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../preliminaries/preliminaries.html">Preliminaries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
-<li class="toctree-l2 current"><a class="reference internal" href="index.html">Spectroscopic mode tutorial: MOS data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="../../megara/index.html">MEGARA tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../preliminaries/preliminaries.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Spectroscopic mode tutorial: MOS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorial_flat/index.html">Flatfield generation</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
-  <li><a href="../../index.html">Documentation overview</a><ul>
-  <li><a href="../index.html">EMIR tutorials</a><ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="index.html">Spectroscopic mode tutorial: MOS data</a><ul>
       <li>Previous: <a href="mos_example.html" title="previous chapter">MOS example</a></li>
       <li>Next: <a href="../tutorial_flat/index.html" title="next chapter">Flatfield generation</a></li>
-  </ul></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -326,13 +319,13 @@ See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduc
 <div id="searchbox" style="display: none" role="search">
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
-    <form class="search" action="../../search.html" method="get">
+    <form class="search" action="../search.html" method="get">
       <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
 
 
 
@@ -349,11 +342,11 @@ See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduc
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
-      <a href="../../_sources/emir/tutorial_mos/ngc7798.rst.txt"
+      <a href="../_sources/tutorial_mos/ngc7798.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

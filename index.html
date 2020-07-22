@@ -1,21 +1,20 @@
 
 <!DOCTYPE html>
 
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EMIR and MEGARA tutorials &#8212; numina-tutorials v0.22 documentation</title>
+    <title>EMIR tutorials &#8212; pyemir-tutorials v1.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="EMIR tutorials" href="emir/index.html" />
+    <link rel="next" title="Preliminaries" href="preliminaries/preliminaries.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -32,38 +31,31 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="emir-and-megara-tutorials">
-<h1>EMIR and MEGARA tutorials<a class="headerlink" href="#emir-and-megara-tutorials" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="emir-tutorials">
+<h1>EMIR tutorials<a class="headerlink" href="#emir-tutorials" title="Permalink to this headline">¶</a></h1>
 <p>Welcome. This is page shows tutorials of the data reduction pipelines (DRP)
-of the instruments <a class="reference external" href="http://www.gtc.iac.es/instruments/emir">EMIR</a> and <a class="reference external" href="http://www.gtc.iac.es/instruments/megara">MEGARA</a> at <a class="reference external" href="http://www.gtc.iac.es">GTC</a>.</p>
+of the instrument <a class="reference external" href="http://www.gtc.iac.es/instruments/emir">EMIR</a> at <a class="reference external" href="http://www.gtc.iac.es">GTC</a>.</p>
 <p>EMIR is a <strong>wide-field, near-infrared, multi-object spectrograph</strong>
 installed at the Nasmyth focus of GTC. Its MOS mode allows observers to obtain
 <strong>tens of intermediate-resolution spectra simultaneously</strong> in the nIR bands <em>Y,
 J, H</em> and <em>K</em>. EMIR is designed to address the science goals of the proposing
 team and of the Spanish community at large.</p>
-<p>MEGARA is a <strong>optical integral field unit and multi-object spectrograph</strong>.
-It offers the Large Compact Bundle (LCB) mode, an
-Integral Field Unit (IFU) covering 12.5” x 11.3” on the sky with a spaxel
-size of 0.62” and a Multi-Object Spectroscopy (MOS) mode that allows
-observing 100 objects in a region of 3.5’ x 3.5’ around the LCB IFU.
-Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spectral resolutions (R~6004, 11000 and 18700).</p>
-<p>Maintainers: Sergio Pascual (<a class="reference external" href="mailto:sergiopr&#37;&#52;&#48;fis&#46;ucm&#46;es">sergiopr<span>&#64;</span>fis<span>&#46;</span>ucm<span>&#46;</span>es</a>), and Nicolás Cardiel
-(<a class="reference external" href="mailto:cardiel&#37;&#52;&#48;ucm&#46;es">cardiel<span>&#64;</span>ucm<span>&#46;</span>es</a>)</p>
+<p>Documentation maintainers: Nicolás Cardiel (<a class="reference external" href="mailto:cardiel&#37;&#52;&#48;ucm&#46;es">cardiel<span>&#64;</span>ucm<span>&#46;</span>es</a>) and Sergio Pascual (<a class="reference external" href="mailto:sergiopr&#37;&#52;&#48;fis&#46;ucm&#46;es">sergiopr<span>&#64;</span>fis<span>&#46;</span>ucm<span>&#46;</span>es</a>)</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you are reducing EMIR data obtained with read-out mode RAMP, please,
+have a look to the instructions provided at <a class="reference external" href="http://research.iac.es/proyecto/emir/pages/observing-with-emir/observing-utilities/checking-ramp-raw-data.php">Checking the RAMPs</a>.</p>
+<p>It is very easy to check the employed read-out mode using the auxiliary
+script <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code> (provided in the astropy package). For example:</p>
+<p><code class="docutils literal notranslate"><span class="pre">$</span> <span class="pre">fitsheader</span> <span class="pre">*.fits</span> <span class="pre">-k</span> <span class="pre">readmode</span> <span class="pre">-f</span></code></p>
+</div>
 <p>Document index:</p>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="emir/index.html">EMIR tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="emir/preliminaries/preliminaries.html">Preliminaries</a></li>
-<li class="toctree-l2"><a class="reference internal" href="emir/tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
-<li class="toctree-l2"><a class="reference internal" href="emir/tutorial_mos/index.html">Spectroscopic mode tutorial: MOS data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="emir/tutorial_flat/index.html">Flatfield generation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="megara/index.html">MEGARA tutorials</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="megara/data_reduction/index.html">Data reduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="megara/megara_tools/index.html">MEGARA tools</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="preliminaries/preliminaries.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_mos/index.html">Spectroscopic mode tutorial: MOS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_flat/index.html">Flatfield generation</a></li>
 </ul>
 </div>
 </div>
@@ -75,7 +67,7 @@ Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spe
   <nav id="rellinks">
     <ul>
         <li>
-          <a href="emir/index.html" title="Next document">EMIR tutorials</a>
+          <a href="preliminaries/preliminaries.html" title="Next document">Preliminaries</a>
           &rarr;
         </li>
     </ul>
@@ -86,7 +78,7 @@ Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spe
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="#">numina-tutorials</a></h1>
+<h1 class="logo"><a href="#">pyemir-tutorials</a></h1>
 
 
 
@@ -97,15 +89,17 @@ Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spe
 
 <h3>Navigation</h3>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="emir/index.html">EMIR tutorials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="megara/index.html">MEGARA tutorials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="preliminaries/preliminaries.html">Preliminaries</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_imaging/index.html">Imaging mode tutorial: combination of dithered exposures</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_mos/index.html">Spectroscopic mode tutorial: MOS data</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorial_flat/index.html">Flatfield generation</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="emir/index.html" title="next chapter">EMIR tutorials</a></li>
+      <li>Next: <a href="preliminaries/preliminaries.html" title="next chapter">Preliminaries</a></li>
   </ul></li>
 </ul>
 </div>
@@ -118,7 +112,7 @@ Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spe
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script type="text/javascript">$('#searchbox').show(0);</script>
 
 
 
@@ -135,7 +129,7 @@ Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spe
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.1.2</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
