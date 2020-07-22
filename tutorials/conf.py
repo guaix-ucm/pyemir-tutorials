@@ -17,12 +17,12 @@
 
 # -- Project information -----------------------------------------------------
 
-project = 'numina-tutorials'
+project = 'pyemir-tutorials'
 copyright = '2018-2020, Universidad Complutense de Madrid'
 author = 'Nicolás Cardiel'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.22'
+release = 'v1.0'
 
 
 # -- General configuration ---------------------------------------------------

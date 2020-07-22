@@ -1,8 +1,8 @@
-EMIR and MEGARA tutorials
-=========================
+EMIR tutorials
+==============
 
 Welcome. This is page shows tutorials of the data reduction pipelines (DRP) 
-of the instruments EMIR_ and MEGARA_ at GTC_.
+of the instrument EMIR_ at GTC_.
 
 EMIR is a **wide-field, near-infrared, multi-object spectrograph** 
 installed at the Nasmyth focus of GTC. Its MOS mode allows observers to obtain
@@ -10,16 +10,18 @@ installed at the Nasmyth focus of GTC. Its MOS mode allows observers to obtain
 J, H* and *K*. EMIR is designed to address the science goals of the proposing
 team and of the Spanish community at large.
 
-MEGARA is a **optical integral field unit and multi-object spectrograph**.
-It offers the Large Compact Bundle (LCB) mode, an 
-Integral Field Unit (IFU) covering 12.5” x 11.3” on the sky with a spaxel 
-size of 0.62” and a Multi-Object Spectroscopy (MOS) mode that allows 
-observing 100 objects in a region of 3.5’ x 3.5’ around the LCB IFU. 
-Both the LCB IFU and MOS capabilities of MEGARA provide intermediate-to-high spectral resolutions (R~6004, 11000 and 18700).
+Documentation maintainers: Nicolás Cardiel (cardiel@ucm.es) and Sergio Pascual (sergiopr@fis.ucm.es)
 
+.. warning::
 
-Maintainers: Sergio Pascual (sergiopr@fis.ucm.es), and Nicolás Cardiel
-(cardiel@ucm.es)
+   If you are reducing EMIR data obtained with read-out mode RAMP, please,
+   have a look to the instructions provided at `Checking the RAMPs
+   <http://research.iac.es/proyecto/emir/pages/observing-with-emir/observing-utilities/checking-ramp-raw-data.php>`_.
+
+   It is very easy to check the employed read-out mode using the auxiliary
+   script ``fitsheader`` (provided in the astropy package). For example:
+
+   ``$ fitsheader *.fits -k readmode -f``
 
 
 .. only:: html
@@ -27,11 +29,12 @@ Maintainers: Sergio Pascual (sergiopr@fis.ucm.es), and Nicolás Cardiel
    Document index:
 
 .. toctree::
-   :maxdepth: 2
-   
-   emir/index
-   megara/index
+   :maxdepth: 1
 
+   preliminaries/preliminaries
+   tutorial_imaging/index
+   tutorial_mos/index
+   tutorial_flat/index
+   
 .. _GTC: http://www.gtc.iac.es
 .. _EMIR: http://www.gtc.iac.es/instruments/emir
-.. _MEGARA: http://www.gtc.iac.es/instruments/megara
