@@ -1,0 +1,63 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Build docs and deploy
+
+# Controls when the action will run. Triggers the workflow on push or pull request
+# events but only for the master branch
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build_sphinx:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+      - uses: actions/setup-python@v2
+        name: Install Python
+        with:
+          python-version: '3.7'
+          
+      - name: Cache pip
+        # Depending on the size of dependencies, caching may actually be slower
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+            ${{ runner.os }}-
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      
+      - name: Build docs
+        run: |
+          make html
+          
+      - uses: actions/upload-artifact@v2
+        with:
+          name: pyemir-tutorials-docs
+          path: build/html
+  deploy_docs:
+    needs: [build_sphinx]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+      - uses: actions/download-artifact@v2
+        with:
+          name: pyemir-tutorials-docs
+    
+      - name: Commit to branch
+        run: |
+          git config --global user.name 'Sergio Pascual'
+          git config --global user.email 'sergiopasra@users.noreply.github.com'
+          git commit -am "Automated deployment" || true
+          git push
