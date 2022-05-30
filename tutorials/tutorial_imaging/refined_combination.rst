@@ -66,6 +66,7 @@ again with this new observation result file:
    (emir) $ numina run dithered_v1.yaml --link-files -r control.yaml
 
 .. generada con --geometry 0,0,850,1200
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v1.png -trim combined_v1_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[01]_trimmed.png comparison_v1.gif
 
@@ -298,8 +299,8 @@ It is useful to subtract the new result from the one derived previously:
 
 ::
 
-   (emir) $ numina-imath obsid_combined_v1_results/result_image.fits - \
-      obsid_combined_v4_results/result_image.fits difference_v4.fits
+   (emir) $ numina-imath obsid_combined_v1_results/reduced_image.fits - \
+      obsid_combined_v4_results/reduced_image.fits difference_v4.fits
 
 .. generada con --geometry 0,0,850,1200
 .. convert combined_v4.png -trim combined_v4_trimmed.png
@@ -382,7 +383,7 @@ It is also possible to examine the sky-subtracted individual images (files
 ending in ``_rfs_i?.fits`` within the ``work`` subdirectories):
 
 .. cd obsid_combined_v4_work
-.. numina-ximshow result_image_*_rfs_i1.fits --z1z2 [-200,300] --pdf skysub_v4.pdf --figuredict "{'figsize':(8, 10), 'dpi':100}"
+.. numina-ximshow reduced_image_*_rfs_i1.fits --z1z2 [-200,300] --pdf skysub_v4.pdf --figuredict "{'figsize':(8, 10), 'dpi':100}"
 .. convert -delay 50 -loop 0 skysub_v4.pdf skysub_v4.gif
 .. convert skysub_v4.gif skysub_v4-%d.png
 
