@@ -415,13 +415,13 @@ recipes. In particular, for the first block:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree obsid_0001877553_results/
 obsid_0001877553_results/
 ├── processing.log
+├── reduced_image.fits
 ├── result.json
-├── result_image.fits
 └── task.json
 </pre></div>
 </div>
 <p>Note that although all the reduced images receive the same name in all these
-<code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectories (for this reduction recipe <code class="docutils literal notranslate"><span class="pre">result_image.fits</span></code>),
+<code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectories (for this reduction recipe <code class="docutils literal notranslate"><span class="pre">reduced_image.fits</span></code>),
 there is no confusion because the subdirectory name contains a unique label for
 each block in the observation result file.</p>
 </section>
@@ -616,18 +616,18 @@ execution of the combination recipe (see line number 99 above).</p>
 </div>
 <p>The previous execution also generates two auxiliary subdirectories <code class="docutils literal notranslate"><span class="pre">work</span></code> and
 <code class="docutils literal notranslate"><span class="pre">results</span></code>. The resulting combined image can be found in
-<code class="docutils literal notranslate"><span class="pre">obsid_combined_v0_result/result_image.fits</span></code>:</p>
+<code class="docutils literal notranslate"><span class="pre">obsid_combined_v0_result/reduced_image.fits</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_combined_v0_results/
 obsid_combined_v0_results/
 ├── processing.log
+├── reduced_image.fits
 ├── result.json
-├── result_image.fits
 └── task.json
 </pre></div>
 </div>
 <p>You can display the image using <code class="docutils literal notranslate"><span class="pre">ds9</span></code>, using <code class="docutils literal notranslate"><span class="pre">numina-ximshow</span></code> (the display
 tool shipped with numina based on matplotlib), or with any other tool:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_combined_v0_results/result_image.fits
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
 </pre></div>
 </div>
 <a class="reference internal image-reference" href="../_images/combined_v0_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_trimmed.png" style="width: 100%;" /></a>

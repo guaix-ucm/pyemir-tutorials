@@ -324,12 +324,12 @@ recipes. In particular, for the first block:
    $ tree obsid_0001877553_results/
    obsid_0001877553_results/
    ├── processing.log
+   ├── reduced_image.fits
    ├── result.json
-   ├── result_image.fits
    └── task.json
    
 Note that although all the reduced images receive the same name in all these
-``results`` subdirectories (for this reduction recipe ``result_image.fits``),
+``results`` subdirectories (for this reduction recipe ``reduced_image.fits``),
 there is no confusion because the subdirectory name contains a unique label for
 each block in the observation result file.
 
@@ -420,15 +420,15 @@ The combination of the images is finally performed using numina:
 
 The previous execution also generates two auxiliary subdirectories ``work`` and
 ``results``. The resulting combined image can be found in
-``obsid_combined_v0_result/result_image.fits``:
+``obsid_combined_v0_result/reduced_image.fits``:
 
 ::
 
    (emir) $ tree obsid_combined_v0_results/
    obsid_combined_v0_results/
    ├── processing.log
+   ├── reduced_image.fits
    ├── result.json
-   ├── result_image.fits
    └── task.json
 
 You can display the image using ``ds9``, using ``numina-ximshow`` (the display
@@ -436,10 +436,11 @@ tool shipped with numina based on matplotlib), or with any other tool:
 
 ::
 
-   (emir) $ numina-ximshow obsid_combined_v0_results/result_image.fits
+   (emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
 
 
-.. generada con --geometry 0,0,850,1200
+.. generada con --geometry 0,0,850,1200  
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert image.png -trim image_trimmed.png
 .. image:: combined_v0_trimmed.png
    :width: 100%
@@ -453,6 +454,7 @@ information, are not suficiently precise. The zoomed region shown in the next
 image reveals that the problem is not negligible:
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300
+.. (--geometry 0,0,576,800 en el MacBook Pro)
 .. convert image.png -trim image_trimmed.png
 .. image:: combined_v0_zoom_trimmed.png
    :width: 100%
