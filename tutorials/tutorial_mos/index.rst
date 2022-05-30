@@ -9,8 +9,9 @@ This tutorial provides an easy introduction to the use of PyEmir (via Numina),
 focusing on the rectification and wavelength calibration of EMIR spectroscopic
 images.
 
-For detailed documentation concerning the installation of PyEmir, see the
-:ref:`pyemir_installation` guide.
+For detailed documentation concerning the installation of PyEmir, see `PyEmir
+Installation
+<https://pyemir.readthedocs.io/en/latest/installation/index.html>`_.
 
 .. image:: pyemir_mos_scheme.png
    :width: 100% 
