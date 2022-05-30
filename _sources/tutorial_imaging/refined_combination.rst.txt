@@ -167,9 +167,6 @@ Execute numina to obtain the new version of the combined image:
 
    |pic_combined_v0_trimmed| |pic_combined_v2_trimmed|
 
-   .. |pic_combined_v0_trimmed| image:: combined_v0_trimmed.png
-      :width: 48%
-
    .. |pic_combined_v2_trimmed| image:: combined_v2_trimmed.png
       :width: 48%
 
@@ -186,9 +183,6 @@ Execute numina to obtain the new version of the combined image:
 .. only:: latex
 
    |pic_combined_v0_zoom_trimmed| |pic_combined_v2_zoom_trimmed|
-
-   .. |pic_combined_v0_zoom_trimmed| image:: combined_v0_zoom_trimmed.png
-      :width: 48%
 
    .. |pic_combined_v2_zoom_trimmed| image:: combined_v2_zoom_trimmed.png
       :width: 48%
@@ -238,9 +232,6 @@ the same result.
 
    |pic_combined_v1_trimmed| |pic_combined_v3_trimmed|
 
-   .. |pic_combined_v1_trimmed| image:: combined_v1_trimmed.png
-      :width: 48%
-
    .. |pic_combined_v3_trimmed| image:: combined_v3_trimmed.png
       :width: 48%
 
@@ -249,6 +240,7 @@ the same result.
 .. convert -delay 100 -loop 0 combined_v[13]_zoom_trimmed.png comparison_v3_zoom.gif
 
 .. only:: html
+
    .. image:: comparison_v3_zoom.gif
       :width: 100%
       :alt: combined image, version 3 compared with version 1
@@ -256,9 +248,6 @@ the same result.
 .. only:: latex
 
    |pic_combined_v1_zoom_trimmed| |pic_combined_v3_zoom_trimmed|
-
-   .. |pic_combined_v1_zoom_trimmed| image:: combined_v1_zoom_trimmed.png
-      :width: 48%
 
    .. |pic_combined_v3_zoom_trimmed| image:: combined_v3_zoom_trimmed.png
       :width: 48%
@@ -327,9 +316,6 @@ It is useful to subtract the new result from the one derived previously:
 
    |pic_combined_v1_trimmed| |pic_combined_v4_trimmed|
 
-   .. |pic_combined_v1_trimmed| image:: combined_v1_trimmed.png
-      :width: 48%
-
    .. |pic_combined_v4_trimmed| image:: combined_v4_trimmed.png
       :width: 48%
 
@@ -351,9 +337,6 @@ It is useful to subtract the new result from the one derived previously:
 .. only:: latex
 
    |pic_combined_v1_zoom_trimmed| |pic_combined_v4_zoom_trimmed|
-
-   .. |pic_combined_v1_zoom_trimmed| image:: combined_v1_zoom_trimmed.png
-      :width: 48%
 
    .. |pic_combined_v4_zoom_trimmed| image:: combined_v4_zoom_trimmed.png
       :width: 48%
@@ -500,9 +483,6 @@ objects) and a smooth spline surface is fitted to that collection of points.
 .. only:: latex
 
    |pic_combined_v4_trimmed| |pic_combined_v5_trimmed|
-
-   .. |pic_combined_v4_trimmed| image:: combined_v4_trimmed.png
-      :width: 48%
 
    .. |pic_combined_v5_trimmed| image:: combined_v5_trimmed.png
       :width: 48%

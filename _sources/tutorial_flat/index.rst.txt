@@ -17,8 +17,9 @@ Flatfield generation
 This example provides an easy introduction to the generation of flatfield
 images with PyEmir (via Numina),
 
-For detailed documentation concerning the installation of PyEmir, see the
-:ref:`pyemir_installation` guide.
+For detailed documentation concerning the installation of PyEmir, see `PyEmir
+Installation
+<https://pyemir.readthedocs.io/en/latest/installation/index.html>`_.
 
 Pixel-to-pixel variation
 ========================

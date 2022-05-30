@@ -715,10 +715,10 @@ expected location of the OH lines. This image is stored in the
 
    |pic_comparison_synthetic_1| |pic_comparison_synthetic_2|
 
-   .. |pic_comparison_rectwv_1| image:: images/0002004226_synthetic_comparison_1.png
+   .. |pic_comparison_synthetic_1| image:: images/0002004226_synthetic_comparison_1.png
       :width: 48%
 
-   .. |pic_comparison_rectwv_2| image:: images/0002004226_synthetic_comparison_2.png
+   .. |pic_comparison_synthetic_2| image:: images/0002004226_synthetic_comparison_2.png
       :width: 48%
 
 The automatic procedure has determined the following offset values:

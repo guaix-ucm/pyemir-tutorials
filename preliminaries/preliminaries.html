@@ -1,16 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Preliminaries &#8212; pyemir-tutorials v1.0 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,8 +34,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="preliminaries">
-<span id="pyemir-preliminaries"></span><h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this headline">¶</a></h1>
+  <section id="preliminaries">
+<span id="pyemir-preliminaries"></span><h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
@@ -42,8 +44,8 @@ shell</strong>.</p>
 PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
 is the case.</p>
 </div>
-<div class="section" id="running-pyemir-recipes-from-numina">
-<h2>Running PyEmir recipes from Numina<a class="headerlink" href="#running-pyemir-recipes-from-numina" title="Permalink to this headline">¶</a></h2>
+<section id="running-pyemir-recipes-from-numina">
+<h2>Running PyEmir recipes from Numina<a class="headerlink" href="#running-pyemir-recipes-from-numina" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines. In order to execute
 PyEmir recipes you should use execute something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
@@ -54,9 +56,9 @@ format, and <code class="docutils literal notranslate"><span class="pre">&lt;req
 format.</p>
 <p>Note: YAML is a human-readable data serialization language (for details, see
 <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax desciption</a>)</p>
-</div>
-<div class="section" id="initial-file-tree">
-<span id="id1"></span><h2>Initial file tree<a class="headerlink" href="#initial-file-tree" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="initial-file-tree">
+<span id="id1"></span><h2>Initial file tree<a class="headerlink" href="#initial-file-tree" title="Permalink to this heading">¶</a></h2>
 <p>Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.</p>
@@ -119,9 +121,9 @@ usually requires de subtraction of consecutive images).</p></li>
 in the development of the reduction recipes to check the effect of the
 pixel-to-pixel correction; you can ignore it).</p></li>
 </ul>
-</div>
-<div class="section" id="installing-ds9">
-<h2>Installing ds9<a class="headerlink" href="#installing-ds9" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="installing-ds9">
+<h2>Installing ds9<a class="headerlink" href="#installing-ds9" title="Permalink to this heading">¶</a></h2>
 <p>Probably you already have ds9 installed in your system. If this is not the
 case, you can use conda to do it!</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ conda install ds9
@@ -130,9 +132,9 @@ case, you can use conda to do it!</p>
 <p>Note that we have activated the <code class="docutils literal notranslate"><span class="pre">emir</span></code> environment prior to the installation
 of the new package. That means that this particular ds9 installation will be
 exclusively available from within that environment.</p>
-</div>
-<div class="section" id="use-of-interactive-matplotlib-plots">
-<h2>Use of interactive matplotlib plots<a class="headerlink" href="#use-of-interactive-matplotlib-plots" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="use-of-interactive-matplotlib-plots">
+<h2>Use of interactive matplotlib plots<a class="headerlink" href="#use-of-interactive-matplotlib-plots" title="Permalink to this heading">¶</a></h2>
 <p>The interactive plots created by some Numina and PyEmir scripts have been
 tested using the Qt5Agg backend of matplotlib. Note that this will require the
 <code class="docutils literal notranslate"><span class="pre">pyqt</span></code> package to be installed in your environment (see for example <a class="reference external" href="https://anaconda.org/anaconda/pyqt">the
@@ -150,8 +152,8 @@ some keystrokes to perform useful plot actions, like zooming, panning, setting
 background and foreground levels, etc. Note that some of these actions are
 already available in the navigation toolbar that appears at the top of the
 graphical windows.</p>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -210,12 +212,12 @@ graphical windows.</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -232,7 +234,7 @@ graphical windows.</p>
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

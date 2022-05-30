@@ -1,16 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>NGC7798 &#8212; pyemir-tutorials v1.0 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,8 +34,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="ngc7798">
-<span id="id1"></span><h1>NGC7798<a class="headerlink" href="#ngc7798" title="Permalink to this headline">¶</a></h1>
+  <section id="ngc7798">
+<span id="id1"></span><h1>NGC7798<a class="headerlink" href="#ngc7798" title="Permalink to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
@@ -127,41 +129,28 @@ auxiliary PyEmir script <code class="docutils literal notranslate"><span class="
 displayed in the terminal show that the CSU configuration was the same for the
 12 images.</p>
 <a class="reference internal image-reference" href="../_images/0001005178_csu_configuration.png"><img alt="0001005178 csu configuration" src="../_images/0001005178_csu_configuration.png" style="width: 100%;" /></a>
-<div class="section" id="reduction-of-hd209290">
-<h2>Reduction of HD209290<a class="headerlink" href="#reduction-of-hd209290" title="Permalink to this headline">¶</a></h2>
+<section id="reduction-of-hd209290">
+<h2>Reduction of HD209290<a class="headerlink" href="#reduction-of-hd209290" title="Permalink to this heading">¶</a></h2>
 <p>The rectification and wavelength calibration of the images corresponding to the
 spectrophotometric star is carried using the empirical model (reduction recipe
 <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>). The first lines of the associated observation
 result <code class="docutils literal notranslate"><span class="pre">0_stare_hd209290.yaml</span></code> are:</p>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001005263</span>
-<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
-<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
-<span class="n">frames</span><span class="p">:</span>
- <span class="o">-</span> <span class="mi">0001005263</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
-<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
-<span class="o">---</span>
-<span class="nb">id</span><span class="p">:</span> <span class="n">_0001005266</span>
-<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
-<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
-<span class="n">frames</span><span class="p">:</span>
- <span class="o">-</span> <span class="mi">0001005266</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
-<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
-<span class="o">---</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001005263</span>
+<span class="linenos"> 2</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos"> 3</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="linenos"> 4</span><span class="n">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span> <span class="o">-</span> <span class="mi">0001005263</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos"> 6</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos"> 7</span><span class="o">---</span>
+<span class="linenos"> 8</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001005266</span>
+<span class="linenos"> 9</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">10</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="linenos">11</span><span class="n">frames</span><span class="p">:</span>
+<span class="linenos">12</span> <span class="o">-</span> <span class="mi">0001005266</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos">13</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">14</span><span class="o">---</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>There is a block for each single raw image.</p>
 <p>Execute the reduction recipe:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_stare_hd209290.yaml --link-files -r control.yaml
@@ -194,42 +183,29 @@ and another with negavite counts) in each case:</p>
 <p><strong>From this point, we continue the reduction of the spectrophotometric standard
 using Python (within a Jupyter notebook).</strong>
 See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduction_hd209290.html">final reduction of HD209290</a>.</p>
-</div>
-<div class="section" id="reduction-of-ngc7798">
-<h2>Reduction of NGC7798<a class="headerlink" href="#reduction-of-ngc7798" title="Permalink to this headline">¶</a></h2>
+</section>
+<section id="reduction-of-ngc7798">
+<h2>Reduction of NGC7798<a class="headerlink" href="#reduction-of-ngc7798" title="Permalink to this heading">¶</a></h2>
 <p>The rectification and wavelength calibration of the images corresponding to the
 central region of NGC7798 star is carried using the empirical model (reduction recipe
 <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>). The first lines of the associated observation
 result <code class="docutils literal notranslate"><span class="pre">0_stare_ngc7798.yaml</span></code> are:</p>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001005178</span>
-<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
-<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
-<span class="n">frames</span><span class="p">:</span>
- <span class="o">-</span> <span class="mi">0001005178</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
-<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
-<span class="o">---</span>
-<span class="nb">id</span><span class="p">:</span> <span class="n">_0001005189</span>
-<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
-<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
-<span class="n">frames</span><span class="p">:</span>
- <span class="o">-</span> <span class="mi">0001005189</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
-<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
-<span class="o">---</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001005178</span>
+<span class="linenos"> 2</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos"> 3</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="linenos"> 4</span><span class="n">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span> <span class="o">-</span> <span class="mi">0001005178</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos"> 6</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos"> 7</span><span class="o">---</span>
+<span class="linenos"> 8</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001005189</span>
+<span class="linenos"> 9</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">10</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="linenos">11</span><span class="n">frames</span><span class="p">:</span>
+<span class="linenos">12</span> <span class="o">-</span> <span class="mi">0001005189</span><span class="o">-</span><span class="mi">20160727</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos">13</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">14</span><span class="o">---</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>There is a block for each single raw image.</p>
 <p>Execute the reduction recipe:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_stare_ngc7798.yaml --link-files -r control.yaml
@@ -263,8 +239,8 @@ and another with negavite counts) in each case:</p>
 Python (within a Jupyter notebook).</strong>
 See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduction_ngc7798.html">final reduction of NGC7798</a>.</p>
 <a class="reference internal image-reference" href="../_images/plot_JHK_ngc7798.png"><img alt="ds9 grismJ A-B" src="../_images/plot_JHK_ngc7798.png" style="width: 100%;" /></a>
-</div>
-</div>
+</section>
+</section>
 
 
           </div>
@@ -325,12 +301,12 @@ See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduc
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -347,7 +323,7 @@ See <a class="reference external" href="http://nartex.fis.ucm.es/~ncl/emir/reduc
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

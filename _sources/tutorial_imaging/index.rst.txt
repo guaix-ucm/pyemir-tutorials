@@ -17,8 +17,9 @@ Imaging mode tutorial: combination of dithered exposures
 This tutorial provides an easy introduction to the use of PyEmir (via Numina),
 focusing on the combination of dithered exposures.
 
-For detailed documentation concerning the installation of PyEmir, see the
-:ref:`pyemir_installation` guide.
+For detailed documentation concerning the installation of PyEmir, see `PyEmir
+Installation
+<https://pyemir.readthedocs.io/en/latest/installation/index.html>`_.
 
 We strongly recommend to follow the different sections of this tutorial in the
 provided order, starting with the simplest combination method, before

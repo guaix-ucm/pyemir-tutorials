@@ -1,16 +1,18 @@
 
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
     <title>Simple example: arc exposure &#8212; pyemir-tutorials v1.0 documentation</title>
-    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
-    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css" />
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/jquery.js"></script>
     <script src="../_static/underscore.js"></script>
+    <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="../_static/doctools.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -32,8 +34,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="simple-example-arc-exposure">
-<span id="simple-example"></span><h1>Simple example: arc exposure<a class="headerlink" href="#simple-example-arc-exposure" title="Permalink to this headline">¶</a></h1>
+  <section id="simple-example-arc-exposure">
+<span id="simple-example"></span><h1>Simple example: arc exposure<a class="headerlink" href="#simple-example-arc-exposure" title="Permalink to this heading">¶</a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
@@ -71,8 +73,8 @@ and the relative wavelength calibration between slitlets do agree within a
 fraction of a pixel</em>. In addition, the boundaries between the slitlets can
 also be shifted in order to match the real data.</p></li>
 </ul>
-<div class="section" id="preliminary-rectification-and-wavelength-calibration">
-<h2>Preliminary rectification and wavelength calibration<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h2>
+<section id="preliminary-rectification-and-wavelength-calibration">
+<h2>Preliminary rectification and wavelength calibration<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration" title="Permalink to this heading">¶</a></h2>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Before continuing, make sure that you have already initialize the file tree
@@ -175,23 +177,16 @@ to execute the reduction recipe needed in this case:</p>
 <p><strong>The observation result file:</strong> <code class="docutils literal notranslate"><span class="pre">0_preliminary_calibration.yaml</span></code></p>
 <p>This is what we call an observation result file, which basically
 contains the reduction recipe to be applied and the images involved.</p>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2
-3
-4
-5
-6
-7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001041345</span>
-<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
-<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
-<span class="n">frames</span><span class="p">:</span>
- <span class="o">-</span> <span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
- <span class="o">-</span> <span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
- <span class="o">-</span> <span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
-<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001041345</span>
+<span class="linenos">2</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">3</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="linenos">4</span><span class="n">frames</span><span class="p">:</span>
+<span class="linenos">5</span> <span class="o">-</span> <span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos">6</span> <span class="o">-</span> <span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos">7</span> <span class="o">-</span> <span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos">8</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <ul class="simple">
 <li><p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> value is an arbitrary label that is employed to generate the name
 of two auxiliary subdirectories. In this example the two subdirectories will
@@ -214,51 +209,30 @@ blocks in this file) just by modifying this flag.</p></li>
 <p><strong>The requirements file:</strong> <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code></p>
 <p>This is the requirements file, containing the expected name
 of generic calibration files. You do not need to modify anything here.</p>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">version</span><span class="p">:</span> <span class="mi">1</span>
-<span class="n">products</span><span class="p">:</span>
-  <span class="n">EMIR</span><span class="p">:</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterBadPixelMask&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_bpm.fits&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterDark&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_dark_zeros.fits&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterIntensityFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterSpectralFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_J_filter_J.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_H_filter_H.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_J_filter_J.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_H_filter_H.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
-  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
-<span class="n">requirements</span><span class="p">:</span>
-  <span class="n">EMIR</span><span class="p">:</span>
-    <span class="n">default</span><span class="p">:</span>
-     <span class="n">FULL_DITHERED_IMAGE</span><span class="p">:</span>
-      <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="s1">&#39;x_offsets&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;ref_object_pos.txt&#39;</span><span class="p">}</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="n">version</span><span class="p">:</span> <span class="mi">1</span>
+<span class="linenos"> 2</span><span class="n">products</span><span class="p">:</span>
+<span class="linenos"> 3</span>  <span class="n">EMIR</span><span class="p">:</span>
+<span class="linenos"> 4</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterBadPixelMask&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_bpm.fits&#39;</span><span class="p">}</span>
+<span class="linenos"> 5</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterDark&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_dark_zeros.fits&#39;</span><span class="p">}</span>
+<span class="linenos"> 6</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterIntensityFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
+<span class="linenos"> 7</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterSpectralFlat&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;master_flat_spec.fits&#39;</span><span class="p">}</span>
+<span class="linenos"> 8</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">11</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_J_filter_J.json&#39;</span><span class="p">}</span>
+<span class="linenos"> 9</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">12</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_H_filter_H.json&#39;</span><span class="p">}</span>
+<span class="linenos">10</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">13</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
+<span class="linenos">11</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">14</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
+<span class="linenos">12</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;MasterRectWave&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;rect_wpoly_MOSlibrary_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
+<span class="linenos">13</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">21</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">J</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">J</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_J_filter_J.json&#39;</span><span class="p">}</span>
+<span class="linenos">14</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">22</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">H</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">H</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_H_filter_H.json&#39;</span><span class="p">}</span>
+<span class="linenos">15</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">23</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">K</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">Ksp</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_K_filter_Ksp.json&#39;</span><span class="p">}</span>
+<span class="linenos">16</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">24</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">YJ</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_YJ.json&#39;</span><span class="p">}</span>
+<span class="linenos">17</span>  <span class="o">-</span> <span class="p">{</span><span class="nb">id</span><span class="p">:</span> <span class="mi">25</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="s1">&#39;RefinedBoundaryModelParam&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{</span><span class="n">grism</span><span class="p">:</span> <span class="n">LR</span><span class="p">,</span> <span class="nb">filter</span><span class="p">:</span> <span class="n">HK</span><span class="p">},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;final_multislit_bound_param_grism_LR_filter_HK.json&#39;</span><span class="p">}</span>
+<span class="linenos">18</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">19</span>  <span class="n">EMIR</span><span class="p">:</span>
+<span class="linenos">20</span>    <span class="n">default</span><span class="p">:</span>
+<span class="linenos">21</span>     <span class="n">FULL_DITHERED_IMAGE</span><span class="p">:</span>
+<span class="linenos">22</span>      <span class="o">-</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="s1">&#39;x_offsets&#39;</span><span class="p">,</span> <span class="n">tags</span><span class="p">:</span> <span class="p">{},</span> <span class="n">content</span><span class="p">:</span> <span class="s1">&#39;ref_object_pos.txt&#39;</span><span class="p">}</span>
 </pre></div>
-</td></tr></table></div>
+</div>
 <p><strong>Numina execution</strong></p>
 <p>You are ready to execute the reduction recipe indicated in the file
 <code class="docutils literal notranslate"><span class="pre">0_preliminary_calibration.yaml</span></code> (in this case the reduccion recipe named
@@ -274,8 +248,8 @@ have been created:</p>
 <li><p>a work subdirectory: <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_work/</span></code></p></li>
 <li><p>a results subdirectory: <code class="docutils literal notranslate"><span class="pre">obsid_0001041345_results/</span></code></p></li>
 </ul>
-<div class="section" id="the-work-subdirectory">
-<h3>The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory<a class="headerlink" href="#the-work-subdirectory" title="Permalink to this headline">¶</a></h3>
+<section id="the-work-subdirectory">
+<h3>The <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectory<a class="headerlink" href="#the-work-subdirectory" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001041345_work/
 obsid_0001041345_work/
 ├── 0001041345-20160917-EMIR-TEST0.fits
@@ -384,9 +358,9 @@ all pixels with wavelength coverage in any of the 55 slitlets.</p></li>
 </div></blockquote>
 </li>
 </ul>
-</div>
-<div class="section" id="the-results-subdirectory">
-<h3>The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory<a class="headerlink" href="#the-results-subdirectory" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="the-results-subdirectory">
+<h3>The <code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectory<a class="headerlink" href="#the-results-subdirectory" title="Permalink to this heading">¶</a></h3>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001401345_results/
 obsid_0001401345_results/
 ├── processing.log
@@ -480,10 +454,10 @@ wavelength calibration between slitlets does not agree within roughtly 1 pixel:<
 <a class="reference internal image-reference" href="../_images/stare_preliminary_zoom.png"><img alt="Stare image preliminary zoom" src="../_images/stare_preliminary_zoom.png" style="width: 100%;" /></a>
 <p>In addition, the absolute wavelength calibration is also wrong by a few pixels,
 as it is described below.</p>
-</div>
-</div>
-<div class="section" id="refined-rectification-and-wavelength-calibration">
-<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h2>
+</section>
+</section>
+<section id="refined-rectification-and-wavelength-calibration">
+<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this heading">¶</a></h2>
 <p>The user can obtain a more refined rectified and wavelength calibrated image
 using precise wavelength calibration data. For this purpose one can use arc
 exposures (obtained just before or after de scientific images), or even the
@@ -518,8 +492,8 @@ two effects can be estimated either making use of the script
 <code class="docutils literal notranslate"><span class="pre">pyemir-overplot_boundary_model</span></code>, or by overplotting ds9-region files on
 the images. Both methods are described in the next subsections).</p>
 </div>
-<div class="section" id="checking-the-spatial-direction-y-axis">
-<h3>Checking the spatial direction (Y axis)<a class="headerlink" href="#checking-the-spatial-direction-y-axis" title="Permalink to this headline">¶</a></h3>
+<section id="checking-the-spatial-direction-y-axis">
+<h3>Checking the spatial direction (Y axis)<a class="headerlink" href="#checking-the-spatial-direction-y-axis" title="Permalink to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> instead of the default PyEmir graphical output
@@ -586,9 +560,9 @@ the raw image</p></li>
 <a class="reference internal image-reference" href="../_images/ds9_frontiers1.png"><img alt="ds9 frontiers 1" src="../_images/ds9_frontiers1.png" style="width: 100%;" /></a>
 <p>Zooming to check the slitlet frontiers:</p>
 <a class="reference internal image-reference" href="../_images/ds9_frontiers2.png"><img alt="ds9 frontiers 2" src="../_images/ds9_frontiers2.png" style="width: 100%;" /></a>
-</div>
-<div class="section" id="checking-the-wavelength-direction-x-axis">
-<h3>Checking the wavelength direction (X axis)<a class="headerlink" href="#checking-the-wavelength-direction-x-axis" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="checking-the-wavelength-direction-x-axis">
+<h3>Checking the wavelength direction (X axis)<a class="headerlink" href="#checking-the-wavelength-direction-x-axis" title="Permalink to this heading">¶</a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If you prefer to use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> instead of the default PyEmir graphical output
@@ -625,9 +599,9 @@ same image:</p>
 <a class="reference internal image-reference" href="../_images/ds9_arclines2.png"><img alt="ds9 arc lines 2" src="../_images/ds9_arclines2.png" style="width: 100%;" /></a>
 <p>Here it is also clear that the observed arc lines appear around 3 pixels
 towards the left of the expected locations (indicated by the ds9 regions).</p>
-</div>
-<div class="section" id="improving-the-rectification-and-wavelength-calibration">
-<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this headline">¶</a></h3>
+</section>
+<section id="improving-the-rectification-and-wavelength-calibration">
+<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this heading">¶</a></h3>
 <p>Once you have estimated the potential integer offsets (in X and Y) of your
 image relative to the expected slitlet frontiers (Y axis) and arc line
 locations (X axis), it is possible to rerun the reduction recipe
@@ -637,31 +611,20 @@ locations (X axis), it is possible to rerun the reduction recipe
 axis). Those offsets should be introduced in the observation result file. For
 that purpose, we have created a modified version of
 <code class="docutils literal notranslate"><span class="pre">0_preliminary_calibrationyaml</span></code> with the name <code class="docutils literal notranslate"><span class="pre">1_refined_calibration.yaml</span></code>:</p>
-<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001041345_refined</span>
-<span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
-<span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
-<span class="n">frames</span><span class="p">:</span>
- <span class="o">-</span> <span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
- <span class="o">-</span> <span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
- <span class="o">-</span> <span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
-<span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
-<span class="n">requirements</span><span class="p">:</span>
-  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">2</span>
-  <span class="n">global_integer_offset_x_pix</span> <span class="p">:</span> <span class="mi">3</span> 
-  <span class="n">global_integer_offset_y_pix</span> <span class="p">:</span> <span class="mi">0</span> 
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0001041345_refined</span>
+<span class="linenos"> 2</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos"> 3</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
+<span class="linenos"> 4</span><span class="n">frames</span><span class="p">:</span>
+<span class="linenos"> 5</span> <span class="o">-</span> <span class="mi">0001041345</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos"> 6</span> <span class="o">-</span> <span class="mi">0001041348</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos"> 7</span> <span class="o">-</span> <span class="mi">0001041351</span><span class="o">-</span><span class="mi">20160917</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">TEST0</span><span class="o">.</span><span class="n">fits</span>
+<span class="linenos"> 8</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos"> 9</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">10</span>  <span class="n">refine_wavecalib_mode</span><span class="p">:</span> <span class="mi">2</span>
+<span class="linenos">11</span>  <span class="n">global_integer_offset_x_pix</span> <span class="p">:</span> <span class="mi">3</span> 
+<span class="linenos">12</span>  <span class="n">global_integer_offset_y_pix</span> <span class="p">:</span> <span class="mi">0</span> 
 </pre></div>
-</td></tr></table></div>
+</div>
 <p>This file is the same as <code class="docutils literal notranslate"><span class="pre">0_preliminary_calibration.yaml</span></code> but with a
 different <code class="docutils literal notranslate"><span class="pre">id</span></code> (to generate different <cite>work</cite> and <cite>results</cite> subdirectories
 that do not overwrite the initial reduction), and four extra lines at the end.
@@ -734,9 +697,9 @@ each slitlet showing the cross-correlation function:</p>
 <a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0001041345_crosscorrelation1.png" style="width: 100%;" /></a>
 <a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0001041345_crosscorrelation2.png" style="width: 100%;" /></a>
 <a class="reference internal image-reference" href="../_images/0001041345_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0001041345_crosscorrelation3.png" style="width: 100%;" /></a>
-</div>
-</div>
-</div>
+</section>
+</section>
+</section>
 
 
           </div>
@@ -797,12 +760,12 @@ each slitlet showing the cross-correlation function:</p>
   <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
       <input type="submit" value="Go" />
     </form>
     </div>
 </div>
-<script>$('#searchbox').show(0);</script>
+<script>document.getElementById('searchbox').style.display = "block"</script>
 
 
 
@@ -819,7 +782,7 @@ each slitlet showing the cross-correlation function:</p>
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |
