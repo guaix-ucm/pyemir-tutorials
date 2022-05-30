@@ -87,6 +87,7 @@ again with this new observation result file:
       :width: 48%
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v1_zoom.png -trim combined_v1_zoom_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[01]_zoom_trimmed.png comparison_v1_zoom.gif
 
@@ -155,6 +156,7 @@ Execute numina to obtain the new version of the combined image:
    (emir) $ numina run dithered_v2.yaml --link-files -r control.yaml
 
 .. generada con --geometry 0,0,850,1200
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v2.png -trim combined_v2_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[02]_trimmed.png comparison_v2.gif
 
@@ -172,6 +174,7 @@ Execute numina to obtain the new version of the combined image:
       :width: 48%
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v2_zoom.png -trim combined_v2_zoom_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[02]_zoom_trimmed.png comparison_v2_zoom.gif
 
@@ -219,6 +222,7 @@ computed from the WCS information indicates that both methods lead to basically
 the same result.
 
 .. generada con --geometry 0,0,850,1200
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v3.png -trim combined_v3_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[13]_trimmed.png comparison_v3.gif
 
@@ -237,6 +241,7 @@ the same result.
       :width: 48%
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v3_zoom.png -trim combined_v3_zoom_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[13]_zoom_trimmed.png comparison_v3_zoom.gif
 
@@ -303,6 +308,7 @@ It is useful to subtract the new result from the one derived previously:
       obsid_combined_v4_results/reduced_image.fits difference_v4.fits
 
 .. generada con --geometry 0,0,850,1200
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v4.png -trim combined_v4_trimmed.png
 .. convert difference_v4.png -trim difference_v4_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[14]_trimmed.png difference_v4_trimmed.png comparison_v4.gif
@@ -325,6 +331,7 @@ It is useful to subtract the new result from the one derived previously:
       :align: center
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v4_zoom.png -trim combined_v4_zoom_trimmed.png
 .. convert difference_v4_zoom.png -trim difference_v4_zoom_trimmed.png
 .. convert -delay 100 -loop 0 combined_v[14]_zoom_trimmed.png difference_v4_zoom_trimmed.png comparison_v4_zoom.gif
@@ -360,6 +367,7 @@ individual images), have a wrong image background.
 The problem is more severe in the regions where the number of images used for
 the combination is lower:
 
+.. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert combined_v4_npix.png -trim combined_v4_npix_trimmed.png
 .. convert +smush 40 combined_v4_trimmed.png combined_v4_npix_trimmed.png data_npix_v4.png
 
