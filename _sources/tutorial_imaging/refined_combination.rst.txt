@@ -113,9 +113,11 @@ Improving offsets (method #2)
 -----------------------------
 
 An alternative to the use of the offsets computed from the WCS information in
-the image header is to provide a two-column ASCII file with the measured
-offsets between the individual images. The (arbitray) name of that file must be
-provided through the requirement ``offsets:``. For this tutoral, we are
+the image header is to provide a two-column ASCII file with the measured (X,Y)
+coordinates of a reference object (i.e., the centroid of a bright star) in
+every individual image. These values are employed to determine the relative
+offsets between the individual exposures. The (arbitray) name of that file must
+be provided through the requirement ``offsets:``. For this tutoral, we are
 providing such a file with the name ``user_offsets.txt``. Note that this file
 must be placed within the ``data`` subdirectory.
 

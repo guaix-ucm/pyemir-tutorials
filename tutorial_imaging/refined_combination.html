@@ -97,9 +97,11 @@ again with this new observation result file:</p>
 <section id="improving-offsets-method-2">
 <span id="improving-offsets-2"></span><h2>Improving offsets (method #2)<a class="headerlink" href="#improving-offsets-method-2" title="Permalink to this heading">¶</a></h2>
 <p>An alternative to the use of the offsets computed from the WCS information in
-the image header is to provide a two-column ASCII file with the measured
-offsets between the individual images. The (arbitray) name of that file must be
-provided through the requirement <code class="docutils literal notranslate"><span class="pre">offsets:</span></code>. For this tutoral, we are
+the image header is to provide a two-column ASCII file with the measured (X,Y)
+coordinates of a reference object (i.e., the centroid of a bright star) in
+every individual image. These values are employed to determine the relative
+offsets between the individual exposures. The (arbitray) name of that file must
+be provided through the requirement <code class="docutils literal notranslate"><span class="pre">offsets:</span></code>. For this tutoral, we are
 providing such a file with the name <code class="docutils literal notranslate"><span class="pre">user_offsets.txt</span></code>. Note that this file
 must be placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory.</p>
 <p>The observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v2.yaml</span></code> is similar to the initial
