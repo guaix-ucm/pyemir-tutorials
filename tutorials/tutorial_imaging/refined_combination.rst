@@ -5,23 +5,23 @@ Improving the image combination
 The image combination can be improve by tuning some of the parameters of the
 recipe ``FULL_DITHERED_IMAGE`` (step 2 in the previous section).
 In this sense, there is no need to repeat the basic reduction of the individual
-exposures (step1).
+exposures (step 1).
 
 As previously mentioned, two are the problems that we want to solve:
 
 1. **Improve the offsets between individual exposures:** this can be achieved
    in several ways:
 
-   - by setting the requirement ``refine_offsets: True``: in this case a
+   - By setting the requirement ``refine_offsets: True``: in this case a
      cross-correlation between subimage regions around bright targets is
      carried out to derive refined offsets. See subsection
      :ref:`improving_offsets_1` below.
 
-   - by providing an ASCII file with a list of offsets measured independently 
+   - By providing an ASCII file with a list of offsets measured independently 
      by the user and indicated with the requirement ``offsets:
      user_offsets.txt``. See subsection :ref:`improving_offsets_2` below.
 
-   - by providing the same ASCII file with precomputed offsets (as in the
+   - By providing the same ASCII file with precomputed offsets (as in the
      previous item) and using, in addition, the cross-correlation method. In
      this case, both requirements ``refine_offsets: True`` and ``offsets:
      user_offsets.txt`` must be set. See subsection :ref:`improving_offsets_3`
@@ -30,10 +30,10 @@ As previously mentioned, two are the problems that we want to solve:
 2. **Improve the sky background level estimation:** the background level can be
    improved by:
 
-   - generating an object mask and iterating the combination process. See
+   - Generating an object mask and iterating the combination process. See
      subsection :ref:`improving_skybackground_1` below.
 
-   - introducing an *ad hoc* fit to a low-order polynomial surface to the sky
+   - Introducing an *ad hoc* fit to a low-order polynomial surface to the sky
      background. See subsection :ref:`improving_skybackground_2` below.
 
 
@@ -133,7 +133,7 @@ The contents of the ASCII file with the measured offsets is the following:
 
 ::
 
-   (emir) cat data/user_offsets.txt
+   (emir) $ cat data/user_offsets.txt
    822 907
    730 660
    555 863
@@ -264,7 +264,7 @@ the same result.
    computed from the WCS information in the image headers as a
    reasonable initial guess, but that these offsets need to be refined. Unless
    something is really wrong with that WCS information, the user probabily will
-   not need to measure the offsets manually. Anyway, that option is always
+   not need to measure the offsets manually. Anyway, this last option is always
    there just in case it is necessary.
 
 .. _improving_skybackground_1:
@@ -274,9 +274,9 @@ Improving the sky background (problem #1)
 
 The first obvious way to improve the background computation is by masking the
 objects present in the image. This masking process requires an initial object
-detection, that must be carried out on the result of an initial combination.
-For that reason, this masking requires to set ``iterations`` to a number larger
-than zero. 
+detection, that must be carried out on the result of an initial image
+combination.  For that reason, this masking requires to set ``iterations`` to a
+number larger than zero. 
 
 In addition, the user can indicate that the sky signal at each pixel must be
 computed from the signal at the same pixel in a predefined number of images
@@ -361,8 +361,8 @@ Improving the sky background (problem #2)
 
 In all the previous examples, the combined images always exhibit variations in
 the sky background that are clearly visible in the image borders. The reason
-for that is that some individual exposures (in particular the first two
-individual images), have a wrong image background. 
+for that is that some individual exposures (in this particular example the
+first two individual images), have a wrong image background. 
 
 The problem is more severe in the regions where the number of images used for
 the combination is lower:
@@ -468,12 +468,12 @@ to generate an object mask:
    :linenos:
    :lineno-start: 117
 
-Since the problem with the sky background in different for each quadrant of the
-EMIR detector, the value of ``nside_adhoc_sky_correction`` indicates the
-number subdivisions (in X and Y) in which each quadrant is subdivided. In this
-case we are using a pattern of 10 x 10 regions in each quadrant. The median
-value in each of these 100 subregions is computed (masking pixels affected by
-objects) and a smooth spline surface is fitted to that collection of points.
+Since the problem with the sky background is different for each quadrant of the
+EMIR detector, the value of ``nside_adhoc_sky_correction`` indicates the number
+of subdivisions (in X and Y) in which each quadrant is subdivided. In this case
+we are using a pattern of 10 x 10 regions in each quadrant. The median value in
+each of these 100 subregions is computed (masking pixels affected by objects)
+and a smooth spline surface is fitted to that collection of points.
 
 ::
 
