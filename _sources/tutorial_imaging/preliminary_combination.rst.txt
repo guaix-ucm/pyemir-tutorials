@@ -140,7 +140,7 @@ and flatfield corrections.
 .. note::
 
    Remember that the ``numina`` script is the interface with GTC pipelines. 
-   In order to execute PyEmir recipes you should use type something like:
+   In order to execute PyEmir recipes you should type something like:
 
    ::
    
@@ -192,7 +192,7 @@ highlighting the first block (first six lines):
   obtained with the GTC to build the label.
  
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
-  Numina also is at present also employed to reduce MEGARA data, and hopefully,
+  Numina is at present also employed to reduce MEGARA data, and hopefully,
   future GTC instruments).
    
 - The key ``mode`` indicates the identification of the reduction recipe
@@ -295,8 +295,8 @@ In particular, for the first block:
    └── master_flatframe.fits
 
 *When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in the
-``work`` subdirectory.* This behaviour is set using the parameter
+links (instead of actual copies of the original raw files) must be placed in
+the* ``work`` *subdirectory.* This behaviour is set using the parameter
 ``--link-files``:
 
 ::

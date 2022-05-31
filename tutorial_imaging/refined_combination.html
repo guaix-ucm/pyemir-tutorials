@@ -39,20 +39,20 @@
 <p>The image combination can be improve by tuning some of the parameters of the
 recipe <code class="docutils literal notranslate"><span class="pre">FULL_DITHERED_IMAGE</span></code> (step 2 in the previous section).
 In this sense, there is no need to repeat the basic reduction of the individual
-exposures (step1).</p>
+exposures (step 1).</p>
 <p>As previously mentioned, two are the problems that we want to solve:</p>
 <ol class="arabic simple">
 <li><p><strong>Improve the offsets between individual exposures:</strong> this can be achieved
 in several ways:</p>
 <ul class="simple">
-<li><p>by setting the requirement <code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code>: in this case a
+<li><p>By setting the requirement <code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code>: in this case a
 cross-correlation between subimage regions around bright targets is
 carried out to derive refined offsets. See subsection
 <a class="reference internal" href="#improving-offsets-1"><span class="std std-ref">Improving offsets (method #1)</span></a> below.</p></li>
-<li><p>by providing an ASCII file with a list of offsets measured independently
+<li><p>By providing an ASCII file with a list of offsets measured independently
 by the user and indicated with the requirement <code class="docutils literal notranslate"><span class="pre">offsets:</span>
 <span class="pre">user_offsets.txt</span></code>. See subsection <a class="reference internal" href="#improving-offsets-2"><span class="std std-ref">Improving offsets (method #2)</span></a> below.</p></li>
-<li><p>by providing the same ASCII file with precomputed offsets (as in the
+<li><p>By providing the same ASCII file with precomputed offsets (as in the
 previous item) and using, in addition, the cross-correlation method. In
 this case, both requirements <code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code> and <code class="docutils literal notranslate"><span class="pre">offsets:</span>
 <span class="pre">user_offsets.txt</span></code> must be set. See subsection <a class="reference internal" href="#improving-offsets-3"><span class="std std-ref">Improving offsets (method #3)</span></a>
@@ -62,9 +62,9 @@ below.</p></li>
 <li><p><strong>Improve the sky background level estimation:</strong> the background level can be
 improved by:</p>
 <ul class="simple">
-<li><p>generating an object mask and iterating the combination process. See
+<li><p>Generating an object mask and iterating the combination process. See
 subsection <a class="reference internal" href="#improving-skybackground-1"><span class="std std-ref">Improving the sky background (problem #1)</span></a> below.</p></li>
-<li><p>introducing an <em>ad hoc</em> fit to a low-order polynomial surface to the sky
+<li><p>Introducing an <em>ad hoc</em> fit to a low-order polynomial surface to the sky
 background. See subsection <a class="reference internal" href="#improving-skybackground-2"><span class="std std-ref">Improving the sky background (problem #2)</span></a> below.</p></li>
 </ul>
 </li>
@@ -114,21 +114,21 @@ number 121):</p>
 </pre></div>
 </div>
 <p>The contents of the ASCII file with the measured offsets is the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">emir</span><span class="p">)</span> <span class="n">cat</span> <span class="n">data</span><span class="o">/</span><span class="n">user_offsets</span><span class="o">.</span><span class="n">txt</span>
-<span class="mi">822</span> <span class="mi">907</span>
-<span class="mi">730</span> <span class="mi">660</span>
-<span class="mi">555</span> <span class="mi">863</span>
-<span class="mi">620</span> <span class="mi">998</span>
-<span class="mi">895</span> <span class="mi">741</span>
-<span class="mi">545</span> <span class="mi">674</span>
-<span class="mi">708</span> <span class="mi">811</span>
-<span class="mi">830</span> <span class="mi">911</span>
-<span class="mi">735</span> <span class="mi">666</span>
-<span class="mi">561</span> <span class="mi">868</span>
-<span class="mi">626</span> <span class="mi">1003</span>
-<span class="mi">901</span> <span class="mi">746</span>
-<span class="mi">551</span> <span class="mi">679</span>
-<span class="mi">715</span> <span class="mi">816</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cat data/user_offsets.txt
+822 907
+730 660
+555 863
+620 998
+895 741
+545 674
+708 811
+830 911
+735 666
+561 868
+626 1003
+901 746
+551 679
+715 816
 </pre></div>
 </div>
 <p>Execute numina to obtain the new version of the combined image:</p>
@@ -168,7 +168,7 @@ the same result.</p>
 computed from the WCS information in the image headers as a
 reasonable initial guess, but that these offsets need to be refined. Unless
 something is really wrong with that WCS information, the user probabily will
-not need to measure the offsets manually. Anyway, that option is always
+not need to measure the offsets manually. Anyway, this last option is always
 there just in case it is necessary.</p>
 </div>
 </section>
@@ -176,9 +176,9 @@ there just in case it is necessary.</p>
 <span id="improving-skybackground-1"></span><h2>Improving the sky background (problem #1)<a class="headerlink" href="#improving-the-sky-background-problem-1" title="Permalink to this heading">¶</a></h2>
 <p>The first obvious way to improve the background computation is by masking the
 objects present in the image. This masking process requires an initial object
-detection, that must be carried out on the result of an initial combination.
-For that reason, this masking requires to set <code class="docutils literal notranslate"><span class="pre">iterations</span></code> to a number larger
-than zero.</p>
+detection, that must be carried out on the result of an initial image
+combination.  For that reason, this masking requires to set <code class="docutils literal notranslate"><span class="pre">iterations</span></code> to a
+number larger than zero.</p>
 <p>In addition, the user can indicate that the sky signal at each pixel must be
 computed from the signal at the same pixel in a predefined number of images
 (close in observing time).</p>
@@ -209,8 +209,8 @@ computed from the WCS information in the image headers).</p>
 <span id="improving-skybackground-2"></span><h2>Improving the sky background (problem #2)<a class="headerlink" href="#improving-the-sky-background-problem-2" title="Permalink to this heading">¶</a></h2>
 <p>In all the previous examples, the combined images always exhibit variations in
 the sky background that are clearly visible in the image borders. The reason
-for that is that some individual exposures (in particular the first two
-individual images), have a wrong image background.</p>
+for that is that some individual exposures (in this particular example the
+first two individual images), have a wrong image background.</p>
 <p>The problem is more severe in the regions where the number of images used for
 the combination is lower:</p>
 <a class="reference internal image-reference" href="../_images/data_npix_v4.png"><img alt="combined data and number of pixels used in combination, version 4" src="../_images/data_npix_v4.png" style="width: 100%;" /></a>
@@ -235,12 +235,12 @@ to generate an object mask:</p>
 </span><span class="linenos">122</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
-<p>Since the problem with the sky background in different for each quadrant of the
-EMIR detector, the value of <code class="docutils literal notranslate"><span class="pre">nside_adhoc_sky_correction</span></code> indicates the
-number subdivisions (in X and Y) in which each quadrant is subdivided. In this
-case we are using a pattern of 10 x 10 regions in each quadrant. The median
-value in each of these 100 subregions is computed (masking pixels affected by
-objects) and a smooth spline surface is fitted to that collection of points.</p>
+<p>Since the problem with the sky background is different for each quadrant of the
+EMIR detector, the value of <code class="docutils literal notranslate"><span class="pre">nside_adhoc_sky_correction</span></code> indicates the number
+of subdivisions (in X and Y) in which each quadrant is subdivided. In this case
+we are using a pattern of 10 x 10 regions in each quadrant. The median value in
+each of these 100 subregions is computed (masking pixels affected by objects)
+and a smooth spline surface is fitted to that collection of points.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v5.yaml --link-files -r control.yaml
 </pre></div>
 </div>

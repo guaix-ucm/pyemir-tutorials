@@ -155,7 +155,7 @@ and flatfield corrections.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Remember that the <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines.
-In order to execute PyEmir recipes you should use type something like:</p>
+In order to execute PyEmir recipes you should type something like:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
 </pre></div>
 </div>
@@ -289,7 +289,7 @@ results are going to be stored, respectively. Note that we have arbitrarily
 chosen the 10 digits of the unique running number assigned to each image
 obtained with the GTC to build the label.</p></li>
 <li><p>Not surprisingly, the key <code class="docutils literal notranslate"><span class="pre">instrument</span></code> is set to EMIR (do not forget that
-Numina also is at present also employed to reduce MEGARA data, and hopefully,
+Numina is at present also employed to reduce MEGARA data, and hopefully,
 future GTC instruments).</p></li>
 <li><p>The key <code class="docutils literal notranslate"><span class="pre">mode</span></code> indicates the identification of the reduction recipe
 (<code class="docutils literal notranslate"><span class="pre">STARE_IMAGE</span></code> in this example).</p></li>
@@ -393,8 +393,8 @@ obsid_0001877553_work/
 </pre></div>
 </div>
 <p><em>When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in the
-``work`` subdirectory.</em> This behaviour is set using the parameter
+links (instead of actual copies of the original raw files) must be placed in
+the</em> <code class="docutils literal notranslate"><span class="pre">work</span></code> <em>subdirectory.</em> This behaviour is set using the parameter
 <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_ini.yaml --link-files -r control.yaml
 ...
