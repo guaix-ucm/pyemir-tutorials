@@ -1345,9 +1345,9 @@ The simple way to do it is making again use of the auxiliary script
    Full set of images.......: ABBAABBAABBAABBAABBAABBA
    --> File 1_rectwv_individual.yaml generated!
 
-Note that here we have used the script with the same parameters that we
+Note that we have used the script with the same parameters that we
 employed above to generate ``1_rectwv_combined.yaml``, but here we have omitted
-the flat ``--rectwv_combined``. Leaving out this parameter leads to the
+the flag ``--rectwv_combined``. Leaving out this parameter leads to the
 following observation result file (that we have named
 ``1_rectwv_individual.yaml`` to avoid overwritting the previous one):
 
