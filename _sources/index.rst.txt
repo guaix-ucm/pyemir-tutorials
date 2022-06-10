@@ -10,7 +10,12 @@ installed at the Nasmyth focus of GTC. Its MOS mode allows observers to obtain
 J, H* and *K*. EMIR is designed to address the science goals of the proposing
 team and of the Spanish community at large.
 
-Documentation maintainers: Nicolás Cardiel (cardiel@ucm.es) and Sergio Pascual (sergiopr@fis.ucm.es)
+Documentation maintainers: Nicolás Cardiel (cardiel@ucm.es) and Sergio Pascual
+(sergiopr@fis.ucm.es).
+
+These tutorials have benefited from the work of Cristina Cabello, who has
+tested the code in detail on data reduction related to the `GOYA
+<http://research.iac.es/proyecto/goya/>`_ project.
 
 .. warning::
 
