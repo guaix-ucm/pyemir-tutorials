@@ -7,7 +7,7 @@ recipe ``FULL_DITHERED_IMAGE`` (step 2 in the previous section).
 In this sense, there is no need to repeat the basic reduction of the individual
 exposures (step 1).
 
-As previously mentioned, two are the problems that we want to solve:
+As previously mentioned, three are the problems that we want to solve:
 
 1. **Improve the offsets between individual exposures:** this can be achieved
    in several ways:
@@ -36,6 +36,10 @@ As previously mentioned, two are the problems that we want to solve:
    - Introducing an *ad hoc* fit to a low-order polynomial surface to the sky
      background. See subsection :ref:`improving_skybackground_2` below.
 
+3. **Take into account the doughnut-like shape that appears in the
+   superflatfield:** this can be done by fitting the doughnut-like shape by a
+   smooth surface (using a smoothing kernel in polar coordinates that helps to
+   fit the azimuthal shape). See subsection :ref:`improving_doughnut` below.
 
 .. _improving_offsets_1:
 
@@ -557,3 +561,105 @@ zero, except for those pixels in the combined image where only one single
 exposure is available. By looking at the file ``result_i1_npix.fits`` it is
 possible to check that those pixels are just at the borders of the combined
 image.
+
+.. _improving_doughnut:
+
+Improving the superflatfield
+----------------------------
+
+Here we are modifying the last observation result file (``dithered_v5.yaml``)
+to generate ``dithered_v6.yaml``. The only change that we need to introduce
+here is to set the requirement ``fit_doughnut: True`` (line 149; note also the
+change in the ``id`` in line 127):
+
+.. literalinclude:: dithered_v6.yaml
+   :lines: 127-151
+   :emphasize-lines: 1,23
+   :linenos:
+   :lineno-start: 127
+
+**Note that this parameter** ``fit_doughnut`` **is assumed to be** ``False``
+**by default, which means that the correction described next is not performed
+unless splicitly stated.**
+
+::
+
+   (emir) $ numina run dithered_v6.yaml --link-files -r control.yaml
+
+The refined version of the superflatfield is then obtained by fitting a smooth
+surface (preserving some azimuthal symmetry) which is applied to the initial
+superflatfield (dividing by the fitted doughnut-like shape), which provides a
+quite flat new superflatfield. 
+
+In this example, the initial superflatfield computed in iteration 1 (masking
+objects) is the following:
+
+.. numina-ximshow obsid_combined_v6_work/superflat_comb_i1.fits --geometry 0,0,567,800 --z1z2 [0.80,1.20]
+.. convert image.png -trim image_trimmed.png
+
+.. image:: superflat_comb_i1_v6_trimmed.png
+   :width: 100%
+   :alt: initial superflatfield, version 6
+
+The fitted doughnut-like model, displayed using the same cuts is:
+
+.. numina-ximshow obsid_combined_v6_work/superflat_doughnut_i1.fits --geometry 0,0,567,800 --z1z2 [0.80,1.20]
+.. convert image.png -trim image_trimmed.png
+
+.. image:: superflat_doughnut_i1_v6_trimmed.png
+   :width: 100%
+   :alt: fitted doughnut-like surface, version 6
+
+The resulting refined superflatfield, obtained after dividing the initial
+superflatfield by the fitted surface, has the following aspect:
+
+.. numina-ximshow obsid_combined_v6_work/superflat_comb_dc_i1.fits --geometry 0,0,567,800 --z1z2 [0.80,1.20]
+.. convert image.png -trim image_trimmed.png
+
+.. image:: superflat_comb_dc_i1_v6_trimmed.png
+   :width: 100%
+   :alt: refined superflatfield, version 6
+
+In addition, since this doughnut-like shape is
+present in every single exposure prior to the sky subtraction, the following
+strategy is followed in order to perform this latter reduction step:
+
+  - iteration 0: the sky background of each individual exposure is computed as
+    the fitted doughnut-like shape scaled to the median signal (in order to
+    match the sky background).
+
+  - iteration >= 1: the sky background of every pixel is computed using the
+    information of the same pixel in images close in observing time. In this
+    case the signal of the doughnut-like shape is considered to be the same in
+    all these images (which seems to be a reasonable assumption), and there is
+    no need to make use of the fitted doughnut-like shape (except for the
+    computation of the refined superflatfield itself).
+
+We can easily compare the new result with the one obtained using
+``dithered_v5.yaml``. For that purpose is useful to subtract the new result from the one derived previously:
+
+::
+
+   (emir) $ numina-imath obsid_combined_v6_results/reduced_image.fits - \
+      obsid_combined_v5_results/reduced_image.fits difference_v6.fits
+
+.. generada con --geometry 0,0,850,1200
+.. (--geometry 0,0,567,800 en el MacBook Pro)
+.. convert combined_v6.png -trim combined_v6_trimmed.png
+.. convert difference_v6.png -trim difference_v6_trimmed.png
+.. convert -delay 100 -loop 0 combined_v[56]_trimmed.png difference_v6_trimmed.png comparison_v6.gif
+
+.. only:: html
+
+   .. image:: comparison_v6.gif
+      :width: 100%
+      :alt: combined image, version 6 compared with version 5
+
+In this particular example, the introduction of the refined superflatfield
+introduces changes in the signal of some objects that can be as large as 20%,
+depending on the location of the targets relative to the doughnut-like shape
+(which also changes from exposure to exposure when taking into account the
+dithering pattern). In general, the signal of the objects falling close the the
+peak of the doughnut-like shape is enhanced (in comparison with what it is
+obtained when the refined superflatfield is not computed), while the contrary
+is true for the objects closer to the center of the doughnut shape.

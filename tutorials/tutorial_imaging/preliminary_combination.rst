@@ -480,5 +480,17 @@ image reveals that the problem is not negligible:
    :width: 100%
    :alt: combined image, version 0
 
-In the next section we are showing several alternatives to improve the
-image combination.
+In addition, the superflatfield computed when combining the individual
+exposures does exhibit a doughnut-like shape that must be taken account
+(something that we have not yet done). In particular, the image
+``obsid_combined_v0_work/superflat_comb_i0.fits`` has the following aspect:
+
+.. generada con --geometry 0,0,850,1200  
+.. (--geometry 0,0,567,800 en el MacBook Pro)
+.. convert image.png -trim image_trimmed.png
+.. image:: superflat_v0_trimmed.png
+   :width: 100%
+   :alt: superflatfield, version 0
+
+In the next section we are showing several alternatives to handle the previous
+issues and improve the image combination.
