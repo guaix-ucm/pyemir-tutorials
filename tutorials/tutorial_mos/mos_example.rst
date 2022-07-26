@@ -210,7 +210,7 @@ quality:
 
 - **refined calibration**: that refines the empirical calibration by making use
   of either additional calibration images (i.e., arcs) or by using the airglow
-  (OH) emission lines. The latter approach is going to be use in this example.
+  (OH) emission lines. The latter approach is going to be used in this example.
   
 *The refinement process requires an initial estimation of the offsets in the
 spatial (Y axis) and spectral (X axis) directions between the empirical

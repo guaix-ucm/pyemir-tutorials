@@ -195,7 +195,7 @@ contains the reduction recipe to be applied and the images involved.
   the unique running number assigned to the first image of this set.
    
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
-  Numina also is at present also employed to reduce MEGARA data, and hopefully,
+  Numina is at present also employed to reduce MEGARA data, and hopefully
   future GTC instruments).
    
 - The key ``mode`` indicates the identification of the reduction recipe
@@ -270,7 +270,7 @@ this working directory in order to preserve the original files.
 
 *When disk space is an issue, it is possible to execute numina indicating that
 links (instead of actual copies of the original raw files) must be placed in
-the ``work`` subdirectory.* This behaviour is set using the parameter
+the* ``work`` *subdirectory.* This behaviour is set using the parameter
 ``--link-files``:
 
 ::

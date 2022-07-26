@@ -32,14 +32,14 @@ images):
 
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
-`pyemir_imaging_tutorial_v3.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_imaging_tutorial_v3.tgz>`_.
+`pyemir_imaging_tutorial_v4.tgz
+<http://nartex.fis.ucm.es/data/pyemir/pyemir_imaging_tutorial_v4.tgz>`_.
 
 The preliminary combination of these 14 images will be carried out in two
 steps:
 
-- **Step 1:** basic reduction of each individual image (bad-pixel masking and
-  flatfielding)
+- **Step 1:** basic reduction of each individual image: bad-pixel masking,
+  flatfielding and reprojection (the latter only since PyEmir version 0.17.0)
 
 - **Step 2:** actual combination of the images
 
@@ -55,10 +55,10 @@ Decompress there the previously mentioned tgz file:
 
 ::
 
-   (emir) $ tar zxvf pyemir_imaging_tutorial_v3.tgz
+   (emir) $ tar zxvf pyemir_imaging_tutorial_v4.tgz
    ...
    ...
-   (emir) $ rm pyemir_imaging_tutorial_v3.tgz
+   (emir) $ rm pyemir_imaging_tutorial_v4.tgz
 
 This action should have populated the file tree with the 
 14 scientific raw FITS (placed wihtin the ``data``
@@ -134,8 +134,8 @@ Note that:
 
 - ``IMGOBBL`` indicates the sequential number within each pattern.
 
-The first step in the reduction process will be the bad-pixel mask
-and flatfield corrections.
+The first steps in the reduction process will be the bad-pixel mask,
+flatfielding, and image reprojection.
 
 .. note::
 
@@ -175,11 +175,11 @@ Each block is separated by a line containing just three dashes (``---``):
 
 
 The contents of this file is displayed below,
-highlighting the first block (first six lines):
+highlighting the first block (first eight lines):
 
 .. literalinclude:: dithered_ini.yaml
-   :lines: 1-97
-   :emphasize-lines: 1-6
+   :lines: 1-125
+   :emphasize-lines: 1-8
    :linenos:
    :lineno-start: 1
 
@@ -202,6 +202,23 @@ highlighting the first block (first six lines):
   the reduction recipe. In this case a single image has been obtained at each
   point of the dithering pattern before moving to the next location within the
   pattern. For that reason a single image appears in each block. 
+
+- The key ``requirements`` is employed to pass additional parameters to the
+  reduction recipe. In this case, we are specifying the reprojection method to
+  be employed in order to correct the images from distortions prior to their
+  final combination. Since the reprojection is performed using the package
+  `reproject <https://reproject.readthedocs.io/en/stable/>`_ we can choose
+  between the different resampling algorithms implemented in that package:
+  valid values are: ``none`` (no reprojection is performed; this leads to bad
+  results when combining dithered images, specially at the final image
+  borders), ``interp`` (fastest reprojection method), ``adaptive``, or
+  ``exact`` (slowest). Please, have a look to the documentation in the
+  `reproject <https://reproject.readthedocs.io/en/stable/>`_ package if you
+  need additional information concerning the reprojetion methods. In this 
+  example we are using ``interp``, which provides
+  good results. PyEmir users can try to use the slower ``adaptive`` or
+  ``exact`` methods and compare the final combined images to check for the
+  impact of the adopted method (we do not expect important differences).
    
 - The key ``enabled: True`` indicates that this block is going to be reduced.
   As it is going to be shown later, the user can easily
@@ -224,15 +241,18 @@ highlighting the first block (first six lines):
       (emir) $ ls 0001877*fits > list_images.txt
       (emir) $ cd ..
       (emir) $ pyemir-generate_yaml_for_dithered_image \
-        data/list_images.txt --step 0 --outfile dithered_ini.yaml
+        data/list_images.txt --step 0 --reprojection interp \
+        --outfile dithered_ini.yaml
 
 
    Note that a temporary file ``list_images.txt`` is created with a list of the
-   the individual exposures.  The script
+   the individual exposures. The script
    ``pyemir-generate_yaml_for_dithered_image`` reads that file and generate the
    observation result file ``dithered_ini.yaml`` (the parameter ``--step 0``
    indicates that the reduction recipe to be used here is ``STARE_IMAGE``,
-   which corresponds to the preliminary image reduction).
+   which corresponds to the preliminary image reduction). The reprojection
+   method is also indicated by ``--reprojection interp``, where the valid
+   options are ``none``, ``interp``, ``adaptive`` or ``exact``.
 
 
 **The requirements file:** ``control.yaml``
@@ -342,7 +362,7 @@ combination of the images. For that purpose a different reduction recipe must
 be employed: ``FULL_DITHERED_IMAGE``. 
 
 This task is carried out using a new
-observation result file: ``dithered_v0.yaml``: the first 97 lines of this new
+observation result file: ``dithered_v0.yaml``: the first 125 lines of this new
 file are the same as the content of the the previous file
 ``dithered_ini.yaml``, but setting ``enabled: False`` in each of the 14 blocks.
 This flag indicates that the execution of the recipe ``STARE_IMAGE`` is no
@@ -352,19 +372,19 @@ actual reduction, because they define the location of the previously reduced
 images**.
 
 The new observation result file ``dithered_v0.yaml`` contains a new block at
-the end (see lines 99-121 below), that is responsible of the execution of the
+the end (see lines 127-149 below), that is responsible of the execution of the
 combination of the previously reduced images:
 
 .. literalinclude:: dithered_v0.yaml
-   :lines: 1-121
-   :emphasize-lines: 99-121
+   :lines: 1-149
+   :emphasize-lines: 127-149
    :linenos:
    :lineno-start: 1
 
-The new block (lines 99-121) indicates that the reduction recipe
+The new block (lines 127-149) indicates that the reduction recipe
 ``FULL_DITHERED_IMAGE`` must be executed using as input the results of the
 previous blocks. In particular, the ``id's`` of the initial 14 blocks are given
-under the ``children:`` keyword (lines 103 to 116).
+under the ``children:`` keyword (lines 131 to 144).
 
 In addition, a few parameters (which will be modified later) are set to some
 default values in this initial combination:
@@ -404,8 +424,8 @@ a combined image.
    ::
 
       (emir) $ pyemir-generate_yaml_for_dithered_image \
-        data/list_images.txt --step 1 --obsid_combined combined_v0 \
-        --outfile dithered_v0.yaml 
+        data/list_images.txt --step 1 --reprojection interp \
+        --obsid_combined combined_v0 --outfile dithered_v0.yaml
 
    Note that here we are using ``--step 1`` instead of ``--step 0``. In
    addition, a new parameter ``--obsid_combined combined_v0`` has also been
