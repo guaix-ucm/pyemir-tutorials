@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Imaging mode tutorial: combination of dithered exposures &#8212; pyemir-tutorials v1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -53,20 +53,14 @@ provided order, starting with the simplest combination method, before
 attempting to refine the combination procedure.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Two aspects that are still not covered by PyEmir in imaging mode are the
-following:</p>
 <ul class="simple">
-<li><p>Only integer offsets between images are considered: this is not especially
-important considering that the PSF is well oversampled. The benefit of
-using integer offsets is that the reduction speed is not increased.</p></li>
-<li><p>Image distortions are not considered yet: this should be incorporated in a
-future release. Until them, the objects at the border of the combined
-images appear distorted (sorry!). The inclusion of this correction will
-imply the use of fractions of pixels for a proper image rectification
-prior to the combination, which will probably make the reduction more cpu
-demanding. Meanwhile, a temporary solution may be to combine the images
-using offsets between images computed using as references objects located
-in the image region where one requires the best image alignment.</p></li>
+<li><p>Since PyEmir version 0.17.0 image distortions are corrected by
+reprojecting each individual pointing into a WCS with a constant pixel
+scale in X and Y. For this task we are using the package <a class="reference external" href="https://reproject.readthedocs.io/en/stable/">reproject</a>.</p></li>
+<li><p>Only integer offsets between (reprojected) images are considered: this is
+not especially important considering that the PSF is well oversampled. The
+benefit of using integer offsets is that we avoid reprojecting the images
+a second time (and we do not increase the reduction time).</p></li>
 </ul>
 </div>
 <p><strong>Tutorial index:</strong></p>
@@ -83,6 +77,7 @@ in the image region where one requires the best image alignment.</p></li>
 <li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-offsets-method-3">Improving offsets (method #3)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-the-sky-background-problem-1">Improving the sky background (problem #1)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-the-sky-background-problem-2">Improving the sky background (problem #2)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="refined_combination.html#improving-the-superflatfield">Improving the superflatfield</a></li>
 </ul>
 </li>
 </ul>
@@ -168,7 +163,7 @@ in the image region where one requires the best image alignment.</p></li>
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.1.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

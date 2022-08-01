@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Simple example: arc exposure &#8212; pyemir-tutorials v1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -195,7 +195,7 @@ below), where the intermediate results and the final results are going to be
 stored, respectively. Note that we have arbitrarily chosen the 10 digits of
 the unique running number assigned to the first image of this set.</p></li>
 <li><p>Not surprisingly, the key <code class="docutils literal notranslate"><span class="pre">instrument</span></code> is set to EMIR (do not forget that
-Numina also is at present also employed to reduce MEGARA data, and hopefully,
+Numina is at present also employed to reduce MEGARA data, and hopefully
 future GTC instruments).</p></li>
 <li><p>The key <code class="docutils literal notranslate"><span class="pre">mode</span></code> indicates the identification of the reduction recipe
 (<code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> in this example).</p></li>
@@ -277,7 +277,7 @@ obsid_0001041345_work/
 this working directory in order to preserve the original files.</p>
 <p><em>When disk space is an issue, it is possible to execute numina indicating that
 links (instead of actual copies of the original raw files) must be placed in
-the ``work`` subdirectory.</em> This behaviour is set using the parameter
+the</em> <code class="docutils literal notranslate"><span class="pre">work</span></code> <em>subdirectory.</em> This behaviour is set using the parameter
 <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_preliminary_calibration.yaml --link-files -r control.yaml
 ...
@@ -782,7 +782,7 @@ each slitlet showing the cross-correlation function:</p>
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.1.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

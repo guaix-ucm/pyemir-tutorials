@@ -2,12 +2,12 @@
 Improving the image combination
 ===============================
 
-The image combination can be improve by tuning some of the parameters of the
+The image combination can be improved by tuning some of the parameters of the
 recipe ``FULL_DITHERED_IMAGE`` (step 2 in the previous section).
 In this sense, there is no need to repeat the basic reduction of the individual
 exposures (step 1).
 
-As previously mentioned, two are the problems that we want to solve:
+As previously mentioned, three are the problems that we want to solve:
 
 1. **Improve the offsets between individual exposures:** this can be achieved
    in several ways:
@@ -36,6 +36,10 @@ As previously mentioned, two are the problems that we want to solve:
    - Introducing an *ad hoc* fit to a low-order polynomial surface to the sky
      background. See subsection :ref:`improving_skybackground_2` below.
 
+3. **Take into account the doughnut-like shape that appears in the
+   superflatfield:** this can be done by fitting the doughnut-like shape by a
+   smooth surface (using a smoothing kernel in polar coordinates that helps to
+   fit the azimuthal shape). See subsection :ref:`improving_doughnut` below.
 
 .. _improving_offsets_1:
 
@@ -49,14 +53,16 @@ an external file provided by the user) are a reasonable approximation to the
 refined values. To activate this option it it necessary to set the requirement
 ``refine_offsets: True`` in the observation result file.
 
-This option is already set in line number 120 of the file ``dithered_v1.yaml``,
-available in the downloaded package for this tutorial.
+This option is already set in line number 148 of the file ``dithered_v1.yaml``,
+available in the downloaded package for this tutorial (note that the ``id`` in
+line 127 has also been changed in order to avoid overwriting the ``work`` and
+``results`` subdirectories from the execution of ``dithered_v0.yaml``).
 
 .. literalinclude:: dithered_v1.yaml
-   :lines: 117-121
-   :emphasize-lines: 4
+   :lines: 127-149
+   :emphasize-lines: 1, 22
    :linenos:
-   :lineno-start: 117
+   :lineno-start: 127
 
 The refined version of the combined image is then obtained by executing numina
 again with this new observation result file:
@@ -123,13 +129,13 @@ must be placed within the ``data`` subdirectory.
 
 The observation result file ``dithered_v2.yaml`` is similar to the initial
 ``dithered_v0.yaml`` file, with the inclusion of the new requirement (line
-number 121):
+number 148; note also the ``id`` change in line 127):
 
 .. literalinclude:: dithered_v2.yaml
-   :lines: 117-122
-   :emphasize-lines: 4
+   :lines: 127-150
+   :emphasize-lines: 1, 22
    :linenos:
-   :lineno-start: 117
+   :lineno-start: 127
 
 The contents of the ASCII file with the measured offsets is the following:
 
@@ -204,14 +210,18 @@ It is also possible to combine both the offsets provided by the user through an
 external ASCII file, as well as the cross-correlation method to improve those
 numbers.
 
-The last lines of the new observation result file ``dithered_v3.yaml`` are the
+The last lines of the new observation result file ``dithered_v3.yaml``, which
+differs only in two lines with ``dithered_v2.yaml``, are the
 following:
 
 .. literalinclude:: dithered_v3.yaml
-   :lines: 117-122
-   :emphasize-lines: 4-5
+   :lines: 127-150
+   :emphasize-lines: 1,23
    :linenos:
-   :lineno-start: 117
+   :lineno-start: 127
+
+In this case we have modified the ``id`` (line 127) and set
+``refine_offsets: True`` (line 149).
 
 Execute numina again with this new observation result file:
 
@@ -284,13 +294,34 @@ In addition, the user can indicate that the sky signal at each pixel must be
 computed from the signal at the same pixel in a predefined number of images
 (close in observing time).
 
-The observation result file ``dithered_v4.yaml`` includes both options:
+The observation result file ``dithered_v4.yaml`` (which is the same as
+``dithered_v1.yaml`` except for three modified lines) includes both options:
 
 .. literalinclude:: dithered_v4.yaml
-   :lines: 117-121
-   :emphasize-lines: 2-3
+   :lines: 127-149
+   :emphasize-lines: 1,20-21
    :linenos:
-   :lineno-start: 117
+   :lineno-start: 127
+
+In this example we are using:
+
+  - ``iterations: 1``: after a first combination (that can be considered as
+    iteration number zero) one iteration is performed (number 1), which
+    allows the code to detect the objects in the image and make use of a mask
+    of objects in order to compute a better sky background.
+
+  - ``sky_images: 6``: this number (which must be even) indicates de total
+    number of images employed to determine the sky background. In most cases
+    this means that the code will make use of 3 images obtained before and 3
+    images obtained after the one for which the sky background is being
+    computed. Obviously, when considering the first (or the last) image in the
+    sequence, no previous (or after) images are available: in these cases the 6
+    images correspond to exposures obtained after (or before) the one
+    considered. Since in our example we are using a sequence of exposures in 
+    which a pattern of 7 dithered exposures was followed, only 6 images after
+    (or before) any particular exposure correspond to different telescope
+    pointings. That is the reason for choosing ``sky_images: 6`` (it is the
+    maximum number of exposures before repeating the same dithering pointing).
 
 Note that ``refine_offsets: True`` is also being used, but without setting
 ``offsets`` with an external ASCII file (i.e., the initial offsets will be
@@ -362,7 +393,7 @@ Improving the sky background (problem #2)
 -----------------------------------------
 
 In all the previous examples, the combined images always exhibit variations in
-the sky background that are clearly visible in the image borders. The reason
+the sky background that are clearly visible at the image borders. The reason
 for that is that some individual exposures (in this particular example the
 first two individual images), have a wrong image background. 
 
@@ -376,6 +407,13 @@ the combination is lower:
 .. image:: data_npix_v4.png
    :width: 100%
    :alt: combined data and number of pixels used in combination, version 4
+
+.. See Jupyter notebook in
+.. /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/examine_combined_image.ipynb
+.. (note that we have to execute dithered_v5.yaml first)
+.. This notebook generates: statistics_v4.pdf and statistics_v5.pdf
+.. convert statistics_v4.pdf -trim combined_v4_statistics.png
+.. convert statistics_v5.pdf -trim combined_v5_statistics.png
 
 .. only:: html
 
@@ -453,7 +491,15 @@ ending in ``_rfs_i?.fits`` within the ``work`` subdirectories):
    .. |pic_v4_13| image:: skysub_v4-13.png
       :width: 24%
 
-One possibility is to remove the first two images from the list of images to be
+In this case we realize that the first two images exhibit an unexpected
+non-flat background (in the previous movie the first two images correspond to
+``reduced_image_d58cea92-0cd9-11ed-9e29-3c15c2e3dc50_rfs_i1.fits`` and
+``reduced_image_e45d0c32-0cd9-11ed-9e29-3c15c2e3dc50_rfs_i1.fits``; this can be
+easily recognized by having a look to the output of the reduction procedure in
+the terminal, or by examining the file
+``obsid_combined_v4_results/processing.log``).
+
+One possibility is to remove the first two images from the list of images to be 
 reduced. This is undesirable because it obviously reduces the depth of the
 combined image.
 
@@ -462,13 +508,13 @@ low-order 2D polynomial surface to the masked (i.e. removing objects)
 sky-subtracted images. This option can be activated by using the requirement
 ``nside_adhoc_sky_correction``. We have incorporated that option in the
 observation result file ``dithered_v5.yaml``, which also includes an iteration
-to generate an object mask:
+to generate an object mask (as we did in ``dithered_v4.yaml``):
 
 .. literalinclude:: dithered_v5.yaml
-   :lines: 117-122
-   :emphasize-lines: 5
+   :lines: 127-150
+   :emphasize-lines: 1,23
    :linenos:
-   :lineno-start: 117
+   :lineno-start: 127
 
 Since the problem with the sky background is different for each quadrant of the
 EMIR detector, the value of ``nside_adhoc_sky_correction`` indicates the number
@@ -515,3 +561,105 @@ zero, except for those pixels in the combined image where only one single
 exposure is available. By looking at the file ``result_i1_npix.fits`` it is
 possible to check that those pixels are just at the borders of the combined
 image.
+
+.. _improving_doughnut:
+
+Improving the superflatfield
+----------------------------
+
+Here we are modifying the last observation result file (``dithered_v5.yaml``)
+to generate ``dithered_v6.yaml``. The only change that we need to introduce
+here is to set the requirement ``fit_doughnut: True`` (line 149; note also the
+change in the ``id`` in line 127):
+
+.. literalinclude:: dithered_v6.yaml
+   :lines: 127-151
+   :emphasize-lines: 1,23
+   :linenos:
+   :lineno-start: 127
+
+**Note that this parameter** ``fit_doughnut`` **is assumed to be** ``False``
+**by default, which means that the correction described next is not performed
+unless splicitly stated.**
+
+::
+
+   (emir) $ numina run dithered_v6.yaml --link-files -r control.yaml
+
+The refined version of the superflatfield is then obtained by fitting a smooth
+surface (preserving some azimuthal symmetry) which is applied to the initial
+superflatfield (dividing by the fitted doughnut-like shape), which provides a
+quite flat new superflatfield. 
+
+In this example, the initial superflatfield computed in iteration 1 (masking
+objects) is the following:
+
+.. numina-ximshow obsid_combined_v6_work/superflat_comb_i1.fits --geometry 0,0,567,800 --z1z2 [0.80,1.20]
+.. convert image.png -trim image_trimmed.png
+
+.. image:: superflat_comb_i1_v6_trimmed.png
+   :width: 100%
+   :alt: initial superflatfield, version 6
+
+The fitted doughnut-like model, displayed using the same cuts is:
+
+.. numina-ximshow obsid_combined_v6_work/superflat_doughnut_i1.fits --geometry 0,0,567,800 --z1z2 [0.80,1.20]
+.. convert image.png -trim image_trimmed.png
+
+.. image:: superflat_doughnut_i1_v6_trimmed.png
+   :width: 100%
+   :alt: fitted doughnut-like surface, version 6
+
+The resulting refined superflatfield, obtained after dividing the initial
+superflatfield by the fitted surface, has the following aspect:
+
+.. numina-ximshow obsid_combined_v6_work/superflat_comb_dc_i1.fits --geometry 0,0,567,800 --z1z2 [0.80,1.20]
+.. convert image.png -trim image_trimmed.png
+
+.. image:: superflat_comb_dc_i1_v6_trimmed.png
+   :width: 100%
+   :alt: refined superflatfield, version 6
+
+In addition, since this doughnut-like shape is
+present in every single exposure prior to the sky subtraction, the following
+strategy is followed in order to perform this latter reduction step:
+
+  - iteration 0: the sky background of each individual exposure is computed as
+    the fitted doughnut-like shape scaled to the median signal (in order to
+    match the sky background).
+
+  - iteration >= 1: the sky background of every pixel is computed using the
+    information of the same pixel in images close in observing time. In this
+    case the signal of the doughnut-like shape is considered to be the same in
+    all these images (which seems to be a reasonable assumption), and there is
+    no need to make use of the fitted doughnut-like shape (except for the
+    computation of the refined superflatfield itself).
+
+We can easily compare the new result with the one obtained using
+``dithered_v5.yaml``. For that purpose is useful to subtract the new result from the one derived previously:
+
+::
+
+   (emir) $ numina-imath obsid_combined_v6_results/reduced_image.fits - \
+      obsid_combined_v5_results/reduced_image.fits difference_v6.fits
+
+.. generada con --geometry 0,0,850,1200
+.. (--geometry 0,0,567,800 en el MacBook Pro)
+.. convert combined_v6.png -trim combined_v6_trimmed.png
+.. convert difference_v6.png -trim difference_v6_trimmed.png
+.. convert -delay 100 -loop 0 combined_v[56]_trimmed.png difference_v6_trimmed.png comparison_v6.gif
+
+.. only:: html
+
+   .. image:: comparison_v6.gif
+      :width: 100%
+      :alt: combined image, version 6 compared with version 5
+
+In this particular example, the introduction of the refined superflatfield
+introduces changes in the signal of some objects that can be as large as 20%,
+depending on the location of the targets relative to the doughnut-like shape
+(which also changes from exposure to exposure when taking into account the
+dithering pattern). In general, the signal of the objects falling close the the
+peak of the doughnut-like shape is enhanced (in comparison with what it is
+obtained when the refined superflatfield is not computed), while the contrary
+is true for the objects closer to the center of the doughnut shape.

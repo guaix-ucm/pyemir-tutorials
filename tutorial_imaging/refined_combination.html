@@ -4,7 +4,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
     <title>Improving the image combination &#8212; pyemir-tutorials v1.0 documentation</title>
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
@@ -36,11 +36,11 @@
             
   <section id="improving-the-image-combination">
 <h1>Improving the image combination<a class="headerlink" href="#improving-the-image-combination" title="Permalink to this heading">¶</a></h1>
-<p>The image combination can be improve by tuning some of the parameters of the
+<p>The image combination can be improved by tuning some of the parameters of the
 recipe <code class="docutils literal notranslate"><span class="pre">FULL_DITHERED_IMAGE</span></code> (step 2 in the previous section).
 In this sense, there is no need to repeat the basic reduction of the individual
 exposures (step 1).</p>
-<p>As previously mentioned, two are the problems that we want to solve:</p>
+<p>As previously mentioned, three are the problems that we want to solve:</p>
 <ol class="arabic simple">
 <li><p><strong>Improve the offsets between individual exposures:</strong> this can be achieved
 in several ways:</p>
@@ -68,6 +68,10 @@ subsection <a class="reference internal" href="#improving-skybackground-1"><span
 background. See subsection <a class="reference internal" href="#improving-skybackground-2"><span class="std std-ref">Improving the sky background (problem #2)</span></a> below.</p></li>
 </ul>
 </li>
+<li><p><strong>Take into account the doughnut-like shape that appears in the
+superflatfield:</strong> this can be done by fitting the doughnut-like shape by a
+smooth surface (using a smoothing kernel in polar coordinates that helps to
+fit the azimuthal shape). See subsection <a class="reference internal" href="#improving-doughnut"><span class="std std-ref">Improving the superflatfield</span></a> below.</p></li>
 </ol>
 <section id="improving-offsets-method-1">
 <span id="improving-offsets-1"></span><h2>Improving offsets (method #1)<a class="headerlink" href="#improving-offsets-method-1" title="Permalink to this heading">¶</a></h2>
@@ -77,13 +81,33 @@ offsets (either derived from the WCS information in the image headers or from
 an external file provided by the user) are a reasonable approximation to the
 refined values. To activate this option it it necessary to set the requirement
 <code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code> in the observation result file.</p>
-<p>This option is already set in line number 120 of the file <code class="docutils literal notranslate"><span class="pre">dithered_v1.yaml</span></code>,
-available in the downloaded package for this tutorial.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">117</span><span class="n">requirements</span><span class="p">:</span>
-<span class="linenos">118</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">0</span>
-<span class="linenos">119</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">0</span>
-<span class="hll"><span class="linenos">120</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
-</span><span class="linenos">121</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<p>This option is already set in line number 148 of the file <code class="docutils literal notranslate"><span class="pre">dithered_v1.yaml</span></code>,
+available in the downloaded package for this tutorial (note that the <code class="docutils literal notranslate"><span class="pre">id</span></code> in
+line 127 has also been changed in order to avoid overwriting the <code class="docutils literal notranslate"><span class="pre">work</span></code> and
+<code class="docutils literal notranslate"><span class="pre">results</span></code> subdirectories from the execution of <code class="docutils literal notranslate"><span class="pre">dithered_v0.yaml</span></code>).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">127</span><span class="nb">id</span><span class="p">:</span> <span class="n">_combined_v1</span>
+</span><span class="linenos">128</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">129</span><span class="n">mode</span><span class="p">:</span> <span class="n">FULL_DITHERED_IMAGE</span>
+<span class="linenos">130</span><span class="n">children</span><span class="p">:</span>
+<span class="linenos">131</span> <span class="o">-</span> <span class="n">_0001877553</span>
+<span class="linenos">132</span> <span class="o">-</span> <span class="n">_0001877559</span>
+<span class="linenos">133</span> <span class="o">-</span> <span class="n">_0001877565</span>
+<span class="linenos">134</span> <span class="o">-</span> <span class="n">_0001877571</span>
+<span class="linenos">135</span> <span class="o">-</span> <span class="n">_0001877577</span>
+<span class="linenos">136</span> <span class="o">-</span> <span class="n">_0001877583</span>
+<span class="linenos">137</span> <span class="o">-</span> <span class="n">_0001877589</span>
+<span class="linenos">138</span> <span class="o">-</span> <span class="n">_0001877595</span>
+<span class="linenos">139</span> <span class="o">-</span> <span class="n">_0001877601</span>
+<span class="linenos">140</span> <span class="o">-</span> <span class="n">_0001877607</span>
+<span class="linenos">141</span> <span class="o">-</span> <span class="n">_0001877613</span>
+<span class="linenos">142</span> <span class="o">-</span> <span class="n">_0001877619</span>
+<span class="linenos">143</span> <span class="o">-</span> <span class="n">_0001877625</span>
+<span class="linenos">144</span> <span class="o">-</span> <span class="n">_0001877631</span>
+<span class="linenos">145</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">146</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">0</span>
+<span class="linenos">147</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">0</span>
+<span class="hll"><span class="linenos">148</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
+</span><span class="linenos">149</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>The refined version of the combined image is then obtained by executing numina
@@ -106,13 +130,31 @@ providing such a file with the name <code class="docutils literal notranslate"><
 must be placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory.</p>
 <p>The observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v2.yaml</span></code> is similar to the initial
 <code class="docutils literal notranslate"><span class="pre">dithered_v0.yaml</span></code> file, with the inclusion of the new requirement (line
-number 121):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">117</span><span class="n">requirements</span><span class="p">:</span>
-<span class="linenos">118</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">0</span>
-<span class="linenos">119</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">0</span>
-<span class="hll"><span class="linenos">120</span>  <span class="n">offsets</span><span class="p">:</span> <span class="n">user_offsets</span><span class="o">.</span><span class="n">txt</span>
-</span><span class="linenos">121</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">False</span>
-<span class="linenos">122</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+number 148; note also the <code class="docutils literal notranslate"><span class="pre">id</span></code> change in line 127):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">127</span><span class="nb">id</span><span class="p">:</span> <span class="n">_combined_v2</span>
+</span><span class="linenos">128</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">129</span><span class="n">mode</span><span class="p">:</span> <span class="n">FULL_DITHERED_IMAGE</span>
+<span class="linenos">130</span><span class="n">children</span><span class="p">:</span>
+<span class="linenos">131</span> <span class="o">-</span> <span class="n">_0001877553</span>
+<span class="linenos">132</span> <span class="o">-</span> <span class="n">_0001877559</span>
+<span class="linenos">133</span> <span class="o">-</span> <span class="n">_0001877565</span>
+<span class="linenos">134</span> <span class="o">-</span> <span class="n">_0001877571</span>
+<span class="linenos">135</span> <span class="o">-</span> <span class="n">_0001877577</span>
+<span class="linenos">136</span> <span class="o">-</span> <span class="n">_0001877583</span>
+<span class="linenos">137</span> <span class="o">-</span> <span class="n">_0001877589</span>
+<span class="linenos">138</span> <span class="o">-</span> <span class="n">_0001877595</span>
+<span class="linenos">139</span> <span class="o">-</span> <span class="n">_0001877601</span>
+<span class="linenos">140</span> <span class="o">-</span> <span class="n">_0001877607</span>
+<span class="linenos">141</span> <span class="o">-</span> <span class="n">_0001877613</span>
+<span class="linenos">142</span> <span class="o">-</span> <span class="n">_0001877619</span>
+<span class="linenos">143</span> <span class="o">-</span> <span class="n">_0001877625</span>
+<span class="linenos">144</span> <span class="o">-</span> <span class="n">_0001877631</span>
+<span class="linenos">145</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">146</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">0</span>
+<span class="linenos">147</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">0</span>
+<span class="hll"><span class="linenos">148</span>  <span class="n">offsets</span><span class="p">:</span> <span class="n">user_offsets</span><span class="o">.</span><span class="n">txt</span>
+</span><span class="linenos">149</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">False</span>
+<span class="linenos">150</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>The contents of the ASCII file with the measured offsets is the following:</p>
@@ -145,16 +187,37 @@ number 121):</p>
 <p>It is also possible to combine both the offsets provided by the user through an
 external ASCII file, as well as the cross-correlation method to improve those
 numbers.</p>
-<p>The last lines of the new observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v3.yaml</span></code> are the
+<p>The last lines of the new observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v3.yaml</span></code>, which
+differs only in two lines with <code class="docutils literal notranslate"><span class="pre">dithered_v2.yaml</span></code>, are the
 following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">117</span><span class="n">requirements</span><span class="p">:</span>
-<span class="linenos">118</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">0</span>
-<span class="linenos">119</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">0</span>
-<span class="hll"><span class="linenos">120</span>  <span class="n">offsets</span><span class="p">:</span> <span class="n">user_offsets</span><span class="o">.</span><span class="n">txt</span>
-</span><span class="hll"><span class="linenos">121</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
-</span><span class="linenos">122</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">127</span><span class="nb">id</span><span class="p">:</span> <span class="n">_combined_v3</span>
+</span><span class="linenos">128</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">129</span><span class="n">mode</span><span class="p">:</span> <span class="n">FULL_DITHERED_IMAGE</span>
+<span class="linenos">130</span><span class="n">children</span><span class="p">:</span>
+<span class="linenos">131</span> <span class="o">-</span> <span class="n">_0001877553</span>
+<span class="linenos">132</span> <span class="o">-</span> <span class="n">_0001877559</span>
+<span class="linenos">133</span> <span class="o">-</span> <span class="n">_0001877565</span>
+<span class="linenos">134</span> <span class="o">-</span> <span class="n">_0001877571</span>
+<span class="linenos">135</span> <span class="o">-</span> <span class="n">_0001877577</span>
+<span class="linenos">136</span> <span class="o">-</span> <span class="n">_0001877583</span>
+<span class="linenos">137</span> <span class="o">-</span> <span class="n">_0001877589</span>
+<span class="linenos">138</span> <span class="o">-</span> <span class="n">_0001877595</span>
+<span class="linenos">139</span> <span class="o">-</span> <span class="n">_0001877601</span>
+<span class="linenos">140</span> <span class="o">-</span> <span class="n">_0001877607</span>
+<span class="linenos">141</span> <span class="o">-</span> <span class="n">_0001877613</span>
+<span class="linenos">142</span> <span class="o">-</span> <span class="n">_0001877619</span>
+<span class="linenos">143</span> <span class="o">-</span> <span class="n">_0001877625</span>
+<span class="linenos">144</span> <span class="o">-</span> <span class="n">_0001877631</span>
+<span class="linenos">145</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">146</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">0</span>
+<span class="linenos">147</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">0</span>
+<span class="linenos">148</span>  <span class="n">offsets</span><span class="p">:</span> <span class="n">user_offsets</span><span class="o">.</span><span class="n">txt</span>
+<span class="hll"><span class="linenos">149</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
+</span><span class="linenos">150</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
+<p>In this case we have modified the <code class="docutils literal notranslate"><span class="pre">id</span></code> (line 127) and set
+<code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code> (line 149).</p>
 <p>Execute numina again with this new observation result file:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v3.yaml --link-files -r control.yaml
 </pre></div>
@@ -184,14 +247,54 @@ number larger than zero.</p>
 <p>In addition, the user can indicate that the sky signal at each pixel must be
 computed from the signal at the same pixel in a predefined number of images
 (close in observing time).</p>
-<p>The observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v4.yaml</span></code> includes both options:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">117</span><span class="n">requirements</span><span class="p">:</span>
-<span class="hll"><span class="linenos">118</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">1</span>
-</span><span class="hll"><span class="linenos">119</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">6</span>
-</span><span class="linenos">120</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
-<span class="linenos">121</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<p>The observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v4.yaml</span></code> (which is the same as
+<code class="docutils literal notranslate"><span class="pre">dithered_v1.yaml</span></code> except for three modified lines) includes both options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">127</span><span class="nb">id</span><span class="p">:</span> <span class="n">_combined_v4</span>
+</span><span class="linenos">128</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">129</span><span class="n">mode</span><span class="p">:</span> <span class="n">FULL_DITHERED_IMAGE</span>
+<span class="linenos">130</span><span class="n">children</span><span class="p">:</span>
+<span class="linenos">131</span> <span class="o">-</span> <span class="n">_0001877553</span>
+<span class="linenos">132</span> <span class="o">-</span> <span class="n">_0001877559</span>
+<span class="linenos">133</span> <span class="o">-</span> <span class="n">_0001877565</span>
+<span class="linenos">134</span> <span class="o">-</span> <span class="n">_0001877571</span>
+<span class="linenos">135</span> <span class="o">-</span> <span class="n">_0001877577</span>
+<span class="linenos">136</span> <span class="o">-</span> <span class="n">_0001877583</span>
+<span class="linenos">137</span> <span class="o">-</span> <span class="n">_0001877589</span>
+<span class="linenos">138</span> <span class="o">-</span> <span class="n">_0001877595</span>
+<span class="linenos">139</span> <span class="o">-</span> <span class="n">_0001877601</span>
+<span class="linenos">140</span> <span class="o">-</span> <span class="n">_0001877607</span>
+<span class="linenos">141</span> <span class="o">-</span> <span class="n">_0001877613</span>
+<span class="linenos">142</span> <span class="o">-</span> <span class="n">_0001877619</span>
+<span class="linenos">143</span> <span class="o">-</span> <span class="n">_0001877625</span>
+<span class="linenos">144</span> <span class="o">-</span> <span class="n">_0001877631</span>
+<span class="linenos">145</span><span class="n">requirements</span><span class="p">:</span>
+<span class="hll"><span class="linenos">146</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">1</span>
+</span><span class="hll"><span class="linenos">147</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">6</span>
+</span><span class="linenos">148</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">149</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
+<p>In this example we are using:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">iterations:</span> <span class="pre">1</span></code>: after a first combination (that can be considered as
+iteration number zero) one iteration is performed (number 1), which
+allows the code to detect the objects in the image and make use of a mask
+of objects in order to compute a better sky background.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sky_images:</span> <span class="pre">6</span></code>: this number (which must be even) indicates de total
+number of images employed to determine the sky background. In most cases
+this means that the code will make use of 3 images obtained before and 3
+images obtained after the one for which the sky background is being
+computed. Obviously, when considering the first (or the last) image in the
+sequence, no previous (or after) images are available: in these cases the 6
+images correspond to exposures obtained after (or before) the one
+considered. Since in our example we are using a sequence of exposures in
+which a pattern of 7 dithered exposures was followed, only 6 images after
+(or before) any particular exposure correspond to different telescope
+pointings. That is the reason for choosing <code class="docutils literal notranslate"><span class="pre">sky_images:</span> <span class="pre">6</span></code> (it is the
+maximum number of exposures before repeating the same dithering pointing).</p></li>
+</ul>
+</div></blockquote>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code> is also being used, but without setting
 <code class="docutils literal notranslate"><span class="pre">offsets</span></code> with an external ASCII file (i.e., the initial offsets will be
 computed from the WCS information in the image headers).</p>
@@ -210,7 +313,7 @@ computed from the WCS information in the image headers).</p>
 <section id="improving-the-sky-background-problem-2">
 <span id="improving-skybackground-2"></span><h2>Improving the sky background (problem #2)<a class="headerlink" href="#improving-the-sky-background-problem-2" title="Permalink to this heading">¶</a></h2>
 <p>In all the previous examples, the combined images always exhibit variations in
-the sky background that are clearly visible in the image borders. The reason
+the sky background that are clearly visible at the image borders. The reason
 for that is that some individual exposures (in this particular example the
 first two individual images), have a wrong image background.</p>
 <p>The problem is more severe in the regions where the number of images used for
@@ -220,6 +323,13 @@ the combination is lower:</p>
 <p>It is also possible to examine the sky-subtracted individual images (files
 ending in <code class="docutils literal notranslate"><span class="pre">_rfs_i?.fits</span></code> within the <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectories):</p>
 <a class="reference internal image-reference" href="../_images/skysub_v4.gif"><img alt="individual sky-subtracted images" src="../_images/skysub_v4.gif" style="width: 100%;" /></a>
+<p>In this case we realize that the first two images exhibit an unexpected
+non-flat background (in the previous movie the first two images correspond to
+<code class="docutils literal notranslate"><span class="pre">reduced_image_d58cea92-0cd9-11ed-9e29-3c15c2e3dc50_rfs_i1.fits</span></code> and
+<code class="docutils literal notranslate"><span class="pre">reduced_image_e45d0c32-0cd9-11ed-9e29-3c15c2e3dc50_rfs_i1.fits</span></code>; this can be
+easily recognized by having a look to the output of the reduction procedure in
+the terminal, or by examining the file
+<code class="docutils literal notranslate"><span class="pre">obsid_combined_v4_results/processing.log</span></code>).</p>
 <p>One possibility is to remove the first two images from the list of images to be
 reduced. This is undesirable because it obviously reduces the depth of the
 combined image.</p>
@@ -228,13 +338,31 @@ low-order 2D polynomial surface to the masked (i.e. removing objects)
 sky-subtracted images. This option can be activated by using the requirement
 <code class="docutils literal notranslate"><span class="pre">nside_adhoc_sky_correction</span></code>. We have incorporated that option in the
 observation result file <code class="docutils literal notranslate"><span class="pre">dithered_v5.yaml</span></code>, which also includes an iteration
-to generate an object mask:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">117</span><span class="n">requirements</span><span class="p">:</span>
-<span class="linenos">118</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">1</span>
-<span class="linenos">119</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">6</span>
-<span class="linenos">120</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
-<span class="hll"><span class="linenos">121</span>  <span class="n">nside_adhoc_sky_correction</span><span class="p">:</span> <span class="mi">10</span>
-</span><span class="linenos">122</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+to generate an object mask (as we did in <code class="docutils literal notranslate"><span class="pre">dithered_v4.yaml</span></code>):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">127</span><span class="nb">id</span><span class="p">:</span> <span class="n">_combined_v5</span>
+</span><span class="linenos">128</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">129</span><span class="n">mode</span><span class="p">:</span> <span class="n">FULL_DITHERED_IMAGE</span>
+<span class="linenos">130</span><span class="n">children</span><span class="p">:</span>
+<span class="linenos">131</span> <span class="o">-</span> <span class="n">_0001877553</span>
+<span class="linenos">132</span> <span class="o">-</span> <span class="n">_0001877559</span>
+<span class="linenos">133</span> <span class="o">-</span> <span class="n">_0001877565</span>
+<span class="linenos">134</span> <span class="o">-</span> <span class="n">_0001877571</span>
+<span class="linenos">135</span> <span class="o">-</span> <span class="n">_0001877577</span>
+<span class="linenos">136</span> <span class="o">-</span> <span class="n">_0001877583</span>
+<span class="linenos">137</span> <span class="o">-</span> <span class="n">_0001877589</span>
+<span class="linenos">138</span> <span class="o">-</span> <span class="n">_0001877595</span>
+<span class="linenos">139</span> <span class="o">-</span> <span class="n">_0001877601</span>
+<span class="linenos">140</span> <span class="o">-</span> <span class="n">_0001877607</span>
+<span class="linenos">141</span> <span class="o">-</span> <span class="n">_0001877613</span>
+<span class="linenos">142</span> <span class="o">-</span> <span class="n">_0001877619</span>
+<span class="linenos">143</span> <span class="o">-</span> <span class="n">_0001877625</span>
+<span class="linenos">144</span> <span class="o">-</span> <span class="n">_0001877631</span>
+<span class="linenos">145</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">146</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">1</span>
+<span class="linenos">147</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">6</span>
+<span class="linenos">148</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
+<span class="hll"><span class="linenos">149</span>  <span class="n">nside_adhoc_sky_correction</span><span class="p">:</span> <span class="mi">10</span>
+</span><span class="linenos">150</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>Since the problem with the sky background is different for each quadrant of the
@@ -253,6 +381,89 @@ zero, except for those pixels in the combined image where only one single
 exposure is available. By looking at the file <code class="docutils literal notranslate"><span class="pre">result_i1_npix.fits</span></code> it is
 possible to check that those pixels are just at the borders of the combined
 image.</p>
+</section>
+<section id="improving-the-superflatfield">
+<span id="improving-doughnut"></span><h2>Improving the superflatfield<a class="headerlink" href="#improving-the-superflatfield" title="Permalink to this heading">¶</a></h2>
+<p>Here we are modifying the last observation result file (<code class="docutils literal notranslate"><span class="pre">dithered_v5.yaml</span></code>)
+to generate <code class="docutils literal notranslate"><span class="pre">dithered_v6.yaml</span></code>. The only change that we need to introduce
+here is to set the requirement <code class="docutils literal notranslate"><span class="pre">fit_doughnut:</span> <span class="pre">True</span></code> (line 149; note also the
+change in the <code class="docutils literal notranslate"><span class="pre">id</span></code> in line 127):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos">127</span><span class="nb">id</span><span class="p">:</span> <span class="n">_combined_v6</span>
+</span><span class="linenos">128</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
+<span class="linenos">129</span><span class="n">mode</span><span class="p">:</span> <span class="n">FULL_DITHERED_IMAGE</span>
+<span class="linenos">130</span><span class="n">children</span><span class="p">:</span>
+<span class="linenos">131</span> <span class="o">-</span> <span class="n">_0001877553</span>
+<span class="linenos">132</span> <span class="o">-</span> <span class="n">_0001877559</span>
+<span class="linenos">133</span> <span class="o">-</span> <span class="n">_0001877565</span>
+<span class="linenos">134</span> <span class="o">-</span> <span class="n">_0001877571</span>
+<span class="linenos">135</span> <span class="o">-</span> <span class="n">_0001877577</span>
+<span class="linenos">136</span> <span class="o">-</span> <span class="n">_0001877583</span>
+<span class="linenos">137</span> <span class="o">-</span> <span class="n">_0001877589</span>
+<span class="linenos">138</span> <span class="o">-</span> <span class="n">_0001877595</span>
+<span class="linenos">139</span> <span class="o">-</span> <span class="n">_0001877601</span>
+<span class="linenos">140</span> <span class="o">-</span> <span class="n">_0001877607</span>
+<span class="linenos">141</span> <span class="o">-</span> <span class="n">_0001877613</span>
+<span class="linenos">142</span> <span class="o">-</span> <span class="n">_0001877619</span>
+<span class="linenos">143</span> <span class="o">-</span> <span class="n">_0001877625</span>
+<span class="linenos">144</span> <span class="o">-</span> <span class="n">_0001877631</span>
+<span class="linenos">145</span><span class="n">requirements</span><span class="p">:</span>
+<span class="linenos">146</span>  <span class="n">iterations</span><span class="p">:</span> <span class="mi">1</span>
+<span class="linenos">147</span>  <span class="n">sky_images</span><span class="p">:</span> <span class="mi">6</span>
+<span class="linenos">148</span>  <span class="n">refine_offsets</span><span class="p">:</span> <span class="kc">True</span>
+<span class="hll"><span class="linenos">149</span>  <span class="n">fit_doughnut</span><span class="p">:</span> <span class="kc">True</span>
+</span><span class="linenos">150</span>  <span class="n">nside_adhoc_sky_correction</span><span class="p">:</span> <span class="mi">10</span>
+<span class="linenos">151</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+</pre></div>
+</div>
+<p><strong>Note that this parameter</strong> <code class="docutils literal notranslate"><span class="pre">fit_doughnut</span></code> <strong>is assumed to be</strong> <code class="docutils literal notranslate"><span class="pre">False</span></code>
+<strong>by default, which means that the correction described next is not performed
+unless splicitly stated.</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v6.yaml --link-files -r control.yaml
+</pre></div>
+</div>
+<p>The refined version of the superflatfield is then obtained by fitting a smooth
+surface (preserving some azimuthal symmetry) which is applied to the initial
+superflatfield (dividing by the fitted doughnut-like shape), which provides a
+quite flat new superflatfield.</p>
+<p>In this example, the initial superflatfield computed in iteration 1 (masking
+objects) is the following:</p>
+<a class="reference internal image-reference" href="../_images/superflat_comb_i1_v6_trimmed.png"><img alt="initial superflatfield, version 6" src="../_images/superflat_comb_i1_v6_trimmed.png" style="width: 100%;" /></a>
+<p>The fitted doughnut-like model, displayed using the same cuts is:</p>
+<a class="reference internal image-reference" href="../_images/superflat_doughnut_i1_v6_trimmed.png"><img alt="fitted doughnut-like surface, version 6" src="../_images/superflat_doughnut_i1_v6_trimmed.png" style="width: 100%;" /></a>
+<p>The resulting refined superflatfield, obtained after dividing the initial
+superflatfield by the fitted surface, has the following aspect:</p>
+<a class="reference internal image-reference" href="../_images/superflat_comb_dc_i1_v6_trimmed.png"><img alt="refined superflatfield, version 6" src="../_images/superflat_comb_dc_i1_v6_trimmed.png" style="width: 100%;" /></a>
+<p>In addition, since this doughnut-like shape is
+present in every single exposure prior to the sky subtraction, the following
+strategy is followed in order to perform this latter reduction step:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>iteration 0: the sky background of each individual exposure is computed as
+the fitted doughnut-like shape scaled to the median signal (in order to
+match the sky background).</p></li>
+<li><p>iteration &gt;= 1: the sky background of every pixel is computed using the
+information of the same pixel in images close in observing time. In this
+case the signal of the doughnut-like shape is considered to be the same in
+all these images (which seems to be a reasonable assumption), and there is
+no need to make use of the fitted doughnut-like shape (except for the
+computation of the refined superflatfield itself).</p></li>
+</ul>
+</div></blockquote>
+<p>We can easily compare the new result with the one obtained using
+<code class="docutils literal notranslate"><span class="pre">dithered_v5.yaml</span></code>. For that purpose is useful to subtract the new result from the one derived previously:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-imath obsid_combined_v6_results/reduced_image.fits - \
+   obsid_combined_v5_results/reduced_image.fits difference_v6.fits
+</pre></div>
+</div>
+<a class="reference internal image-reference" href="../_images/comparison_v6.gif"><img alt="combined image, version 6 compared with version 5" src="../_images/comparison_v6.gif" style="width: 100%;" /></a>
+<p>In this particular example, the introduction of the refined superflatfield
+introduces changes in the signal of some objects that can be as large as 20%,
+depending on the location of the targets relative to the doughnut-like shape
+(which also changes from exposure to exposure when taking into account the
+dithering pattern). In general, the signal of the objects falling close the the
+peak of the doughnut-like shape is enhanced (in comparison with what it is
+obtained when the refined superflatfield is not computed), while the contrary
+is true for the objects closer to the center of the doughnut shape.</p>
 </section>
 </section>
 
@@ -337,7 +548,7 @@ image.</p>
       &copy;2018-2020, Universidad Complutense de Madrid.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.0.1</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 5.1.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
       |

@@ -27,21 +27,15 @@ attempting to refine the combination procedure.
 
 .. note::
 
-   Two aspects that are still not covered by PyEmir in imaging mode are the 
-   following:
-
-   - Only integer offsets between images are considered: this is not especially
-     important considering that the PSF is well oversampled. The benefit of
-     using integer offsets is that the reduction speed is not increased.
-
-   - Image distortions are not considered yet: this should be incorporated in a
-     future release. Until them, the objects at the border of the combined
-     images appear distorted (sorry!). The inclusion of this correction will
-     imply the use of fractions of pixels for a proper image rectification
-     prior to the combination, which will probably make the reduction more cpu
-     demanding. Meanwhile, a temporary solution may be to combine the images
-     using offsets between images computed using as references objects located
-     in the image region where one requires the best image alignment.
+   - Since PyEmir version 0.17.0 image distortions are corrected by
+     reprojecting each individual pointing into a WCS with a constant pixel
+     scale in X and Y. For this task we are using the package `reproject
+     <https://reproject.readthedocs.io/en/stable/>`_.
+     
+   - Only integer offsets between (reprojected) images are considered: this is
+     not especially important considering that the PSF is well oversampled. The
+     benefit of using integer offsets is that we avoid reprojecting the images
+     a second time (and we do not increase the reduction time).
 
 
 .. only:: html
