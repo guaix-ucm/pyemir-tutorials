@@ -31,12 +31,18 @@ attempting to refine the combination procedure.
      reprojecting each individual pointing into a WCS with a constant pixel
      scale in X and Y. For this task we are using the package `reproject
      <https://reproject.readthedocs.io/en/stable/>`_.
+
+     **Important**: the absolute astrometric calibration of the reduced images
+     is not guaranteed to be better than a few pixels. This means that the same
+     field observed (and reduced) in different times may not overlap perfectly.
+     An absolute astrometric calibration will require the comparison of the
+     derived astrometry with accurate coordinates of objects in the field of
+     view.
      
    - Only integer offsets between (reprojected) images are considered: this is
      not especially important considering that the PSF is well oversampled. The
      benefit of using integer offsets is that we avoid reprojecting the images
      a second time (and we do not increase the reduction time).
-
 
 .. only:: html
 

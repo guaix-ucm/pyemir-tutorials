@@ -54,10 +54,17 @@ provided order, starting with the simplest combination method, before
 attempting to refine the combination procedure.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<ul class="simple">
+<ul>
 <li><p>Since PyEmir version 0.17.0 image distortions are corrected by
 reprojecting each individual pointing into a WCS with a constant pixel
-scale in X and Y. For this task we are using the package <a class="reference external" href="https://reproject.readthedocs.io/en/stable/">reproject</a>.</p></li>
+scale in X and Y. For this task we are using the package <a class="reference external" href="https://reproject.readthedocs.io/en/stable/">reproject</a>.</p>
+<p><strong>Important</strong>: the absolute astrometric calibration of the reduced images
+is not guaranteed to be better than a few pixels. This means that the same
+field observed (and reduced) in different times may not overlap perfectly.
+An absolute astrometric calibration will require the comparison of the
+derived astrometry with accurate coordinates of objects in the field of
+view.</p>
+</li>
 <li><p>Only integer offsets between (reprojected) images are considered: this is
 not especially important considering that the PSF is well oversampled. The
 benefit of using integer offsets is that we avoid reprojecting the images
