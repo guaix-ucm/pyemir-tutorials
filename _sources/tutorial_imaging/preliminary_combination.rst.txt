@@ -107,23 +107,15 @@ astropy utility ``fitsheader``:
 
 ::
 
-   (emir) $ fitsheader data/0001877*.fits -k obsblock -k imgobbl -k nimgobbl -k object -k exptime -k readmode -f
-                      filename                    OBSBLOCK IMGOBBL NIMGOBBL OBJECT EXPTIME  READMODE
-   ---------------------------------------------- -------- ------- -------- ------ -------- --------
-   data/0001877553-20181217-EMIR-STARE_IMAGE.fits        1       1        7   TEST 29.99926     RAMP
-   data/0001877559-20181217-EMIR-STARE_IMAGE.fits        1       2        7   TEST 29.99926     RAMP
-   data/0001877565-20181217-EMIR-STARE_IMAGE.fits        1       3        7   TEST 29.99926     RAMP
-   data/0001877571-20181217-EMIR-STARE_IMAGE.fits        1       4        7   TEST 29.99926     RAMP
-   data/0001877577-20181217-EMIR-STARE_IMAGE.fits        1       5        7   TEST 29.99926     RAMP
-   data/0001877583-20181217-EMIR-STARE_IMAGE.fits        1       6        7   TEST 29.99926     RAMP
-   data/0001877589-20181217-EMIR-STARE_IMAGE.fits        1       7        7   TEST 29.99926     RAMP
-   data/0001877595-20181217-EMIR-STARE_IMAGE.fits        2       1        7   TEST 29.99926     RAMP
-   data/0001877601-20181217-EMIR-STARE_IMAGE.fits        2       2        7   TEST 29.99926     RAMP
-   data/0001877607-20181217-EMIR-STARE_IMAGE.fits        2       3        7   TEST 29.99926     RAMP
-   data/0001877613-20181217-EMIR-STARE_IMAGE.fits        2       4        7   TEST 29.99926     RAMP
-   data/0001877619-20181217-EMIR-STARE_IMAGE.fits        2       5        7   TEST 29.99926     RAMP
-   data/0001877625-20181217-EMIR-STARE_IMAGE.fits        2       6        7   TEST 29.99926     RAMP
-   data/0001877631-20181217-EMIR-STARE_IMAGE.fits        2       7        7   TEST 29.99926     RAMP
+   (emir) $ fitsheader data/0001877* \
+     -k nobsblck -k obsblock -k nimgobbl -k imgobbl \
+     -k nexp -k exp -k object -k exptime -k readmode \
+     -k filter -k grism -k date-obs -k ra -k dec -f > fitsheader_out.txt
+
+The previous command generates a file ``fitsheader_out.txt`` with the contents
+of some relevant FITS keywords extracted from the header of the images.
+
+.. literalinclude:: fitsheader_out.txt
 
 Note that:
 
@@ -132,7 +124,15 @@ Note that:
 - the keyword ``NIMGOBBL`` provides the total number of images in each
   dithering pattern (7 in this case).
 
-- ``IMGOBBL`` indicates the sequential number within each pattern.
+- ``IMGOBBL`` indicates the sequential number within each pattern. This number
+  runs from 1 to ``NIMGOBBL``.
+
+- the keyword ``NEXP`` gives the number of exposures taken at each position in
+  the dithering pattern before moving to the next one. In this simple example
+  this number is 1.
+
+- the keyword ``EXP`` provides de sequential number at each position in the
+  dithering pattern. This number runs from 1 to ``NEXP``.
 
 The first steps in the reduction process will be the bad-pixel mask,
 flatfielding, and image reprojection.
@@ -241,18 +241,28 @@ highlighting the first block (first eight lines):
       (emir) $ ls 0001877*fits > list_images.txt
       (emir) $ cd ..
       (emir) $ pyemir-generate_yaml_for_dithered_image \
-        data/list_images.txt --step 0 --reprojection interp \
+        data/list_images.txt --step 0 --repeat 1 \
+        --reprojection interp \
         --outfile dithered_ini.yaml
 
 
    Note that a temporary file ``list_images.txt`` is created with a list of the
    the individual exposures. The script
-   ``pyemir-generate_yaml_for_dithered_image`` reads that file and generate the
-   observation result file ``dithered_ini.yaml`` (the parameter ``--step 0``
+   ``pyemir-generate_yaml_for_dithered_image`` reads that file and generates 
+   the observation result file ``dithered_ini.yaml``.
+
+   The parameter ``--step 0``
    indicates that the reduction recipe to be used here is ``STARE_IMAGE``,
-   which corresponds to the preliminary image reduction). The reprojection
-   method is also indicated by ``--reprojection interp``, where the valid
-   options are ``none``, ``interp``, ``adaptive`` or ``exact``.
+   which corresponds to the preliminary image reduction. 
+
+   The parameter ``--repeat 1`` indicates that there is only a single exposure
+   at each telescope pointing within the dithering pattern. In a general case
+   this number can be greater than one (check the ``NEXP`` keyword in the FITS
+   header of the images; this is one of the keywords included in the file
+   ``fitsheader_out.txt`` generated above).
+
+   The reprojection method is also indicated by ``--reprojection interp``,
+   where the valid options are ``none``, ``interp``, ``adaptive`` or ``exact``.
 
 
 **The requirements file:** ``control.yaml``
@@ -424,13 +434,18 @@ a combined image.
    ::
 
       (emir) $ pyemir-generate_yaml_for_dithered_image \
-        data/list_images.txt --step 1 --reprojection interp \
-        --obsid_combined combined_v0 --outfile dithered_v0.yaml
+        data/list_images.txt --step 1 --repeat 1 \
+        --reprojection interp \
+        --obsid_combined combined_v0 \
+        --outfile dithered_v0.yaml
 
    Note that here we are using ``--step 1`` instead of ``--step 0``. In
    addition, a new parameter ``--obsid_combined combined_v0`` has also been
    employed in order to set the ``id`` of the block responsible for the
-   execution of the combination recipe (see line number 99 above).
+   execution of the combination recipe.
+
+   Do not miss the ``--repeat <NEXP>`` parameter (in this example
+   ``NEXP=1``).
 
 The combination of the images is finally performed using numina:
 
