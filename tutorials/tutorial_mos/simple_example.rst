@@ -7,7 +7,7 @@ Simple example: arc exposure
 .. warning::
 
    All the commands are assumed to be executed in a terminal running the **bash
-   shell**.
+   shell** (or a compatible one).
 
    Don't forget to activate the same Python environment employed to install
    PyEmir.  In this document, the prompt ``(emir) $`` will indicate that this
