@@ -637,6 +637,19 @@ A few pages of that file are the following:
    :width: 100%
    :alt: cross-correlation example 3
 
+**Summary**: the final wavelength calibration applied to each
+slitlet differs from the preliminary wavelength calibration, and incorporates
+the two refinements displayed in the previous plots:
+
+- Refinement #1: global offset of each spectrum, computed using the
+  crosscorrelation method.
+
+- Refinement #2: systematic offset with wavelength, displayed as the straight
+  line fit (blue line) in the plot representing offset vs. wavelength. This
+  is a second order correction but it should provide an unbiased absolute
+  wavelength calibration in the whole wavelength range. The robust standard
+  deviation is a good proxy for the expected standard deviation of the
+  wavelength calibration, and it should be a fraction of ``CDELT1``.
 
 
 Automatic determination of X and Y offsets

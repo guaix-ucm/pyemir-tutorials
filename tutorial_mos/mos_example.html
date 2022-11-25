@@ -560,6 +560,19 @@ A few pages of that file are the following:</p>
 <a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0002004226_crosscorrelation1.png" style="width: 100%;" /></a>
 <a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0002004226_crosscorrelation2.png" style="width: 100%;" /></a>
 <a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0002004226_crosscorrelation3.png" style="width: 100%;" /></a>
+<p><strong>Summary</strong>: the final wavelength calibration applied to each
+slitlet differs from the preliminary wavelength calibration, and incorporates
+the two refinements displayed in the previous plots:</p>
+<ul class="simple">
+<li><p>Refinement #1: global offset of each spectrum, computed using the
+crosscorrelation method.</p></li>
+<li><p>Refinement #2: systematic offset with wavelength, displayed as the straight
+line fit (blue line) in the plot representing offset vs. wavelength. This
+is a second order correction but it should provide an unbiased absolute
+wavelength calibration in the whole wavelength range. The robust standard
+deviation is a good proxy for the expected standard deviation of the
+wavelength calibration, and it should be a fraction of <code class="docutils literal notranslate"><span class="pre">CDELT1</span></code>.</p></li>
+</ul>
 </section>
 <section id="automatic-determination-of-x-and-y-offsets">
 <h3>Automatic determination of X and Y offsets<a class="headerlink" href="#automatic-determination-of-x-and-y-offsets" title="Permalink to this heading">¶</a></h3>
