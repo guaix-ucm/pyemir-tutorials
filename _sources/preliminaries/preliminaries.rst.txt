@@ -45,6 +45,13 @@ mode.
 Download the following file: `pyemir_initial_tree_v1b.tgz 
 <http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz>`_.
 
+If you find any trouble trying to download the previous file, try with the
+following command line:
+
+::
+
+   (emir) $ curl -O http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz
+
 .. warning::
 
    Please be aware that this file has been updated as of February 2024 to make
