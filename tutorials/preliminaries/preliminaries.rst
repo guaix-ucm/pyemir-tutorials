@@ -42,8 +42,18 @@ Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.
 
-Download the following file: `pyemir_initial_tree_v1.tgz 
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1.tgz>`_.
+Download the following file: `pyemir_initial_tree_v1b.tgz 
+<http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz>`_.
+
+.. warning::
+
+   Please be aware that this file has been updated as of February 2024 to make
+   it easier to handle EMIR data collected with the new H2RG detector.
+   Specifically, the structure of the control.yaml file has been modified to
+   support varying calibrations based on the detector being used. This update
+   is part of an ongoing process as we continue to develop proper calibrations
+   for the H2RG detector. In the meantime, the pipeline should function
+   properly with images captured using the original EMIR detector.
 
 It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:
@@ -55,10 +65,10 @@ you can comfortably start the reduction of your data:
    
    # copy here the downloaded tgz file
 
-   (emir) $ tar zxvf pyemir_initial_tree_v1.tgz
+   (emir) $ tar zxvf pyemir_initial_tree_v1b.tgz
    ...
    ...
-   (emir) $ rm pyemir_initial_tree_v1.tgz
+   (emir) $ rm pyemir_initial_tree_v1b.tgz
    (emir) $ tree 
    .
    ├── control.yaml
