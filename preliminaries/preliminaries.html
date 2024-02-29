@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<html class="writer-html5" lang="en">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preliminaries &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+
+  
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -108,7 +110,17 @@ format.</p>
 <p>Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.</p>
-<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1.tgz">pyemir_initial_tree_v1.tgz</a>.</p>
+<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz">pyemir_initial_tree_v1b.tgz</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please be aware that this file has been updated as of February 2024 to make
+it easier to handle EMIR data collected with the new H2RG detector.
+Specifically, the structure of the control.yaml file has been modified to
+support varying calibrations based on the detector being used. This update
+is part of an ongoing process as we continue to develop proper calibrations
+for the H2RG detector. In the meantime, the pipeline should function
+properly with images captured using the original EMIR detector.</p>
+</div>
 <p>It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ mkdir newdir
@@ -116,10 +128,10 @@ you can comfortably start the reduction of your data:</p>
 
 # copy here the downloaded tgz file
 
-(emir) $ tar zxvf pyemir_initial_tree_v1.tgz
+(emir) $ tar zxvf pyemir_initial_tree_v1b.tgz
 ...
 ...
-(emir) $ rm pyemir_initial_tree_v1.tgz
+(emir) $ rm pyemir_initial_tree_v1b.tgz
 (emir) $ tree
 .
 ├── control.yaml
