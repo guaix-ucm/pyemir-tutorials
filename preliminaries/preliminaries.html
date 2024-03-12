@@ -110,10 +110,10 @@ format.</p>
 <p>Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.</p>
-<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz">pyemir_initial_tree_v1b.tgz</a>.</p>
+<p>Download the following file: <a class="reference external" href="http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz">pyemir_initial_tree_v2a.tgz</a>.</p>
 <p>If you find any trouble trying to download the previous file, try with the
 following command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ curl -O http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ curl -O http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -133,18 +133,20 @@ you can comfortably start the reduction of your data:</p>
 
 # copy here the downloaded tgz file
 
-(emir) $ tar zxvf pyemir_initial_tree_v1b.tgz
+(emir) $ tar zxvf pyemir_initial_tree_v2a.tgz
 ...
 ...
-(emir) $ rm pyemir_initial_tree_v1b.tgz
+(emir) $ rm pyemir_initial_tree_v2a.tgz
 (emir) $ tree
 .
 ├── control.yaml
 └── data
     ├── master_bpm.fits
+    ├── master_bpm_zeros.fits
     ├── master_dark_zeros.fits
     ├── master_flat_ones.fits
     ├── master_flat_spec.fits
+    ├── master_flat_spec_H2RG.fits
     ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
     ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
     ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json

@@ -274,6 +274,8 @@ calibration files. You do not need to modify anything here.
    :linenos:
    :lineno-start: 1
 
+Starting from March 2024, the format of this file has been updated to include calibrations for both the original EMIR detector and the subsequent replacement, the H2RG detector.
+
 **Numina execution**
 
 You are ready to execute the reduction recipe indicated in the file
