@@ -42,15 +42,15 @@ Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.
 
-Download the following file: `pyemir_initial_tree_v1b.tgz 
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz>`_.
+Download the following file: `pyemir_initial_tree_v2a.tgz 
+<http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 following command line:
 
 ::
 
-   (emir) $ curl -O http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v1b.tgz
+   (emir) $ curl -O http://nartex.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
 
 .. warning::
 
@@ -72,18 +72,20 @@ you can comfortably start the reduction of your data:
    
    # copy here the downloaded tgz file
 
-   (emir) $ tar zxvf pyemir_initial_tree_v1b.tgz
+   (emir) $ tar zxvf pyemir_initial_tree_v2a.tgz
    ...
    ...
-   (emir) $ rm pyemir_initial_tree_v1b.tgz
+   (emir) $ rm pyemir_initial_tree_v2a.tgz
    (emir) $ tree 
    .
    ├── control.yaml
    └── data
        ├── master_bpm.fits
+       ├── master_bpm_zeros.fits
        ├── master_dark_zeros.fits
        ├── master_flat_ones.fits
        ├── master_flat_spec.fits
+       ├── master_flat_spec_H2RG.fits
        ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
        ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
        ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
