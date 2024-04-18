@@ -70,7 +70,7 @@ will be generated from that median image.
 Those three files (together with some additional files that you will need to
 follow this simple example) are available as a compressed tgz file:
 `pyemir_arc_calibration_tutorial_v1.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz>`_.
+<http://guaix.fis.ucm.es/data/pyemir/pyemir_arc_calibration_tutorial_v1.tgz>`_.
 
 
 Move to the directory where you have deployed the initial file tree structure

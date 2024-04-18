@@ -33,7 +33,7 @@ images):
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
 `pyemir_imaging_tutorial_v4.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_imaging_tutorial_v4.tgz>`_.
+<http://guaix.fis.ucm.es/data/pyemir/pyemir_imaging_tutorial_v4.tgz>`_.
 
 The preliminary combination of these 14 images will be carried out in two
 steps:
