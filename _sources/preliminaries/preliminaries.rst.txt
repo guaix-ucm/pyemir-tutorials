@@ -43,14 +43,14 @@ to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.
 
 Download the following file: `pyemir_initial_tree_v2a.tgz 
-<http://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz>`_.
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 following command line:
 
 ::
 
-   (emir) $ curl -O http://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
+   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
 
 .. warning::
 

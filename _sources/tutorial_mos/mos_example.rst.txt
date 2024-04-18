@@ -31,14 +31,14 @@ Downloading the tutorial data
 =============================
 
 Download the following file: `pyemir_mos_tutorial.tgz 
-<http://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz>`_.
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 command line:
 
 ::
 
-   (emir) $ curl -O <http://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
+   (emir) $ curl -O <https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
 
 Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).

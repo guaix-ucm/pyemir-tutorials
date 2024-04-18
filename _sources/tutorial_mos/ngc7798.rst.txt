@@ -34,14 +34,14 @@ the spectra of the spectrophotometric standard HD209290 (HIP 108782), observed
 with the same instrumental configuration.
 
 Download the following file: `pyemir_ngc7798_tutorial_v2.tgz
-<http://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz>`_.
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 command line:
 
 ::
 
-   (emir) $ curl -O http://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz
+   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz
 
 Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
@@ -182,7 +182,7 @@ and another with negavite counts) in each case:
 **From this point, we continue the reduction of the spectrophotometric standard
 using Python (within a Jupyter notebook).** 
 See `final reduction of HD209290 
-<http://guaix.fis.ucm.es/~ncl/emir/reduction_hd209290.html>`_.
+<https://guaix.fis.ucm.es/~ncl/emir/reduction_hd209290.html>`_.
 
 
 Reduction of NGC7798
@@ -241,7 +241,7 @@ and another with negavite counts) in each case:
 **From this point, we continue the reduction of the galaxy spectra using 
 Python (within a Jupyter notebook).** 
 See `final reduction of NGC7798
-<http://guaix.fis.ucm.es/~ncl/emir/reduction_ngc7798.html>`_.
+<https://guaix.fis.ucm.es/~ncl/emir/reduction_ngc7798.html>`_.
 
 .. image:: images/plot_JHK_ngc7798.png
    :width: 100%
