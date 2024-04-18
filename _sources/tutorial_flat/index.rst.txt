@@ -111,7 +111,7 @@ check that the lamp OFF signal in this case is negligible.
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
 `pyemir_flatpix2pix_tutorial_v1.tgz
-<http://nartex.fis.ucm.es/data/pyemir/pyemir_flatpix2pix_tutorial_v1.tgz>`_.
+<http://guaix.fis.ucm.es/data/pyemir/pyemir_flatpix2pix_tutorial_v1.tgz>`_.
 
 .. warning::
 
