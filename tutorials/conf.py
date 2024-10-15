@@ -19,7 +19,7 @@
 
 project = 'pyemir-tutorials'
 copyright = '2018-2024, Universidad Complutense de Madrid'
-author = 'Nicolás Cardiel'
+author = 'Nicolás Cardiel, Sergio Pascual'
 
 # The full version, including alpha/beta/rc tags
 release = 'v1.0'
@@ -53,17 +53,18 @@ exclude_patterns = []
 #
 #html_theme = 'alabaster'
 html_theme = 'sphinx_rtd_theme'
-#html_logo = 'logo.png'
+html_logo = '_static/logo.png'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# This doesn't work. Use html_logo above (NCL, 20241015)
 html_theme_options = {
-    'logo': 'logo.png',
-    'show_related': True,
-    'show_relbar_bottom': True,
-    'show_relbar_top': False
+    #'logo': 'logo.png',
+    #'show_related': True,
+    #'show_relbar_bottom': True,
+    #'show_relbar_top': False
 }
 

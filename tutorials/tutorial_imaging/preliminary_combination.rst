@@ -53,7 +53,7 @@ containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
 
 Decompress there the previously mentioned tgz file:
 
-::
+.. code-block:: console
 
    (emir) $ tar zxvf pyemir_imaging_tutorial_v4.tgz
    ...
@@ -64,7 +64,7 @@ This action should have populated the file tree with the
 14 scientific raw FITS (placed wihtin the ``data``
 subdirectory) and some additional auxiliary files:
 
-::
+.. code-block:: console
 
    (emir) $ tree
    .
@@ -105,7 +105,7 @@ subdirectory) and some additional auxiliary files:
 You can easily examine the header of the scientific FITS images using the
 astropy utility ``fitsheader``:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader data/0001877* \
      -k nobsblck -k obsblock -k nimgobbl -k imgobbl \
@@ -142,7 +142,7 @@ flatfielding, and image reprojection.
    Remember that the ``numina`` script is the interface with GTC pipelines. 
    In order to execute PyEmir recipes you should type something like:
 
-   ::
+   .. code-block:: console
    
       (emir) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
 
@@ -235,7 +235,7 @@ highlighting the first block (first eight lines):
    In particular, the file used in this example can be easily created using a
    few simple commands:
 
-   ::
+   .. code-block:: console
 
       (emir) $ cd data/
       (emir) $ ls 0001877*fits > list_images.txt
@@ -282,7 +282,7 @@ You are ready to execute the reduction recipe indicated in the file
 ``dithered_ini.yaml`` (in this case the reduccion recipe named
 ``STARE_IMAGE``):
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_ini.yaml -r control.yaml
    ...
@@ -291,7 +291,7 @@ You are ready to execute the reduction recipe indicated in the file
 After the execution of the previous command line, two subdirectories for each
 block should have appeared:
 
-::
+.. code-block:: console
 
    (emir) $ ls
    control.yaml              obsid_0001877565_results/ obsid_0001877601_work/
@@ -316,7 +316,7 @@ of a particular block of the observation result file are copied into the
 
 In particular, for the first block:
 
-::
+.. code-block:: console
 
    (emir) $ tree obsid_0001877553_work/
    obsid_0001877553_work/
@@ -331,7 +331,7 @@ links (instead of actual copies of the original raw files) must be placed in
 the* ``work`` *subdirectory.* This behaviour is set using the parameter
 ``--link-files``:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_ini.yaml --link-files -r control.yaml
    ...
@@ -351,7 +351,7 @@ the* ``work`` *subdirectory.* This behaviour is set using the parameter
 These subdirectories store the result of the execution of the reduction
 recipes. In particular, for the first block:
 
-:: 
+.. code-block:: console
 
    $ tree obsid_0001877553_results/
    obsid_0001877553_results/
@@ -433,7 +433,7 @@ a combined image.
    The file ``dithered_v0.yaml`` can also be automatically generated using
    the same script previously mentioned in step 1:
 
-   ::
+   .. code-block:: console
 
       (emir) $ pyemir-generate_yaml_for_dithered_image \
         data/list_images.txt --step 1 --repeat 1 \
@@ -451,7 +451,7 @@ a combined image.
 
 The combination of the images is finally performed using numina:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v0.yaml --link-files -r control.yaml
 
@@ -459,7 +459,7 @@ The previous execution also generates two auxiliary subdirectories ``work`` and
 ``results``. The resulting combined image can be found in
 ``obsid_combined_v0_result/reduced_image.fits``:
 
-::
+.. code-block:: console
 
    (emir) $ tree obsid_combined_v0_results/
    obsid_combined_v0_results/
@@ -471,7 +471,7 @@ The previous execution also generates two auxiliary subdirectories ``work`` and
 You can display the image using ``ds9``, using ``numina-ximshow`` (the display
 tool shipped with numina based on matplotlib), or with any other tool:
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
 

@@ -52,7 +52,7 @@ flatfield in the initial basic reduction of the original images is not
 essential. The user can easily check this by setting ``MasterIntensityFlat`` to
 ``master_flat_ones.fits`` in the ``control.yaml`` file, i.e.:
 
-::
+.. code-block:: yaml
 
     - {id: 4, type: 'MasterIntensityFlat', tags: {}, content: 'master_flat_ones.fits'}
 
@@ -124,7 +124,7 @@ containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
 
 Decompress there the previously mentioned tgz file:
 
-::
+.. code-block:: console
 
    (emir) $ tar zxvf pyemir_flatpix2pix_tutorial_v1.tgz
    ...
@@ -135,7 +135,7 @@ This action should have populated the file tree with the
 20 tungsten FITS images (placed wihtin the ``data``
 subdirectory) and some additional auxiliary files:
 
-::
+.. code-block:: console
 
    (emir) $ tree
    .
@@ -175,7 +175,7 @@ subdirectory) and some additional auxiliary files:
 You can easily examine the header of the scientific FITS images using the
 astropy utility ``fitsheader``:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader data/0002069*.fits -k object -k lampincd -k lampintn -f
                        filename                         OBJECT    LAMPINCD     LAMPINTN    
@@ -213,7 +213,7 @@ and the last 10 images to lamp OFF.
 
 Let's have a look to the CSU configuration:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-display_slitlet_arrangement data/0002069432-20190519-EMIR-STARE_SPECTRA.fits \
      --longslits --n_clusters 2
@@ -249,7 +249,7 @@ We can also display the first image with lamp ON and the first with lamp OFF:
 
 An estimate of the integer vertical offset (in pixels) can be obtained using:
 
-::
+.. code-block:: console
 
    $ pyemir-overplot_boundary_model data/0002069432-20190519-EMIR-STARE_SPECTRA.fits \
      --rect_wpoly_MOSlibrary data/rect_wpoly_MOSlibrary_grism_H_filter_H.json
@@ -314,7 +314,7 @@ properly for all combinations of grism+filter.
 
 You can now execute the reduction recipe:
 
-::
+.. code-block:: console
 
    (emir) $ numina run flatpix2pix.yaml --link-files -r control.yaml
    ...
@@ -325,7 +325,7 @@ The resulting pixel-to-pixel flatfield can be found in the corresponding
 
 .. numina-ximshow obsid_flat_results/reduced_flatpix2pix.fits --geometry 0,0,650,850
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_flat_results/reduced_flatpix2pix.fits
 
