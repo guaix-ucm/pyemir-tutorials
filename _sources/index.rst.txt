@@ -27,7 +27,9 @@ tested the code in detail on data reduction related to the `GOYA
    It is very easy to check the employed read-out mode using the auxiliary
    script ``fitsheader`` (provided in the astropy package). For example:
 
-   ``$ fitsheader *.fits -k readmode -f``
+   .. code-block:: console
+
+      $ fitsheader *.fits -k readmode -f
 
 
 .. only:: html
