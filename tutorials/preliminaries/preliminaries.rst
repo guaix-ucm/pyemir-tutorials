@@ -42,15 +42,15 @@ Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.
 
-Download the following file: `pyemir_initial_tree_v2a.tgz 
-<https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz>`_.
+Download the following file: `pyemir_initial_tree_v2b.tgz 
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2b.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 following command line:
 
 .. code-block:: console
 
-   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
+   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2b.tgz
 
 .. warning::
 
@@ -72,10 +72,10 @@ you can comfortably start the reduction of your data:
    
    # copy here the downloaded tgz file
 
-   (emir) $ tar zxvf pyemir_initial_tree_v2a.tgz
+   (emir) $ tar zxvf pyemir_initial_tree_v2b.tgz
    ...
    ...
-   (emir) $ rm pyemir_initial_tree_v2a.tgz
+   (emir) $ rm pyemir_initial_tree_v2b.tgz
    (emir) $ tree 
    .
    ├── control.yaml
