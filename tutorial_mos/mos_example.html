@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MOS example &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,6 +33,7 @@
           
           <a href="../index.html" class="icon icon-home">
             pyemir-tutorials
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -101,7 +99,7 @@
            <div itemprop="articleBody">
              
   <section id="mos-example">
-<span id="id1"></span><h1>MOS example<a class="headerlink" href="#mos-example" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>MOS example<a class="headerlink" href="#mos-example" title="Link to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
@@ -123,88 +121,88 @@ observations are deep enough to allow the use of the airglow OH lines to
 produce a good wavelength calibration. This means that no arc exposures are
 needed!</p>
 <section id="downloading-the-tutorial-data">
-<h2>Downloading the tutorial data<a class="headerlink" href="#downloading-the-tutorial-data" title="Permalink to this heading"></a></h2>
+<h2>Downloading the tutorial data<a class="headerlink" href="#downloading-the-tutorial-data" title="Link to this heading"></a></h2>
 <p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz">pyemir_mos_tutorial.tgz</a>.</p>
 <p>If you find any trouble trying to download the previous file, try with the
 command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ curl -O &lt;https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>&lt;https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
 </pre></div>
 </div>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_mos_tutorial_v1.tgz
-...
-...
-(emir) $ rm pyemir_mos_tutorial_v1.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_mos_tutorial_v1.tgz
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_mos_tutorial_v1.tgz
 </pre></div>
 </div>
 <p>This action should have populated the file tree with 24 science exposures
 (placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>You can easily examine the header of the 12 science files using the astropy
 utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0002004* -k object -k grism -k filter -k exptime -k date-obs -f
-                    filename                         OBJECT    GRISM FILTER  EXPTIME          DATE-OBS
------------------------------------------------- ------------- ----- ------ ---------- ----------------------
-data/0002004226-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:40:52.36
-data/0002004255-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:46:58.26
-data/0002004284-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:53:02.05
-data/0002004313-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:59:09.00
-data/0002004342-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:05:30.72
-data/0002004371-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:11:37.67
-data/0002004400-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:17:41.46
-data/0002004429-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:23:49.46
-data/0002004458-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:30:12.23
-data/0002004487-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:36:20.24
-data/0002004516-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:42:24.03
-data/0002004545-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:48:32.03
-data/0002004574-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:54:54.80
-data/0002004603-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:01:02.81
-data/0002004632-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:07:06.59
-data/0002004661-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:13:14.60
-data/0002004690-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:19:37.37
-data/0002004719-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:25:45.38
-data/0002004748-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:31:49.16
-data/0002004777-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:37:57.17
-data/0002004806-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:44:19.93
-data/0002004835-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:50:27.94
-data/0002004864-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:56:31.73
-data/0002004893-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T03:02:40.79
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0002004*<span class="w"> </span>-k<span class="w"> </span>object<span class="w"> </span>-k<span class="w"> </span>grism<span class="w"> </span>-k<span class="w"> </span>filter<span class="w"> </span>-k<span class="w"> </span>exptime<span class="w"> </span>-k<span class="w"> </span>date-obs<span class="w"> </span>-f
+<span class="go">                    filename                         OBJECT    GRISM FILTER  EXPTIME          DATE-OBS</span>
+<span class="go">------------------------------------------------ ------------- ----- ------ ---------- ----------------------</span>
+<span class="go">data/0002004226-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:40:52.36</span>
+<span class="go">data/0002004255-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:46:58.26</span>
+<span class="go">data/0002004284-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:53:02.05</span>
+<span class="go">data/0002004313-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T00:59:09.00</span>
+<span class="go">data/0002004342-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:05:30.72</span>
+<span class="go">data/0002004371-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:11:37.67</span>
+<span class="go">data/0002004400-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:17:41.46</span>
+<span class="go">data/0002004429-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:23:49.46</span>
+<span class="go">data/0002004458-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:30:12.23</span>
+<span class="go">data/0002004487-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:36:20.24</span>
+<span class="go">data/0002004516-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:42:24.03</span>
+<span class="go">data/0002004545-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:48:32.03</span>
+<span class="go">data/0002004574-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T01:54:54.80</span>
+<span class="go">data/0002004603-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:01:02.81</span>
+<span class="go">data/0002004632-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:07:06.59</span>
+<span class="go">data/0002004661-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:13:14.60</span>
+<span class="go">data/0002004690-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:19:37.37</span>
+<span class="go">data/0002004719-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:25:45.38</span>
+<span class="go">data/0002004748-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:31:49.16</span>
+<span class="go">data/0002004777-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:37:57.17</span>
+<span class="go">data/0002004806-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:44:19.93</span>
+<span class="go">data/0002004835-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:50:27.94</span>
+<span class="go">data/0002004864-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T02:56:31.73</span>
+<span class="go">data/0002004893-20190424-EMIR-STARE_SPECTRA.fits goya_mask1a_J     J      J 359.986465 2019-04-25T03:02:40.79</span>
 </pre></div>
 </div>
 <p>It is also useful to display additional FITS keywords that store relevant
 information concerning the observation strategy:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0002004*fits -k OBSBLOCK -k NIMGOBBL -k IMGOBBL -k NFRSEC -k FRSEC -k READMODE -f
-                 filename                     OBSBLOCK NIMGOBBL IMGOBBL NFRSEC FRSEC READMODE
------------------------------------------------- -------- -------- ------- ------ ----- --------
-data/0002004226-20190424-EMIR-STARE_SPECTRA.fits        1        4       1     28     0     RAMP
-data/0002004255-20190424-EMIR-STARE_SPECTRA.fits        1        4       2     28     0     RAMP
-data/0002004284-20190424-EMIR-STARE_SPECTRA.fits        1        4       3     28     0     RAMP
-data/0002004313-20190424-EMIR-STARE_SPECTRA.fits        1        4       4     28     0     RAMP
-data/0002004342-20190424-EMIR-STARE_SPECTRA.fits        2        4       1     28     0     RAMP
-data/0002004371-20190424-EMIR-STARE_SPECTRA.fits        2        4       2     28     0     RAMP
-data/0002004400-20190424-EMIR-STARE_SPECTRA.fits        2        4       3     28     0     RAMP
-data/0002004429-20190424-EMIR-STARE_SPECTRA.fits        2        4       4     28     0     RAMP
-data/0002004458-20190424-EMIR-STARE_SPECTRA.fits        3        4       1     28     0     RAMP
-data/0002004487-20190424-EMIR-STARE_SPECTRA.fits        3        4       2     28     0     RAMP
-data/0002004516-20190424-EMIR-STARE_SPECTRA.fits        3        4       3     28     0     RAMP
-data/0002004545-20190424-EMIR-STARE_SPECTRA.fits        3        4       4     28     0     RAMP
-data/0002004574-20190424-EMIR-STARE_SPECTRA.fits        4        4       1     28     0     RAMP
-data/0002004603-20190424-EMIR-STARE_SPECTRA.fits        4        4       2     28     0     RAMP
-data/0002004632-20190424-EMIR-STARE_SPECTRA.fits        4        4       3     28     0     RAMP
-data/0002004661-20190424-EMIR-STARE_SPECTRA.fits        4        4       4     28     0     RAMP
-data/0002004690-20190424-EMIR-STARE_SPECTRA.fits        5        4       1     28     0     RAMP
-data/0002004719-20190424-EMIR-STARE_SPECTRA.fits        5        4       2     28     0     RAMP
-data/0002004748-20190424-EMIR-STARE_SPECTRA.fits        5        4       3     28     0     RAMP
-data/0002004777-20190424-EMIR-STARE_SPECTRA.fits        5        4       4     28     0     RAMP
-data/0002004806-20190424-EMIR-STARE_SPECTRA.fits        6        4       1     28     0     RAMP
-data/0002004835-20190424-EMIR-STARE_SPECTRA.fits        6        4       2     28     0     RAMP
-data/0002004864-20190424-EMIR-STARE_SPECTRA.fits        6        4       3     28     0     RAMP
-data/0002004893-20190424-EMIR-STARE_SPECTRA.fits        6        4       4     28     0     RAMP
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0002004*fits<span class="w"> </span>-k<span class="w"> </span>OBSBLOCK<span class="w"> </span>-k<span class="w"> </span>NIMGOBBL<span class="w"> </span>-k<span class="w"> </span>IMGOBBL<span class="w"> </span>-k<span class="w"> </span>NFRSEC<span class="w"> </span>-k<span class="w"> </span>FRSEC<span class="w"> </span>-k<span class="w"> </span>READMODE<span class="w"> </span>-f
+<span class="go">                 filename                     OBSBLOCK NIMGOBBL IMGOBBL NFRSEC FRSEC READMODE</span>
+<span class="go">------------------------------------------------ -------- -------- ------- ------ ----- --------</span>
+<span class="go">data/0002004226-20190424-EMIR-STARE_SPECTRA.fits        1        4       1     28     0     RAMP</span>
+<span class="go">data/0002004255-20190424-EMIR-STARE_SPECTRA.fits        1        4       2     28     0     RAMP</span>
+<span class="go">data/0002004284-20190424-EMIR-STARE_SPECTRA.fits        1        4       3     28     0     RAMP</span>
+<span class="go">data/0002004313-20190424-EMIR-STARE_SPECTRA.fits        1        4       4     28     0     RAMP</span>
+<span class="go">data/0002004342-20190424-EMIR-STARE_SPECTRA.fits        2        4       1     28     0     RAMP</span>
+<span class="go">data/0002004371-20190424-EMIR-STARE_SPECTRA.fits        2        4       2     28     0     RAMP</span>
+<span class="go">data/0002004400-20190424-EMIR-STARE_SPECTRA.fits        2        4       3     28     0     RAMP</span>
+<span class="go">data/0002004429-20190424-EMIR-STARE_SPECTRA.fits        2        4       4     28     0     RAMP</span>
+<span class="go">data/0002004458-20190424-EMIR-STARE_SPECTRA.fits        3        4       1     28     0     RAMP</span>
+<span class="go">data/0002004487-20190424-EMIR-STARE_SPECTRA.fits        3        4       2     28     0     RAMP</span>
+<span class="go">data/0002004516-20190424-EMIR-STARE_SPECTRA.fits        3        4       3     28     0     RAMP</span>
+<span class="go">data/0002004545-20190424-EMIR-STARE_SPECTRA.fits        3        4       4     28     0     RAMP</span>
+<span class="go">data/0002004574-20190424-EMIR-STARE_SPECTRA.fits        4        4       1     28     0     RAMP</span>
+<span class="go">data/0002004603-20190424-EMIR-STARE_SPECTRA.fits        4        4       2     28     0     RAMP</span>
+<span class="go">data/0002004632-20190424-EMIR-STARE_SPECTRA.fits        4        4       3     28     0     RAMP</span>
+<span class="go">data/0002004661-20190424-EMIR-STARE_SPECTRA.fits        4        4       4     28     0     RAMP</span>
+<span class="go">data/0002004690-20190424-EMIR-STARE_SPECTRA.fits        5        4       1     28     0     RAMP</span>
+<span class="go">data/0002004719-20190424-EMIR-STARE_SPECTRA.fits        5        4       2     28     0     RAMP</span>
+<span class="go">data/0002004748-20190424-EMIR-STARE_SPECTRA.fits        5        4       3     28     0     RAMP</span>
+<span class="go">data/0002004777-20190424-EMIR-STARE_SPECTRA.fits        5        4       4     28     0     RAMP</span>
+<span class="go">data/0002004806-20190424-EMIR-STARE_SPECTRA.fits        6        4       1     28     0     RAMP</span>
+<span class="go">data/0002004835-20190424-EMIR-STARE_SPECTRA.fits        6        4       2     28     0     RAMP</span>
+<span class="go">data/0002004864-20190424-EMIR-STARE_SPECTRA.fits        6        4       3     28     0     RAMP</span>
+<span class="go">data/0002004893-20190424-EMIR-STARE_SPECTRA.fits        6        4       4     28     0     RAMP</span>
 </pre></div>
 </div>
 <p>The last summary shows that:</p>
@@ -230,13 +228,14 @@ each detector read, this keyword runs from 1 to 28.</p></li>
 <p>In summary, the 24 science images provided correspond to 6 ABBA blocks.
 Have a look to any of these images.  For that purpose you can use <code class="docutils literal notranslate"><span class="pre">ds9</span></code> or
 the visualization tool provided with numina:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0002004226-20190424-EMIR-STARE_SPECTRA.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>data/0002004226-20190424-EMIR-STARE_SPECTRA.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_raw.png"><img alt="Image 0002004226 raw" src="../_images/0002004226_raw.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_raw.png"><img alt="Image 0002004226 raw" src="../_images/0002004226_raw.png" style="width: 100%;" />
+</a>
 </section>
 <section id="the-csu-configuration">
-<h2>The CSU configuration<a class="headerlink" href="#the-csu-configuration" title="Permalink to this heading"></a></h2>
+<h2>The CSU configuration<a class="headerlink" href="#the-csu-configuration" title="Link to this heading"></a></h2>
 <p>It is clear from the previous figure that the EMIR slitlets were not configured
 in <cite>longslit</cite> mode, but in <cite>MOS</cite> mode. In addition, it is important to
 highlight that not all the slitlets were opened (i.e., the slits not assigned
@@ -246,17 +245,19 @@ CSU bars are not completely closed to avoid collisions)</p>
 <p>The slitlet configuration can be easily displayed with the help of the
 auxiliary PyEmir script <code class="docutils literal notranslate"><span class="pre">pyemir-display_slitlet_arrangement</span></code> (please, note
 the use in this case of the additional parameter <code class="docutils literal notranslate"><span class="pre">--n_clusters</span> <span class="pre">2</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-display_slitlet_arrangement \
-  data/0002004226-20190424-EMIR-STARE_SPECTRA.fits \
-  --n_clusters 2 --longslits
-...
-...
----&gt; separator:   1.475
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-display_slitlet_arrangement<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>data/0002004226-20190424-EMIR-STARE_SPECTRA.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--n_clusters<span class="w"> </span><span class="m">2</span><span class="w"> </span>--longslits
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="go">---&gt; separator:   1.475</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_csu_configuration.png"><img alt="Image 0002004226 csu configuration" src="../_images/0002004226_csu_configuration.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_csu_configuration.png"><img alt="Image 0002004226 csu configuration" src="../_images/0002004226_csu_configuration.png" style="width: 100%;" />
+</a>
 <p>The first figure displays the slitlet arrangement.</p>
-<a class="reference internal image-reference" href="../_images/0002004226_slitlet_widths.png"><img alt="Image 0002004226 slitlet widths" src="../_images/0002004226_slitlet_widths.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_slitlet_widths.png"><img alt="Image 0002004226 slitlet widths" src="../_images/0002004226_slitlet_widths.png" style="width: 100%;" />
+</a>
 <p>Note that in this case we have employed the parameter <code class="docutils literal notranslate"><span class="pre">--n_clusters</span> <span class="pre">2</span></code>, that
 forces the script to display a histogram of slitlet widths, and to compute two
 clusters and a separating value (in this case 1.475 mm) which classifies the
@@ -264,7 +265,7 @@ slitlets in two groups: slitlets closed (widths &lt; 1.475 mm) and opened (width
 1.475 mm). This number will be used later.</p>
 </section>
 <section id="preliminary-rectification-and-wavelength-calibration-using-oh-lines">
-<h2>Preliminary rectification and wavelength calibration using OH lines<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines" title="Permalink to this heading"></a></h2>
+<h2>Preliminary rectification and wavelength calibration using OH lines<a class="headerlink" href="#preliminary-rectification-and-wavelength-calibration-using-oh-lines" title="Link to this heading"></a></h2>
 <p>As explained in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>, the rectification and wavelength
 calibration of any EMIR spectroscopic image can be obtained with two levels of
 quality:</p>
@@ -289,49 +290,49 @@ arbitrarily named <code class="docutils literal notranslate"><span class="pre">l
 with the list of scientific images (note that the list of files is generated
 within the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory to avoid having the subdirectory name in front
 of the file name):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cd data
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>data
 
-(emir) $ ls 0002004*fits &gt; list_abba.txt
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ls<span class="w"> </span><span class="m">0002004</span>*fits<span class="w"> </span>&gt;<span class="w"> </span>list_abba.txt
 
-(emir) $ cat list_abba.txt
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>cat<span class="w"> </span>list_abba.txt
 
-0002004226-20190424-EMIR-STARE_SPECTRA.fits
-0002004255-20190424-EMIR-STARE_SPECTRA.fits
-0002004284-20190424-EMIR-STARE_SPECTRA.fits
-0002004313-20190424-EMIR-STARE_SPECTRA.fits
-0002004342-20190424-EMIR-STARE_SPECTRA.fits
-0002004371-20190424-EMIR-STARE_SPECTRA.fits
-0002004400-20190424-EMIR-STARE_SPECTRA.fits
-0002004429-20190424-EMIR-STARE_SPECTRA.fits
-0002004458-20190424-EMIR-STARE_SPECTRA.fits
-0002004487-20190424-EMIR-STARE_SPECTRA.fits
-0002004516-20190424-EMIR-STARE_SPECTRA.fits
-0002004545-20190424-EMIR-STARE_SPECTRA.fits
-0002004574-20190424-EMIR-STARE_SPECTRA.fits
-0002004603-20190424-EMIR-STARE_SPECTRA.fits
-0002004632-20190424-EMIR-STARE_SPECTRA.fits
-0002004661-20190424-EMIR-STARE_SPECTRA.fits
-0002004690-20190424-EMIR-STARE_SPECTRA.fits
-0002004719-20190424-EMIR-STARE_SPECTRA.fits
-0002004748-20190424-EMIR-STARE_SPECTRA.fits
-0002004777-20190424-EMIR-STARE_SPECTRA.fits
-0002004806-20190424-EMIR-STARE_SPECTRA.fits
-0002004835-20190424-EMIR-STARE_SPECTRA.fits
-0002004864-20190424-EMIR-STARE_SPECTRA.fits
-0002004893-20190424-EMIR-STARE_SPECTRA.fits
+<span class="go">0002004226-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004255-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004284-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004313-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004342-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004371-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004400-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004429-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004458-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004487-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004516-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004545-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004574-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004603-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004632-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004661-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004690-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004719-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004748-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004777-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004806-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004835-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004864-20190424-EMIR-STARE_SPECTRA.fits</span>
+<span class="go">0002004893-20190424-EMIR-STARE_SPECTRA.fits</span>
 
-(emir) $ cd ..
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>..
 </pre></div>
 </div>
 <p>Generate the observation result file to perform a preliminary rectification
 and wavelength calibration:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-  --step 0 --npreliminary 4 --outfile 0_rectwv_preliminary.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--step<span class="w"> </span><span class="m">0</span><span class="w"> </span>--npreliminary<span class="w"> </span><span class="m">4</span><span class="w"> </span>--outfile<span class="w"> </span>0_rectwv_preliminary.yaml
 
-Expected sequence pattern: ABBA
-Number of sequences......: 6
-Full set of images.......: ABBAABBAABBAABBAABBAABBA
---&gt; File 0_rectwv_preliminary.yaml generated!
+<span class="go">Expected sequence pattern: ABBA</span>
+<span class="go">Number of sequences......: 6</span>
+<span class="go">Full set of images.......: ABBAABBAABBAABBAABBAABBA</span>
+<span class="go">--&gt; File 0_rectwv_preliminary.yaml generated!</span>
 </pre></div>
 </div>
 <p>Note that the first argument after the name of the script in the text file
@@ -371,9 +372,9 @@ making use of the reduction recipe <code class="docutils literal notranslate"><s
 </ul>
 <p>At this point, the preliminary rectification and wavelength calibration can be
 carried out:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">(</span><span class="n">emir</span><span class="p">)</span> <span class="n">numina</span> <span class="n">run</span> <span class="mi">0</span><span class="n">_rectwv_preliminary</span><span class="o">.</span><span class="n">yaml</span> <span class="o">--</span><span class="n">link</span><span class="o">-</span><span class="n">files</span> <span class="o">-</span><span class="n">r</span> <span class="n">control</span><span class="o">.</span><span class="n">yaml</span>
-<span class="o">...</span>
-<span class="o">...</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="go">numina run 0_rectwv_preliminary.yaml --link-files -r control.yaml</span>
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>As expected, two new subdirectories have been created:</p>
@@ -381,14 +382,15 @@ carried out:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_preliminary_results</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_preliminary_work</span></code></p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow \
-  obsid_0002004226_rectwv_preliminary_results/reduced_mos.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0002004226_rectwv_preliminary_results/reduced_mos.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_preliminary.png"><img alt="Image 0002004226 preliminary" src="../_images/0002004226_preliminary.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_preliminary.png"><img alt="Image 0002004226 preliminary" src="../_images/0002004226_preliminary.png" style="width: 100%;" />
+</a>
 </section>
 <section id="refined-rectification-and-wavelength-calibration">
-<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h2>
+<h2>Refined rectification and wavelength calibration<a class="headerlink" href="#refined-rectification-and-wavelength-calibration" title="Link to this heading"></a></h2>
 <p>Although the rectified and wavelength calibration image that we have just
 obtained appears to be fine, looking in detail it is possible to realize that
 both the absolute and relative wavelength calibration between slitlets are
@@ -409,7 +411,7 @@ unable to determine the vertical offset.</p></li>
 </ol>
 <p>In this tutorial we are describing both approaches.</p>
 <section id="manual-determination-of-x-and-y-offsets">
-<h3>Manual determination of X and Y offsets<a class="headerlink" href="#manual-determination-of-x-and-y-offsets" title="Permalink to this heading"></a></h3>
+<h3>Manual determination of X and Y offsets<a class="headerlink" href="#manual-determination-of-x-and-y-offsets" title="Link to this heading"></a></h3>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>As described in <a class="reference internal" href="simple_example.html#simple-example"><span class="std std-ref">Simple example: arc exposure</span></a>, the task of visually finding the
@@ -424,7 +426,7 @@ latter option.</p>
 expected slitlet frontiers (file <code class="docutils literal notranslate"><span class="pre">ds9_frontiers_rawimage.reg</span></code> placed within
 the subdirectory <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_preliminary_work</span></code>), derived in the
 preliminary rectification and wavelength calibration, over the raw image:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 data/0002004226-20190424-EMIR-STARE_SPECTRA.fits &amp;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ds9<span class="w"> </span>data/0002004226-20190424-EMIR-STARE_SPECTRA.fits<span class="w"> </span><span class="p">&amp;</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -432,9 +434,11 @@ preliminary rectification and wavelength calibration, over the raw image:</p>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span>
 <span class="pre">obsid_0002004226_rectwv_preliminary_work/ds9_frontiers_rawimage.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_overplot1.png"><img alt="Image 0002004226 overplot 1" src="../_images/0002004226_overplot1.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot1.png"><img alt="Image 0002004226 overplot 1" src="../_images/0002004226_overplot1.png" style="width: 100%;" />
+</a>
 <p>Zooming:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_overplot2.png"><img alt="Image 0002004226 overplot 2" src="../_images/0002004226_overplot2.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot2.png"><img alt="Image 0002004226 overplot 2" src="../_images/0002004226_overplot2.png" style="width: 100%;" />
+</a>
 <p>From this visual examination one concludes that <code class="docutils literal notranslate"><span class="pre">global_integer_offset_y_pix:</span>
 <span class="pre">-3</span></code>. Note that the sign of the offset is chosen to align the actual data
 with the predicted frontiers (displayed with dotted blue lines).</p>
@@ -455,7 +459,8 @@ the airglow (OH) emission lines:</p>
 <li><p>select <code class="docutils literal notranslate"><span class="pre">region</span> <span class="pre">--&gt;</span> <span class="pre">load</span> <span class="pre">--&gt;</span>
 <span class="pre">obsid_0002004226_rectwv_preliminary_work/ds9_oh_rawimage.reg</span></code></p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_overplot3.png"><img alt="Image 0002004226 overplot 3" src="../_images/0002004226_overplot3.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_overplot3.png"><img alt="Image 0002004226 overplot 3" src="../_images/0002004226_overplot3.png" style="width: 100%;" />
+</a>
 <p>Note that the location of only the brightest OH lines are displayed. The visual
 examination reveals that in this case <code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span> <span class="pre">1</span></code>. Note
 that the sign of the offset is chosen to place the observed OH lines on the
@@ -463,24 +468,24 @@ predicted locations (displayed in cyan and magenta for the odd- and
 even-numbered slitlets, respectively).</p>
 </section>
 <section id="improving-the-rectification-and-wavelength-calibration">
-<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Permalink to this heading"></a></h3>
+<h3>Improving the rectification and wavelength calibration<a class="headerlink" href="#improving-the-rectification-and-wavelength-calibration" title="Link to this heading"></a></h3>
 <p>We are ready to obtain the refined rectification and wavelength calibration
 coefficients using the integer offsets previously estimated. For that purpose
 it is advisable to make use of the same auxiliary script that we used before:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-  --step 1 \
-  --refine_wavecalib_mode 12 \
-  --minimum_slitlet_width_mm 1.475 \
-  --maximum_slitlet_width_mm 3.0 \
-  --global_integer_offset_x_pix 1 \
-  --global_integer_offset_y_pix -3 \
-  --rectwv_combined \
-  --outfile 1_rectwv_combined.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--step<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--refine_wavecalib_mode<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--minimum_slitlet_width_mm<span class="w"> </span><span class="m">1</span>.475<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--maximum_slitlet_width_mm<span class="w"> </span><span class="m">3</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--global_integer_offset_x_pix<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--global_integer_offset_y_pix<span class="w"> </span>-3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--rectwv_combined<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--outfile<span class="w"> </span>1_rectwv_combined.yaml
 
-Expected sequence pattern: ABBA
-Number of sequences......: 6
-Full set of images.......: ABBAABBAABBAABBAABBAABBA
---&gt; File 1_rectwv_combined.yaml generated!
+<span class="go">Expected sequence pattern: ABBA</span>
+<span class="go">Number of sequences......: 6</span>
+<span class="go">Full set of images.......: ABBAABBAABBAABBAABBAABBA</span>
+<span class="go">--&gt; File 1_rectwv_combined.yaml generated!</span>
 </pre></div>
 </div>
 <p>Note that in this case the following arguments have been used:</p>
@@ -561,9 +566,9 @@ use of the reduction recipe <code class="docutils literal notranslate"><span cla
 section appears with the parameters employed when invoking the script
 <code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>.</p>
 <p>Execute the reduction recipe:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_rectwv_combined.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_rectwv_combined.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>As expected, two new subdirectories have been created:</p>
@@ -573,14 +578,14 @@ the relevant files have been copied (or linked), and where the auxiliary
 <code class="docutils literal notranslate"><span class="pre">ds9</span></code> region lines have been stored.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_results</span></code>: subdirectory where the
 results of the recipe are saved. In this case:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0002004226_rectwv_combined_results/
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_0002004226_rectwv_combined_results/
 
-obsid_0002004226_rectwv_combined_results/
-├── processing.log
-├── rectwv_coeff.json
-├── reduced_mos.fits
-├── result.json
-└── task.json
+<span class="go">obsid_0002004226_rectwv_combined_results/</span>
+<span class="go">├── processing.log</span>
+<span class="go">├── rectwv_coeff.json</span>
+<span class="go">├── reduced_mos.fits</span>
+<span class="go">├── result.json</span>
+<span class="go">└── task.json</span>
 </pre></div>
 </div>
 <p>The interesting files here are <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code>, containing the refined
@@ -605,31 +610,38 @@ wavelength calibration of any image.</p>
 transmit data objects (see details in <a class="reference external" href="https://www.json.org/">JSON description</a>).</p>
 </div>
 <p>We can have a look to the reduced image:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0002004226_rectwv_combined_results/reduced_mos.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>obsid_0002004226_rectwv_combined_results/reduced_mos.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_refined.png"><img alt="Image 0002004226 refined" src="../_images/0002004226_refined.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_refined.png"><img alt="Image 0002004226 refined" src="../_images/0002004226_refined.png" style="width: 100%;" />
+</a>
 <p>Comparing this new result with the preliminary rectified and wavelength
 calibrated image shows that, apart from a global offset in the wavelength
 calibration, the OH lines are much more aligned when moving along the spatial
 direction:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" style="width: 800px;" />
+</a>
 <p>It is also possible to display the synthetic image, generated during the
 execution of the reduction recipe, with the expected location of the airglow
 (OH) lines (line intensities are normalized in the range from 0.0 to 1.0):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits \
-  --z1z2 0,0.3
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--z1z2<span class="w"> </span><span class="m">0</span>,0.3
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/0002004226_expected_oh_lines.png"><img alt="Image 0002004226 expected oh lines" src="../_images/0002004226_expected_oh_lines.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_expected_oh_lines.png"><img alt="Image 0002004226 expected oh lines" src="../_images/0002004226_expected_oh_lines.png" style="width: 100%;" />
+</a>
 <p>In the <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_work</span></code> subdirectory you can also find
 a file named <code class="docutils literal notranslate"><span class="pre">crosscorrelation.pdf</span></code> which contains a graphical summary of the
 cross-correlation process in the wavelength direction for each useful slitlet.
 A few pages of that file are the following:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0002004226_crosscorrelation0.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0002004226_crosscorrelation1.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0002004226_crosscorrelation2.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0002004226_crosscorrelation3.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation0.png"><img alt="cross-correlation example 0" src="../_images/0002004226_crosscorrelation0.png" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation1.png"><img alt="cross-correlation example 1" src="../_images/0002004226_crosscorrelation1.png" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation2.png"><img alt="cross-correlation example 2" src="../_images/0002004226_crosscorrelation2.png" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/0002004226_crosscorrelation3.png"><img alt="cross-correlation example 3" src="../_images/0002004226_crosscorrelation3.png" style="width: 100%;" />
+</a>
 <p><strong>Summary</strong>: the final wavelength calibration applied to each
 slitlet differs from the preliminary wavelength calibration, and incorporates
 the two refinements displayed in the previous plots:</p>
@@ -645,17 +657,17 @@ wavelength calibration, and it should be a fraction of <code class="docutils lit
 </ul>
 </section>
 <section id="automatic-determination-of-x-and-y-offsets">
-<h3>Automatic determination of X and Y offsets<a class="headerlink" href="#automatic-determination-of-x-and-y-offsets" title="Permalink to this heading"></a></h3>
+<h3>Automatic determination of X and Y offsets<a class="headerlink" href="#automatic-determination-of-x-and-y-offsets" title="Link to this heading"></a></h3>
 <p>As previously mentioned, the integer offsets in X and Y, that we have estimated
 before with some effort, can be automatically determined by PyEmir when the
 spectroscopic images correspond to MOS observations with the slitlets not
 following a longslit pattern.</p>
 <p>In order to use this option, copy the previous observation result file and
 introduce the changes that are described next:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cp 1_rectwv_combined.yaml 1_rectwv_combined_auto.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>cp<span class="w"> </span>1_rectwv_combined.yaml<span class="w"> </span>1_rectwv_combined_auto.yaml
 
-(emir) $ edit 1_rectwv_combined_auto.yaml
-...
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>edit<span class="w"> </span>1_rectwv_combined_auto.yaml
+<span class="go">...</span>
 </pre></div>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv_combined_auto</span>
@@ -710,17 +722,19 @@ keywords <code class="docutils literal notranslate"><span class="pre">global_int
 error otherwise).</p></li>
 </ul>
 <p>Execute the reduction recipe:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_rectwv_combined_auto.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_rectwv_combined_auto.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>The reduction now includes the generation of a synthetic image with the
 expected location of the OH lines. This image is stored in the
 <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_auto_work</span></code> subdirectory with the name
 <code class="docutils literal notranslate"><span class="pre">synthetic_raw_image.fits</span></code>.</p>
-<a class="reference internal image-reference" href="../_images/0002004226_synthetic.png"><img alt="synthetic images with OH lines" src="../_images/0002004226_synthetic.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic.png"><img alt="synthetic images with OH lines" src="../_images/0002004226_synthetic.png" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" style="width: 800px;" />
+</a>
 <p>The automatic procedure has determined the following offset values:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">global_integer_offset_x_pix:</span> <span class="pre">1</span></code></p></li>
@@ -729,18 +743,18 @@ expected location of the OH lines. This image is stored in the
 <p>These numbers are the same as the ones that we estimated previously. For that
 reason, the resulting refined rectification and wavelength calibrations
 coefficients are the same:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ diff \
-  obsid_0002004226_rectwv_combined_auto_results/rectwv_coeff.json \
-  obsid_0002004226_rectwv_combined_results/rectwv_coeff.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>diff<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0002004226_rectwv_combined_auto_results/rectwv_coeff.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0002004226_rectwv_combined_results/rectwv_coeff.json
 
-8c8
-&lt;   &quot;uuid&quot;: &quot;1139443e-99db-11e9-b393-3c15c2e3dc50&quot;,
----
-&gt;   &quot;uuid&quot;: &quot;aca6d82e-99da-11e9-abf7-3c15c2e3dc50&quot;,
-18c18
-&lt;     &quot;creation_date&quot;: &quot;2019-06-28T19:29:37.736426&quot;,
----
-&gt;     &quot;creation_date&quot;: &quot;2019-06-28T19:26:49.004673&quot;,
+<span class="go">8c8</span>
+<span class="go">&lt;   &quot;uuid&quot;: &quot;1139443e-99db-11e9-b393-3c15c2e3dc50&quot;,</span>
+<span class="go">---</span>
+<span class="go">&gt;   &quot;uuid&quot;: &quot;aca6d82e-99da-11e9-abf7-3c15c2e3dc50&quot;,</span>
+<span class="go">18c18</span>
+<span class="go">&lt;     &quot;creation_date&quot;: &quot;2019-06-28T19:29:37.736426&quot;,</span>
+<span class="go">---</span>
+<span class="go">&gt;     &quot;creation_date&quot;: &quot;2019-06-28T19:26:49.004673&quot;,</span>
 </pre></div>
 </div>
 <p>Note that the contents of both files are identical except for the unique
@@ -749,7 +763,7 @@ coefficients are the same:</p>
 </section>
 </section>
 <section id="fast-abba-combination">
-<h2>Fast ABBA combination<a class="headerlink" href="#fast-abba-combination" title="Permalink to this heading"></a></h2>
+<h2>Fast ABBA combination<a class="headerlink" href="#fast-abba-combination" title="Link to this heading"></a></h2>
 <p>The reduction recipe `` ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
 combination since it employs a single rectification and wavelength calibration
 solution for all the individual images. For that reason, all the A images in
@@ -759,13 +773,13 @@ combination is then rectified and wavelength calibrated (i.e., the
 rectification and wavelength calibration process is carried out only once).</p>
 <p><strong>Note that this recipe assumes that the images listed in the file</strong>
 <code class="docutils literal notranslate"><span class="pre">data/list_abba.txt</span></code> <strong>follow an ABBA pattern</strong>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-  --step 2 --rectwv_combined --outfile 2_abba_fast.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--step<span class="w"> </span><span class="m">2</span><span class="w"> </span>--rectwv_combined<span class="w"> </span>--outfile<span class="w"> </span>2_abba_fast.yaml
 
- Expected sequence pattern: ABBA
- Number of sequences......: 6
- Full set of images.......: ABBAABBAABBAABBAABBAABBA
- --&gt; File 2_abba_fast.yaml generated!
+<span class="go"> Expected sequence pattern: ABBA</span>
+<span class="go"> Number of sequences......: 6</span>
+<span class="go"> Full set of images.......: ABBAABBAABBAABBAABBAABBA</span>
+<span class="go"> --&gt; File 2_abba_fast.yaml generated!</span>
 </pre></div>
 </div>
 <p>The observation result file <code class="docutils literal notranslate"><span class="pre">2_abba_fast.yaml</span></code> has the following content:</p>
@@ -833,7 +847,7 @@ units of the standard deviation).</p></li>
 Leaving this number as zero means that no attempt to merge the A and B images
 is going to be performed.</p></li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 2_abba_fast.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>2_abba_fast.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>Two results are produced by this recipe (see subdirectory
@@ -849,14 +863,15 @@ positive signal), shifting the result along the spatial direction by
 <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code> pixels, and summing the coadded A spectra. When
 <code class="docutils literal notranslate"><span class="pre">voffset_pix=0</span></code> this image is empty.</p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_abba_fast.png"><img alt="fast combination of ABBA images" src="../_images/0002004226_abba_fast.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_fast.png"><img alt="fast combination of ABBA images" src="../_images/0002004226_abba_fast.png" style="width: 100%;" />
+</a>
 <p>Making a zoom in the resulting combined image, we estimate that the vertical
 offsets between A and B spectra (white and black, respectively) is around 38
 pixels. We can introduce this number in the requirement <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cp 2_abba_fast.yaml 2_abba_fast_bis.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>cp<span class="w"> </span>2_abba_fast.yaml<span class="w"> </span>2_abba_fast_bis.yaml
 
-(emir) $ edit 2_abba_fast_bis.yaml
-...
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>edit<span class="w"> </span>2_abba_fast_bis.yaml
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>We modify the label in line 1 (adding the suffix <code class="docutils literal notranslate"><span class="pre">_bis</span></code>), and set the
@@ -902,7 +917,7 @@ vertical offset to 38 pixels in line 36:</p>
 </div>
 <p>Execute the again the same reduction recipe but using the new observation
 result file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 2_abba_fast_bis.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>2_abba_fast_bis.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>Since we have provided a non-zero value for <code class="docutils literal notranslate"><span class="pre">voffset_pix</span></code>, the image
@@ -911,7 +926,8 @@ coaddition of all the A and B spectra. All the targets that have been properly
 observed in the A and the B images should appear here three times: two in
 negative (black spectra) and one in positive (white spectrum in between the
 black ones).</p>
-<a class="reference internal image-reference" href="../_images/0002004226_abba_fast_combined.png"><img alt="fast combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_fast_combined.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_fast_combined.png"><img alt="fast combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_fast_combined.png" style="width: 100%;" />
+</a>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>It is important to keep in mind how the signal in the combined images has
@@ -932,7 +948,7 @@ the signal in each of the negative spectrum has been scaled to
 </div>
 </section>
 <section id="careful-abba-combination">
-<h2>Careful ABBA combination<a class="headerlink" href="#careful-abba-combination" title="Permalink to this heading"></a></h2>
+<h2>Careful ABBA combination<a class="headerlink" href="#careful-abba-combination" title="Link to this heading"></a></h2>
 <p>In the previous combination we have assumed that in all the A images the
 targets were in exactly the same location in the slitlets. The same was assumed
 for the B images.</p>
@@ -941,19 +957,20 @@ in detail at some bright sources. For example, in these observations, 4 stars
 were employed to align the CSU on sky. The brightest one was placed in slitlet
 number 2. Let’s select all the A images and display a zoom around this slitlet
 region:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ list_a=`fitsheader data/0002004*.fits -k IMGOBBL -f | awk &#39;$2 == 1 || $2 == 4 {print $1}&#39;`
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nv">list_a</span><span class="o">=</span><span class="sb">`</span>fitsheader<span class="w"> </span>data/0002004*.fits<span class="w"> </span>-k<span class="w"> </span>IMGOBBL<span class="w"> </span>-f<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$2 == 1 || $2 == 4 {print $1}&#39;</span><span class="sb">`</span>
 
-(emir) $  numina-ximshow $list_a \
- --bbox 86,2047,9,70 \
- --z1z2 0,1100 \
- --pdffile brightspectrum_a.pdf \
- --keystitle ra,dec,rotang.&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$  </span>numina-ximshow<span class="w"> </span><span class="nv">$list_a</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--bbox<span class="w"> </span><span class="m">86</span>,2047,9,70<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--z1z2<span class="w"> </span><span class="m">0</span>,1100<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--pdffile<span class="w"> </span>brightspectrum_a.pdf<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--keystitle<span class="w"> </span>ra,dec,rotang.<span class="s2">&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;</span>
 </pre></div>
 </div>
 <p>The first command defines the list of images for which the keyword <code class="docutils literal notranslate"><span class="pre">IMGOBBL</span></code>
 is either 1 or 4 (A images). The second command generates a PDF file in which
 a zoom around slitlet number 2 is displayed for all the selected images.</p>
-<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" style="width: 800px;" />
+</a>
 <p>It is clear that the actual location of the A spectra changed along the
 sequence. Unfortunately, there were no bright spectra in the B images to check
 what was happening with the spectra in the B images (the stars in A images
@@ -976,7 +993,7 @@ images before generating the final combined image</p></li>
 calibration coefficients for all the individual images (as we have done
 previously) or different calibrations for each one.</p>
 <section id="including-relative-offsets-between-a-and-b-images">
-<h3>Including relative offsets between A and B images<a class="headerlink" href="#including-relative-offsets-between-a-and-b-images" title="Permalink to this heading"></a></h3>
+<h3>Including relative offsets between A and B images<a class="headerlink" href="#including-relative-offsets-between-a-and-b-images" title="Link to this heading"></a></h3>
 <p>Since, as we have just seen, it is possible that there are offsets between the
 different A and B locations, a first thing one can fix is the proper alignment
 of all the A images before coadding them, and the same with the B images.</p>
@@ -999,13 +1016,13 @@ images and the combined B images cannot be automatically computed.</p>
 <p>A template of observation result file making use of this recipe can be
 generated with the help of the auxiliary script
 <code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code> with the argument <code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">3</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-  --step 3 --rectwv_combined --outfile 3_abba_template.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--step<span class="w"> </span><span class="m">3</span><span class="w"> </span>--rectwv_combined<span class="w"> </span>--outfile<span class="w"> </span>3_abba_template.yaml
 
-Expected sequence pattern: ABBA
-Number of sequences......: 6
-Full set of images.......: ABBAABBAABBAABBAABBAABBA
---&gt; File 3_abba_template.yaml generated!
+<span class="go">Expected sequence pattern: ABBA</span>
+<span class="go">Number of sequences......: 6</span>
+<span class="go">Full set of images.......: ABBAABBAABBAABBAABBAABBA</span>
+<span class="go">--&gt; File 3_abba_template.yaml generated!</span>
 </pre></div>
 </div>
 <p>The observation result generated, <code class="docutils literal notranslate"><span class="pre">3_abba_template.yaml</span></code>, has the following
@@ -1115,7 +1132,7 @@ but for the bright B target.</p></li>
 <p>In order to decide appropriate values for these parameters, it is useful to
 examine the result of the previous reduction, overplotting the ds9 regions
 corresponding to the boundaries of the different slitlets:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 obsid_abba_fast_bis_results/reduced_mos_abba.fits &amp;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ds9<span class="w"> </span>obsid_abba_fast_bis_results/reduced_mos_abba.fits<span class="w"> </span><span class="p">&amp;</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -1125,23 +1142,23 @@ corresponding to the boundaries of the different slitlets:</p>
 <p>The distribution tgz file of this example already generated a file in our
 directory tree named <code class="docutils literal notranslate"><span class="pre">3_abba.yaml</span></code>. Note that in the <code class="docutils literal notranslate"><span class="pre">requirements</span></code>
 section of this file you can find the relevant parameters already set:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ $ diff 3_abba_template.yaml 3_abba.yaml
-40,46c40,46
-&lt;     ab_different_target: TBD
-&lt;     vpix_region_a_target: [TBD, TBD]
-&lt;     vpix_region_a_sky: [TBD, TBD]
-&lt;     vpix_region_b_target: [TBD, TBD]
-&lt;     vpix_region_b_sky: [TBD, TBD]
-&lt;     list_valid_wvregions_a: [ [TBD, TBD], [TBD, TBD] ]
-&lt;     list_valid_wvregions_b: [ [TBD, TBD], [TBD, TBD] ]
----
-&gt;     ab_different_target: 1
-&gt;     vpix_region_a_target: [41, 76]
-&gt;     vpix_region_a_sky: [67, 74]
-&gt;     vpix_region_b_target: [853, 910]
-&gt;     vpix_region_b_sky: [853, 871]
-&gt;     list_valid_wvregions_a: [ [11600, 12677], [12702, 12850] ]
-&gt;     list_valid_wvregions_b: [ [11700, 12677], [12702, 12960] ]
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>$<span class="w"> </span>diff<span class="w"> </span>3_abba_template.yaml<span class="w"> </span>3_abba.yaml
+<span class="go">40,46c40,46</span>
+<span class="go">&lt;     ab_different_target: TBD</span>
+<span class="go">&lt;     vpix_region_a_target: [TBD, TBD]</span>
+<span class="go">&lt;     vpix_region_a_sky: [TBD, TBD]</span>
+<span class="go">&lt;     vpix_region_b_target: [TBD, TBD]</span>
+<span class="go">&lt;     vpix_region_b_sky: [TBD, TBD]</span>
+<span class="go">&lt;     list_valid_wvregions_a: [ [TBD, TBD], [TBD, TBD] ]</span>
+<span class="go">&lt;     list_valid_wvregions_b: [ [TBD, TBD], [TBD, TBD] ]</span>
+<span class="go">---</span>
+<span class="go">&gt;     ab_different_target: 1</span>
+<span class="go">&gt;     vpix_region_a_target: [41, 76]</span>
+<span class="go">&gt;     vpix_region_a_sky: [67, 74]</span>
+<span class="go">&gt;     vpix_region_b_target: [853, 910]</span>
+<span class="go">&gt;     vpix_region_b_sky: [853, 871]</span>
+<span class="go">&gt;     list_valid_wvregions_a: [ [11600, 12677], [12702, 12850] ]</span>
+<span class="go">&gt;     list_valid_wvregions_b: [ [11700, 12677], [12702, 12960] ]</span>
 </pre></div>
 </div>
 <p>In this example we do not have spectra of any of the bright 4 stars in the B
@@ -1154,9 +1171,9 @@ final combination of A and B spectra will be performed by using the WCS
 information in the image headers to determine the offset between both set of
 images. Finally, since B spectra appear above the A exposures, this parameter
 should be set to 1 (instead of -1).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 3_abba.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_abba.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>The execution time of this recipe is larger than the time required by the
@@ -1169,11 +1186,12 @@ images</p></li>
 shifted in the spatial direction (using fractions of pixels, which takes
 additional time)</p></li>
 </ul>
-<a class="reference internal image-reference" href="../_images/0002004226_abba_combined.png"><img alt="careful combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_combined.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0002004226_abba_combined.png"><img alt="careful combination of ABBA images (A on top of B)" src="../_images/0002004226_abba_combined.png" style="width: 100%;" />
+</a>
 </section>
 </section>
 <section id="using-a-different-rectification-and-wavelength-calibration-for-each-image">
-<h2>Using a different rectification and wavelength calibration for each image<a class="headerlink" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image" title="Permalink to this heading"></a></h2>
+<h2>Using a different rectification and wavelength calibration for each image<a class="headerlink" href="#using-a-different-rectification-and-wavelength-calibration-for-each-image" title="Link to this heading"></a></h2>
 <p>So far we have derived a single rectification and wavelength calibration
 coefficients file <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> that has been applied to the 24
 scientific images. However, it is possible that for long ABBA sequences, some
@@ -1184,12 +1202,13 @@ are referring to offsets that can be detected as variations in
 the location of the OH lines (X direction) or in the slitlet frontiers (Y
 direction) when comparing different images. These variations are easy to detect
 (when present) making a zoom in a relatively small are of the images:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow data/0002004*fits --bbox 1180,1320,1180,1280  \
-  --z1z2 0,1100 --pdffile abba_imageoffsets.pdf  \
-  --keystitle ra,dec,rotang.&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>data/0002004*fits<span class="w"> </span>--bbox<span class="w"> </span><span class="m">1180</span>,1320,1180,1280<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>--z1z2<span class="w"> </span><span class="m">0</span>,1100<span class="w"> </span>--pdffile<span class="w"> </span>abba_imageoffsets.pdf<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>--keystitle<span class="w"> </span>ra,dec,rotang.<span class="s2">&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" style="width: 800px;" />
+</a>
 <p>Although the previous animation does not show an apparent variation in the
 location of the OH lines throughout the whole ABBA sequence, we are going to
 illustrate here how to proceed if that were the case.</p>
@@ -1199,19 +1218,19 @@ images is to employ an individual
 image.</p>
 <p>The simple way to do it is making again use of the auxiliary script
 <code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
-  --step 1 \
-  --refine_wavecalib_mode 12 \
-  --minimum_slitlet_width_mm 1.475 \
-  --maximum_slitlet_width_mm 3.0 \
-  --global_integer_offset_x_pix 1 \
-  --global_integer_offset_y_pix -3 \
-  --outfile 1_rectwv_individual.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--step<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--refine_wavecalib_mode<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--minimum_slitlet_width_mm<span class="w"> </span><span class="m">1</span>.475<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--maximum_slitlet_width_mm<span class="w"> </span><span class="m">3</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--global_integer_offset_x_pix<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--global_integer_offset_y_pix<span class="w"> </span>-3<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--outfile<span class="w"> </span>1_rectwv_individual.yaml
 
-Expected sequence pattern: ABBA
-Number of sequences......: 6
-Full set of images.......: ABBAABBAABBAABBAABBAABBA
---&gt; File 1_rectwv_individual.yaml generated!
+<span class="go">Expected sequence pattern: ABBA</span>
+<span class="go">Number of sequences......: 6</span>
+<span class="go">Full set of images.......: ABBAABBAABBAABBAABBAABBA</span>
+<span class="go">--&gt; File 1_rectwv_individual.yaml generated!</span>
 </pre></div>
 </div>
 <p>Note that we have used the script with the same parameters that we
@@ -1537,9 +1556,9 @@ individual image. The <code class="docutils literal notranslate"><span class="pr
 in the previous <code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code> file. The execution of the new
 observation result file will logically take longer since now the reduction
 recipe will be executed 24 times instead of one:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 1_rectwv_individual.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>1_rectwv_individual.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>The previous execution will have created the corresponding <code class="docutils literal notranslate"><span class="pre">work</span></code> and
@@ -1553,7 +1572,7 @@ observation result file that must contain the list of all the files
 <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> generated within the  <code class="docutils literal notranslate"><span class="pre">obsid_0002004???_rectwv_work</span></code>
 subdirectories. This file can be generated automatically using, once again, the
 auxiliary script <code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt --step 3 --outfile 3_abba_template_individual.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span>--step<span class="w"> </span><span class="m">3</span><span class="w"> </span>--outfile<span class="w"> </span>3_abba_template_individual.yaml
 </pre></div>
 </div>
 <p>Note that in this case we have not employed the flag <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>
@@ -1643,42 +1662,43 @@ parameters under the <code class="docutils literal notranslate"><span class="pre
 directory tree named <code class="docutils literal notranslate"><span class="pre">3_abba_individual.yaml</span></code>. Note that in the
 <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section of this file you can find the relevant parameters
 already set:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ diff 3_abba_template_individual.yaml 3_abba_individual.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>diff<span class="w"> </span>3_abba_template_individual.yaml<span class="w"> </span>3_abba_individual.yaml
 
-1c1
-&lt; id: _abba
----
-&gt; id: _abba_individual
-64,70c64,70
-&lt;     ab_different_target: TBD
-&lt;     vpix_region_a_target: [TBD, TBD]
-&lt;     vpix_region_a_sky: [TBD, TBD]
-&lt;     vpix_region_b_target: [TBD, TBD]
-&lt;     vpix_region_b_sky: [TBD, TBD]
-&lt;     list_valid_wvregions_a: [ [TBD, TBD], [TBD, TBD] ]
-&lt;     list_valid_wvregions_b: [ [TBD, TBD], [TBD, TBD] ]
----
-&gt;     ab_different_target: 1
-&gt;     vpix_region_a_target: [41, 76]
-&gt;     vpix_region_a_sky: [67, 74]
-&gt;     vpix_region_b_target: [853, 910]
-&gt;     vpix_region_b_sky: [853, 871]
-&gt;     list_valid_wvregions_a: [ [11600, 12677], [12702, 12850] ]
-&gt;     list_valid_wvregions_b: [ [11700, 12677], [12702, 12960] ]
+<span class="go">1c1</span>
+<span class="go">&lt; id: _abba</span>
+<span class="go">---</span>
+<span class="go">&gt; id: _abba_individual</span>
+<span class="go">64,70c64,70</span>
+<span class="go">&lt;     ab_different_target: TBD</span>
+<span class="go">&lt;     vpix_region_a_target: [TBD, TBD]</span>
+<span class="go">&lt;     vpix_region_a_sky: [TBD, TBD]</span>
+<span class="go">&lt;     vpix_region_b_target: [TBD, TBD]</span>
+<span class="go">&lt;     vpix_region_b_sky: [TBD, TBD]</span>
+<span class="go">&lt;     list_valid_wvregions_a: [ [TBD, TBD], [TBD, TBD] ]</span>
+<span class="go">&lt;     list_valid_wvregions_b: [ [TBD, TBD], [TBD, TBD] ]</span>
+<span class="go">---</span>
+<span class="go">&gt;     ab_different_target: 1</span>
+<span class="go">&gt;     vpix_region_a_target: [41, 76]</span>
+<span class="go">&gt;     vpix_region_a_sky: [67, 74]</span>
+<span class="go">&gt;     vpix_region_b_target: [853, 910]</span>
+<span class="go">&gt;     vpix_region_b_sky: [853, 871]</span>
+<span class="go">&gt;     list_valid_wvregions_a: [ [11600, 12677], [12702, 12850] ]</span>
+<span class="go">&gt;     list_valid_wvregions_b: [ [11700, 12677], [12702, 12960] ]</span>
 </pre></div>
 </div>
 <p>Note that, apart from the filled <code class="docutils literal notranslate"><span class="pre">TBD</span></code> numbers, we have also modified the
 first line of the observation result file to provide a different <code class="docutils literal notranslate"><span class="pre">id</span></code> label a
 avoid overwriting previous reductions:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 3_abba_individual.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>3_abba_individual.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>Finally, we can compare the result of this reduction, in which we have employed
 an individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file for each of the 24 scientific images,
 with the one derived using the same <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> for all of them:</p>
-<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" style="width: 800px;" /></a>
+<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" style="width: 800px;" />
+</a>
 <p>Not surprisingly, the combination obtained after using the 24 individual
 <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files is not very different from the one derived
 employing a single <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file, since there were not apparent

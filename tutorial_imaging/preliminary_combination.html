@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preliminary combination &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,6 +33,7 @@
           
           <a href="../index.html" class="icon icon-home">
             pyemir-tutorials
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -86,7 +84,7 @@
            <div itemprop="articleBody">
              
   <section id="preliminary-combination">
-<h1>Preliminary combination<a class="headerlink" href="#preliminary-combination" title="Permalink to this heading"></a></h1>
+<h1>Preliminary combination<a class="headerlink" href="#preliminary-combination" title="Link to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Before continuing, make sure that you have already initialize the file tree
@@ -123,62 +121,62 @@ flatfielding and reprojection (the latter only since PyEmir version 0.17.0)</p><
 <li><p><strong>Step 2:</strong> actual combination of the images</p></li>
 </ul>
 <section id="step-1-basic-reduction-of-individual-exposures">
-<h2>Step 1: basic reduction of individual exposures<a class="headerlink" href="#step-1-basic-reduction-of-individual-exposures" title="Permalink to this heading"></a></h2>
+<h2>Step 1: basic reduction of individual exposures<a class="headerlink" href="#step-1-basic-reduction-of-individual-exposures" title="Link to this heading"></a></h2>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_imaging_tutorial_v4.tgz
-...
-...
-(emir) $ rm pyemir_imaging_tutorial_v4.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_imaging_tutorial_v4.tgz
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_imaging_tutorial_v4.tgz
 </pre></div>
 </div>
 <p>This action should have populated the file tree with the
 14 scientific raw FITS (placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code>
 subdirectory) and some additional auxiliary files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
-.
-├── control.yaml
-├── data
-│   ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877559-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877565-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877571-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877577-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877583-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877589-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877595-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877601-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877607-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877613-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877619-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877625-20181217-EMIR-STARE_IMAGE.fits
-│   ├── 0001877631-20181217-EMIR-STARE_IMAGE.fits
-│   ├── master_bpm.fits
-│   ├── master_dark_zeros.fits
-│   ├── master_flat_ones.fits
-│   ├── master_flat_spec.fits
-│   ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
-│   ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
-│   ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
-│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
-│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
-│   └── user_offsets.txt
-├── dithered_ini.yaml
-├── dithered_v0.yaml
-├── dithered_v1.yaml
-├── dithered_v2.yaml
-├── dithered_v3.yaml
-├── dithered_v4.yaml
-└── dithered_v5.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
+<span class="go">.</span>
+<span class="go">├── control.yaml</span>
+<span class="go">├── data</span>
+<span class="go">│   ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877559-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877565-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877571-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877577-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877583-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877589-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877595-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877601-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877607-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877613-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877619-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877625-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── 0001877631-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">│   ├── master_bpm.fits</span>
+<span class="go">│   ├── master_dark_zeros.fits</span>
+<span class="go">│   ├── master_flat_ones.fits</span>
+<span class="go">│   ├── master_flat_spec.fits</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json</span>
+<span class="go">│   ├── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json</span>
+<span class="go">│   └── user_offsets.txt</span>
+<span class="go">├── dithered_ini.yaml</span>
+<span class="go">├── dithered_v0.yaml</span>
+<span class="go">├── dithered_v1.yaml</span>
+<span class="go">├── dithered_v2.yaml</span>
+<span class="go">├── dithered_v3.yaml</span>
+<span class="go">├── dithered_v4.yaml</span>
+<span class="go">└── dithered_v5.yaml</span>
 </pre></div>
 </div>
 <p>You can easily examine the header of the scientific FITS images using the
 astropy utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0001877* \
-  -k nobsblck -k obsblock -k nimgobbl -k imgobbl \
-  -k nexp -k exp -k object -k exptime -k readmode \
-  -k filter -k grism -k date-obs -k ra -k dec -f &gt; fitsheader_out.txt
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0001877*<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>nobsblck<span class="w"> </span>-k<span class="w"> </span>obsblock<span class="w"> </span>-k<span class="w"> </span>nimgobbl<span class="w"> </span>-k<span class="w"> </span>imgobbl<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>nexp<span class="w"> </span>-k<span class="w"> </span>exp<span class="w"> </span>-k<span class="w"> </span>object<span class="w"> </span>-k<span class="w"> </span>exptime<span class="w"> </span>-k<span class="w"> </span>readmode<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-k<span class="w"> </span>filter<span class="w"> </span>-k<span class="w"> </span>grism<span class="w"> </span>-k<span class="w"> </span>date-obs<span class="w"> </span>-k<span class="w"> </span>ra<span class="w"> </span>-k<span class="w"> </span>dec<span class="w"> </span>-f<span class="w"> </span>&gt;<span class="w"> </span>fitsheader_out.txt
 </pre></div>
 </div>
 <p>The previous command generates a file <code class="docutils literal notranslate"><span class="pre">fitsheader_out.txt</span></code> with the contents
@@ -220,7 +218,7 @@ flatfielding, and image reprojection.</p>
 <p class="admonition-title">Note</p>
 <p>Remember that the <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines.
 In order to execute PyEmir recipes you should type something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>&lt;observation_result_file.yaml&gt;<span class="w"> </span>-r<span class="w"> </span>&lt;requirements_file.yaml&gt;
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">&lt;observation_result_file.yaml&gt;</span></code> is an observation result file in
@@ -418,13 +416,13 @@ when the number of images is large, an auxiliary script has been
 incorporated in PyEmir in order to help in its generation.</p>
 <p>In particular, the file used in this example can be easily created using a
 few simple commands:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cd data/
-(emir) $ ls 0001877*fits &gt; list_images.txt
-(emir) $ cd ..
-(emir) $ pyemir-generate_yaml_for_dithered_image \
-  data/list_images.txt --step 0 --repeat 1 \
-  --reprojection interp \
-  --outfile dithered_ini.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>data/
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ls<span class="w"> </span><span class="m">0001877</span>*fits<span class="w"> </span>&gt;<span class="w"> </span>list_images.txt
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>..
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_dithered_image<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>data/list_images.txt<span class="w"> </span>--step<span class="w"> </span><span class="m">0</span><span class="w"> </span>--repeat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reprojection<span class="w"> </span>interp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--outfile<span class="w"> </span>dithered_ini.yaml
 </pre></div>
 </div>
 <p>Note that a temporary file <code class="docutils literal notranslate"><span class="pre">list_images.txt</span></code> is created with a list of the
@@ -495,27 +493,27 @@ calibration files. You do not need to modify anything here.</p>
 <p>You are ready to execute the reduction recipe indicated in the file
 <code class="docutils literal notranslate"><span class="pre">dithered_ini.yaml</span></code> (in this case the reduccion recipe named
 <code class="docutils literal notranslate"><span class="pre">STARE_IMAGE</span></code>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_ini.yaml -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_ini.yaml<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>After the execution of the previous command line, two subdirectories for each
 block should have appeared:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ls
-control.yaml              obsid_0001877565_results/ obsid_0001877601_work/
-data/                     obsid_0001877565_work/    obsid_0001877607_results/
-dithered_ini.yaml         obsid_0001877571_results/ obsid_0001877607_work/
-dithered_v0.yaml          obsid_0001877571_work/    obsid_0001877613_results/
-dithered_v1.yaml          obsid_0001877577_results/ obsid_0001877613_work/
-dithered_v2.yaml          obsid_0001877577_work/    obsid_0001877619_results/
-dithered_v3.yaml          obsid_0001877583_results/ obsid_0001877619_work/
-dithered_v4.yaml          obsid_0001877583_work/    obsid_0001877625_results/
-dithered_v5.yaml          obsid_0001877589_results/ obsid_0001877625_work/
-obsid_0001877553_results/ obsid_0001877589_work/    obsid_0001877631_results/
-obsid_0001877553_work/    obsid_0001877595_results/ obsid_0001877631_work/
-obsid_0001877559_results/ obsid_0001877595_work/
-obsid_0001877559_work/    obsid_0001877601_results/
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ls
+<span class="go">control.yaml              obsid_0001877565_results/ obsid_0001877601_work/</span>
+<span class="go">data/                     obsid_0001877565_work/    obsid_0001877607_results/</span>
+<span class="go">dithered_ini.yaml         obsid_0001877571_results/ obsid_0001877607_work/</span>
+<span class="go">dithered_v0.yaml          obsid_0001877571_work/    obsid_0001877613_results/</span>
+<span class="go">dithered_v1.yaml          obsid_0001877577_results/ obsid_0001877613_work/</span>
+<span class="go">dithered_v2.yaml          obsid_0001877577_work/    obsid_0001877619_results/</span>
+<span class="go">dithered_v3.yaml          obsid_0001877583_results/ obsid_0001877619_work/</span>
+<span class="go">dithered_v4.yaml          obsid_0001877583_work/    obsid_0001877625_results/</span>
+<span class="go">dithered_v5.yaml          obsid_0001877589_results/ obsid_0001877625_work/</span>
+<span class="go">obsid_0001877553_results/ obsid_0001877589_work/    obsid_0001877631_results/</span>
+<span class="go">obsid_0001877553_work/    obsid_0001877595_results/ obsid_0001877631_work/</span>
+<span class="go">obsid_0001877559_results/ obsid_0001877595_work/</span>
+<span class="go">obsid_0001877559_work/    obsid_0001877601_results/</span>
 </pre></div>
 </div>
 <p><strong>The</strong> <code class="docutils literal notranslate"><span class="pre">work</span></code> <strong>subdirectories</strong></p>
@@ -523,41 +521,41 @@ obsid_0001877559_work/    obsid_0001877601_results/
 of a particular block of the observation result file are copied into the
 <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectories in order to preserve the original files.</p>
 <p>In particular, for the first block:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_0001877553_work/
-obsid_0001877553_work/
-├── 0001877553-20181217-EMIR-STARE_IMAGE.fits
-├── index.pkl
-├── mask_bpm.fits
-├── master_dark_zeros.fits
-└── master_flatframe.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_0001877553_work/
+<span class="go">obsid_0001877553_work/</span>
+<span class="go">├── 0001877553-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">├── index.pkl</span>
+<span class="go">├── mask_bpm.fits</span>
+<span class="go">├── master_dark_zeros.fits</span>
+<span class="go">└── master_flatframe.fits</span>
 </pre></div>
 </div>
 <p><em>When disk space is an issue, it is possible to execute numina indicating that
 links (instead of actual copies of the original raw files) must be placed in
 the</em> <code class="docutils literal notranslate"><span class="pre">work</span></code> <em>subdirectory.</em> This behaviour is set using the parameter
 <code class="docutils literal notranslate"><span class="pre">--link-files</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_ini.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_ini.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 
-(emir) $ tree obsid_0001877553_work/
-obsid_0001877553_work/
-├── 0001877553-20181217-EMIR-STARE_IMAGE.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/0001877553-20181217-EMIR-STARE_IMAGE.fits
-├── index.pkl
-├── master_bpm.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_bpm.fits
-├── master_dark_zeros.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_dark_zeros.fits
-└── master_flat_spec.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_flat_spec.fits
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_0001877553_work/
+<span class="go">obsid_0001877553_work/</span>
+<span class="go">├── 0001877553-20181217-EMIR-STARE_IMAGE.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/0001877553-20181217-EMIR-STARE_IMAGE.fits</span>
+<span class="go">├── index.pkl</span>
+<span class="go">├── master_bpm.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_bpm.fits</span>
+<span class="go">├── master_dark_zeros.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_dark_zeros.fits</span>
+<span class="go">└── master_flat_spec.fits -&gt; /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_flat_spec.fits</span>
 </pre></div>
 </div>
 <p><strong>The</strong> <code class="docutils literal notranslate"><span class="pre">results</span></code> <strong>subdirectories</strong></p>
 <p>These subdirectories store the result of the execution of the reduction
 recipes. In particular, for the first block:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree obsid_0001877553_results/
-obsid_0001877553_results/
-├── processing.log
-├── reduced_image.fits
-├── result.json
-└── task.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>tree<span class="w"> </span>obsid_0001877553_results/
+<span class="go">obsid_0001877553_results/</span>
+<span class="go">├── processing.log</span>
+<span class="go">├── reduced_image.fits</span>
+<span class="go">├── result.json</span>
+<span class="go">└── task.json</span>
 </pre></div>
 </div>
 <p>Note that although all the reduced images receive the same name in all these
@@ -566,7 +564,7 @@ there is no confusion because the subdirectory name contains a unique label for
 each block in the observation result file.</p>
 </section>
 <section id="step-2-image-combination">
-<h2>Step 2: image combination<a class="headerlink" href="#step-2-image-combination" title="Permalink to this heading"></a></h2>
+<h2>Step 2: image combination<a class="headerlink" href="#step-2-image-combination" title="Link to this heading"></a></h2>
 <p>After the basic reduction performed in step 1, we can proceed with the
 combination of the images. For that purpose a different reduction recipe must
 be employed: <code class="docutils literal notranslate"><span class="pre">FULL_DITHERED_IMAGE</span></code>.</p>
@@ -768,11 +766,11 @@ a combined image.</p>
 <p class="admonition-title">Warning</p>
 <p>The file <code class="docutils literal notranslate"><span class="pre">dithered_v0.yaml</span></code> can also be automatically generated using
 the same script previously mentioned in step 1:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-generate_yaml_for_dithered_image \
-  data/list_images.txt --step 1 --repeat 1 \
-  --reprojection interp \
-  --obsid_combined combined_v0 \
-  --outfile dithered_v0.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_dithered_image<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>data/list_images.txt<span class="w"> </span>--step<span class="w"> </span><span class="m">1</span><span class="w"> </span>--repeat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reprojection<span class="w"> </span>interp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--obsid_combined<span class="w"> </span>combined_v0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--outfile<span class="w"> </span>dithered_v0.yaml
 </pre></div>
 </div>
 <p>Note that here we are using <code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">1</span></code> instead of <code class="docutils literal notranslate"><span class="pre">--step</span> <span class="pre">0</span></code>. In
@@ -783,38 +781,41 @@ execution of the combination recipe.</p>
 <code class="docutils literal notranslate"><span class="pre">NEXP=1</span></code>).</p>
 </div>
 <p>The combination of the images is finally performed using numina:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v0.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v0.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>The previous execution also generates two auxiliary subdirectories <code class="docutils literal notranslate"><span class="pre">work</span></code> and
 <code class="docutils literal notranslate"><span class="pre">results</span></code>. The resulting combined image can be found in
 <code class="docutils literal notranslate"><span class="pre">obsid_combined_v0_result/reduced_image.fits</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree obsid_combined_v0_results/
-obsid_combined_v0_results/
-├── processing.log
-├── reduced_image.fits
-├── result.json
-└── task.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree<span class="w"> </span>obsid_combined_v0_results/
+<span class="go">obsid_combined_v0_results/</span>
+<span class="go">├── processing.log</span>
+<span class="go">├── reduced_image.fits</span>
+<span class="go">├── result.json</span>
+<span class="go">└── task.json</span>
 </pre></div>
 </div>
 <p>You can display the image using <code class="docutils literal notranslate"><span class="pre">ds9</span></code>, using <code class="docutils literal notranslate"><span class="pre">numina-ximshow</span></code> (the display
 tool shipped with numina based on matplotlib), or with any other tool:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>obsid_combined_v0_results/reduced_image.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/combined_v0_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/combined_v0_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_trimmed.png" style="width: 100%;" />
+</a>
 <p>It is clear that this combined image is far from perfect. In particular, there
 are inhomogeneities in the background level, which are easier to see at the
 image borders. In addition, the objects appear elongated, which indicates that
 the offsets between individual exposures, determined from the WCS header
 information, are not suficiently precise. The zoomed region shown in the next
 image reveals that the problem is not negligible:</p>
-<a class="reference internal image-reference" href="../_images/combined_v0_zoom_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_zoom_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/combined_v0_zoom_trimmed.png"><img alt="combined image, version 0" src="../_images/combined_v0_zoom_trimmed.png" style="width: 100%;" />
+</a>
 <p>In addition, the superflatfield computed when combining the individual
 exposures does exhibit a doughnut-like shape that must be taken account
 (something that we have not yet done). In particular, the image
 <code class="docutils literal notranslate"><span class="pre">obsid_combined_v0_work/superflat_comb_i0.fits</span></code> has the following aspect:</p>
-<a class="reference internal image-reference" href="../_images/superflat_v0_trimmed.png"><img alt="superflatfield, version 0" src="../_images/superflat_v0_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/superflat_v0_trimmed.png"><img alt="superflatfield, version 0" src="../_images/superflat_v0_trimmed.png" style="width: 100%;" />
+</a>
 <p>In the next section we are showing several alternatives to handle the previous
 issues and improve the image combination.</p>
 </section>

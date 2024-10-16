@@ -39,7 +39,7 @@ Download the following file: `pyemir_ngc7798_tutorial_v2.tgz
 If you find any trouble trying to download the previous file, try with the
 command line:
 
-::
+.. code-block:: console
 
    (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz
 
@@ -48,7 +48,7 @@ containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
 
 Decompress there the previously mentioned tgz file:
 
-::
+.. code-block:: console
 
    (emir) $ tar zxvf pyemir_ngc7798_tutorial_v2.tgz
    ...
@@ -58,7 +58,7 @@ Decompress there the previously mentioned tgz file:
 This action should have populated the file tree with 12 science exposures
 (placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
 
-::
+.. code-block:: console
 
    (emir) $ tree
    .
@@ -91,7 +91,7 @@ This action should have populated the file tree with 12 science exposures
 You can easily examine the header of the 12 science files using the astropy
 utility ``fitsheader``:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader data/0001005* -k object -k grism -k filter -k exptime -f
                    filename                  OBJECT  GRISM FILTER  EXPTIME  
@@ -112,7 +112,7 @@ utility ``fitsheader``:
 The slitlet configuration can be easily displayed with the help of the
 auxiliary PyEmir script ``pyemir-display_slitlet_arrangement``:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-display_slitlet_arrangement data/0001005*
    ...
@@ -143,7 +143,7 @@ There is a block for each single raw image.
 
 Execute the reduction recipe:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 0_stare_hd209290.yaml --link-files -r control.yaml
    ...
@@ -157,7 +157,7 @@ useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script ``numina-imath`` (which performs binary operations
 betwen images of the same size):
 
-::
+.. code-block:: console
 
    (emir) $ numina-imath obsid_0001005278_results/reduced_mos.fits - \
      obsid_0001005275_results/reduced_mos.fits grismJ_hd209290_A-B.fits
@@ -171,7 +171,7 @@ betwen images of the same size):
 Display the result to check that you get two spectra (one with positive counts
 and another with negavite counts) in each case:
 
-::
+.. code-block:: console
 
    (emir) $ ds9 grismJ_hd209290_A-B.fits
 
@@ -202,7 +202,7 @@ There is a block for each single raw image.
 
 Execute the reduction recipe:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 0_stare_ngc7798.yaml --link-files -r control.yaml
    ...
@@ -216,7 +216,7 @@ useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script ``numina-imath`` (which performs binary operations
 betwen images of the same size):
 
-::
+.. code-block:: console
 
    (emir) $ numina-imath obsid_0001005178_results/reduced_mos.fits - \
      obsid_0001005189_results/reduced_mos.fits grismJ_ngc7798_A-B.fits
@@ -230,7 +230,7 @@ betwen images of the same size):
 Display the result to check that you get two spectra (one with positive counts
 and another with negavite counts) in each case:
 
-::
+.. code-block:: console
 
    (emir) $ ds9 grismJ_ngc7798_A-B.fits
 

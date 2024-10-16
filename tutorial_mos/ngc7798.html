@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NGC7798 &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,6 +33,7 @@
           
           <a href="../index.html" class="icon icon-home">
             pyemir-tutorials
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -88,7 +86,7 @@
            <div itemprop="articleBody">
              
   <section id="ngc7798">
-<span id="id1"></span><h1>NGC7798<a class="headerlink" href="#ngc7798" title="Permalink to this heading"></a></h1>
+<span id="id1"></span><h1>NGC7798<a class="headerlink" href="#ngc7798" title="Link to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
@@ -108,87 +106,89 @@ same level of detail (or even mentioned at all!).</p>
 in the central region of the HII galaxy NGC7798 using the J, H and K grisms.
 <strong>The target was observed with all the EMIR slitlets aligned,
 simulating a single (pseudo) longslit.</strong></p>
-<a class="reference internal image-reference" href="../_images/ngc7798.png"><img alt="NGC 7798" src="../_images/ngc7798.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/ngc7798.png"><img alt="NGC 7798" src="../_images/ngc7798.png" style="width: 100%;" />
+</a>
 <p>Since we plan to obtained flux calibrated results, we are also going to reduce
 the spectra of the spectrophotometric standard HD209290 (HIP 108782), observed
 with the same instrumental configuration.</p>
 <p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz">pyemir_ngc7798_tutorial_v2.tgz</a>.</p>
 <p>If you find any trouble trying to download the previous file, try with the
 command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/pyemir/pyemir_ngc7798_tutorial_v2.tgz
 </pre></div>
 </div>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tar zxvf pyemir_ngc7798_tutorial_v2.tgz
-...
-...
-(emir) $ rm pyemir_ngc7798_tutorial_v2.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_ngc7798_tutorial_v2.tgz
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_ngc7798_tutorial_v2.tgz
 </pre></div>
 </div>
 <p>This action should have populated the file tree with 12 science exposures
 (placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ tree
-.
-├── 0_stare_hd209290.yaml
-├── 0_stare_ngc7798.yaml
-├── control.yaml
-└── data
-    ├── 0001005178-20160727-EMIR-TEST0.fits
-    ├── 0001005189-20160727-EMIR-TEST0.fits
-    ├── 0001005200-20160727-EMIR-TEST0.fits
-    ├── 0001005211-20160727-EMIR-TEST0.fits
-    ├── 0001005222-20160727-EMIR-TEST0.fits
-    ├── 0001005233-20160727-EMIR-TEST0.fits
-    ├── 0001005263-20160727-EMIR-TEST0.fits
-    ├── 0001005266-20160727-EMIR-TEST0.fits
-    ├── 0001005269-20160727-EMIR-TEST0.fits
-    ├── 0001005272-20160727-EMIR-TEST0.fits
-    ├── 0001005275-20160727-EMIR-TEST0.fits
-    ├── 0001005278-20160727-EMIR-TEST0.fits
-    ├── master_bpm.fits
-    ├── master_dark_zeros.fits
-    ├── master_flat_ones.fits
-    ├── master_flat_spec.fits
-    ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
-    ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
-    ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
-    ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
-    └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
+<span class="go">.</span>
+<span class="go">├── 0_stare_hd209290.yaml</span>
+<span class="go">├── 0_stare_ngc7798.yaml</span>
+<span class="go">├── control.yaml</span>
+<span class="go">└── data</span>
+<span class="go">    ├── 0001005178-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005189-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005200-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005211-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005222-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005233-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005263-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005266-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005269-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005272-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005275-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── 0001005278-20160727-EMIR-TEST0.fits</span>
+<span class="go">    ├── master_bpm.fits</span>
+<span class="go">    ├── master_dark_zeros.fits</span>
+<span class="go">    ├── master_flat_ones.fits</span>
+<span class="go">    ├── master_flat_spec.fits</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json</span>
+<span class="go">    └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json</span>
 </pre></div>
 </div>
 <p>You can easily examine the header of the 12 science files using the astropy
 utility <code class="docutils literal notranslate"><span class="pre">fitsheader</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ fitsheader data/0001005* -k object -k grism -k filter -k exptime -f
-                filename                  OBJECT  GRISM FILTER  EXPTIME
----------------------------------------- -------- ----- ------ ----------
-data/0001005178-20160727-EMIR-TEST0.fits  NGC7798     J      J 119.991601
-data/0001005189-20160727-EMIR-TEST0.fits  NGC7798     J      J 119.991601
-data/0001005200-20160727-EMIR-TEST0.fits  NGC7798     H      H 119.991601
-data/0001005211-20160727-EMIR-TEST0.fits  NGC7798     H      H 119.991601
-data/0001005222-20160727-EMIR-TEST0.fits  NGC7798     K    Ksp 119.991601
-data/0001005233-20160727-EMIR-TEST0.fits  NGC7798     K    Ksp 119.991601
-data/0001005263-20160727-EMIR-TEST0.fits HD209290     K    Ksp   9.999289
-data/0001005266-20160727-EMIR-TEST0.fits HD209290     K    Ksp   9.999289
-data/0001005269-20160727-EMIR-TEST0.fits HD209290     H      H   9.999289
-data/0001005272-20160727-EMIR-TEST0.fits HD209290     H      H   9.999289
-data/0001005275-20160727-EMIR-TEST0.fits HD209290     J      J   9.999289
-data/0001005278-20160727-EMIR-TEST0.fits HD209290     J      J   9.999289
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0001005*<span class="w"> </span>-k<span class="w"> </span>object<span class="w"> </span>-k<span class="w"> </span>grism<span class="w"> </span>-k<span class="w"> </span>filter<span class="w"> </span>-k<span class="w"> </span>exptime<span class="w"> </span>-f
+<span class="go">                filename                  OBJECT  GRISM FILTER  EXPTIME</span>
+<span class="go">---------------------------------------- -------- ----- ------ ----------</span>
+<span class="go">data/0001005178-20160727-EMIR-TEST0.fits  NGC7798     J      J 119.991601</span>
+<span class="go">data/0001005189-20160727-EMIR-TEST0.fits  NGC7798     J      J 119.991601</span>
+<span class="go">data/0001005200-20160727-EMIR-TEST0.fits  NGC7798     H      H 119.991601</span>
+<span class="go">data/0001005211-20160727-EMIR-TEST0.fits  NGC7798     H      H 119.991601</span>
+<span class="go">data/0001005222-20160727-EMIR-TEST0.fits  NGC7798     K    Ksp 119.991601</span>
+<span class="go">data/0001005233-20160727-EMIR-TEST0.fits  NGC7798     K    Ksp 119.991601</span>
+<span class="go">data/0001005263-20160727-EMIR-TEST0.fits HD209290     K    Ksp   9.999289</span>
+<span class="go">data/0001005266-20160727-EMIR-TEST0.fits HD209290     K    Ksp   9.999289</span>
+<span class="go">data/0001005269-20160727-EMIR-TEST0.fits HD209290     H      H   9.999289</span>
+<span class="go">data/0001005272-20160727-EMIR-TEST0.fits HD209290     H      H   9.999289</span>
+<span class="go">data/0001005275-20160727-EMIR-TEST0.fits HD209290     J      J   9.999289</span>
+<span class="go">data/0001005278-20160727-EMIR-TEST0.fits HD209290     J      J   9.999289</span>
 </pre></div>
 </div>
 <p>The slitlet configuration can be easily displayed with the help of the
 auxiliary PyEmir script <code class="docutils literal notranslate"><span class="pre">pyemir-display_slitlet_arrangement</span></code>:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ pyemir-display_slitlet_arrangement data/0001005*
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-display_slitlet_arrangement<span class="w"> </span>data/0001005*
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>12 plots are displayed, one for each raw image. The additional information
 displayed in the terminal show that the CSU configuration was the same for the
 12 images.</p>
-<a class="reference internal image-reference" href="../_images/0001005178_csu_configuration.png"><img alt="0001005178 csu configuration" src="../_images/0001005178_csu_configuration.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/0001005178_csu_configuration.png"><img alt="0001005178 csu configuration" src="../_images/0001005178_csu_configuration.png" style="width: 100%;" />
+</a>
 <section id="reduction-of-hd209290">
-<h2>Reduction of HD209290<a class="headerlink" href="#reduction-of-hd209290" title="Permalink to this heading"></a></h2>
+<h2>Reduction of HD209290<a class="headerlink" href="#reduction-of-hd209290" title="Link to this heading"></a></h2>
 <p>The rectification and wavelength calibration of the images corresponding to the
 spectrophotometric star is carried using the empirical model (reduction recipe
 <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>). The first lines of the associated observation
@@ -211,9 +211,9 @@ result <code class="docutils literal notranslate"><span class="pre">0_stare_hd20
 </div>
 <p>There is a block for each single raw image.</p>
 <p>Execute the reduction recipe:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_stare_hd209290.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>0_stare_hd209290.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>As expected, two new subdirectories (<code class="docutils literal notranslate"><span class="pre">obsid_00010052??_work</span></code> and
@@ -222,28 +222,29 @@ result <code class="docutils literal notranslate"><span class="pre">0_stare_hd20
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script <code class="docutils literal notranslate"><span class="pre">numina-imath</span></code> (which performs binary operations
 betwen images of the same size):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-imath obsid_0001005278_results/reduced_mos.fits - \
-  obsid_0001005275_results/reduced_mos.fits grismJ_hd209290_A-B.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005278_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0001005275_results/reduced_mos.fits<span class="w"> </span>grismJ_hd209290_A-B.fits
 
-(emir) $ numina-imath obsid_0001005269_results/reduced_mos.fits - \
-  obsid_0001005272_results/reduced_mos.fits grismH_hd209290_A-B.fits
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005269_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0001005272_results/reduced_mos.fits<span class="w"> </span>grismH_hd209290_A-B.fits
 
-(emir) $ numina-imath obsid_0001005266_results/reduced_mos.fits - \
-  obsid_0001005263_results/reduced_mos.fits grismK_hd209290_A-B.fits
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005266_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0001005263_results/reduced_mos.fits<span class="w"> </span>grismK_hd209290_A-B.fits
 </pre></div>
 </div>
 <p>Display the result to check that you get two spectra (one with positive counts
 and another with negavite counts) in each case:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 grismJ_hd209290_A-B.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ds9<span class="w"> </span>grismJ_hd209290_A-B.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/ds9_grismJ_hd209290_A-B.png"><img alt="ds9 grismJ A-B" src="../_images/ds9_grismJ_hd209290_A-B.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/ds9_grismJ_hd209290_A-B.png"><img alt="ds9 grismJ A-B" src="../_images/ds9_grismJ_hd209290_A-B.png" style="width: 100%;" />
+</a>
 <p><strong>From this point, we continue the reduction of the spectrophotometric standard
 using Python (within a Jupyter notebook).</strong>
 See <a class="reference external" href="https://guaix.fis.ucm.es/~ncl/emir/reduction_hd209290.html">final reduction of HD209290</a>.</p>
 </section>
 <section id="reduction-of-ngc7798">
-<h2>Reduction of NGC7798<a class="headerlink" href="#reduction-of-ngc7798" title="Permalink to this heading"></a></h2>
+<h2>Reduction of NGC7798<a class="headerlink" href="#reduction-of-ngc7798" title="Link to this heading"></a></h2>
 <p>The rectification and wavelength calibration of the images corresponding to the
 central region of NGC7798 star is carried using the empirical model (reduction recipe
 <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code>). The first lines of the associated observation
@@ -266,9 +267,9 @@ result <code class="docutils literal notranslate"><span class="pre">0_stare_ngc7
 </div>
 <p>There is a block for each single raw image.</p>
 <p>Execute the reduction recipe:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run 0_stare_ngc7798.yaml --link-files -r control.yaml
-...
-...
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>0_stare_ngc7798.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
+<span class="go">...</span>
+<span class="go">...</span>
 </pre></div>
 </div>
 <p>As expected, two new subdirectories (<code class="docutils literal notranslate"><span class="pre">obsid_00010052??_work</span></code> and
@@ -277,26 +278,28 @@ result <code class="docutils literal notranslate"><span class="pre">0_stare_ngc7
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script <code class="docutils literal notranslate"><span class="pre">numina-imath</span></code> (which performs binary operations
 betwen images of the same size):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-imath obsid_0001005178_results/reduced_mos.fits - \
-  obsid_0001005189_results/reduced_mos.fits grismJ_ngc7798_A-B.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005178_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0001005189_results/reduced_mos.fits<span class="w"> </span>grismJ_ngc7798_A-B.fits
 
-(emir) $ numina-imath obsid_0001005211_results/reduced_mos.fits - \
-  obsid_0001005200_results/reduced_mos.fits grismH_ngc7798_A-B.fits
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005211_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0001005200_results/reduced_mos.fits<span class="w"> </span>grismH_ngc7798_A-B.fits
 
-(emir) $ numina-imath obsid_0001005222_results/reduced_mos.fits - \
-  obsid_0001005233_results/reduced_mos.fits grismK_ngc7798_A-B.fits
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005222_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>obsid_0001005233_results/reduced_mos.fits<span class="w"> </span>grismK_ngc7798_A-B.fits
 </pre></div>
 </div>
 <p>Display the result to check that you get two spectra (one with positive counts
 and another with negavite counts) in each case:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ ds9 grismJ_ngc7798_A-B.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>ds9<span class="w"> </span>grismJ_ngc7798_A-B.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/ds9_grismJ_ngc7798_A-B.png"><img alt="ds9 grismJ A-B" src="../_images/ds9_grismJ_ngc7798_A-B.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/ds9_grismJ_ngc7798_A-B.png"><img alt="ds9 grismJ A-B" src="../_images/ds9_grismJ_ngc7798_A-B.png" style="width: 100%;" />
+</a>
 <p><strong>From this point, we continue the reduction of the galaxy spectra using
 Python (within a Jupyter notebook).</strong>
 See <a class="reference external" href="https://guaix.fis.ucm.es/~ncl/emir/reduction_ngc7798.html">final reduction of NGC7798</a>.</p>
-<a class="reference internal image-reference" href="../_images/plot_JHK_ngc7798.png"><img alt="ds9 grismJ A-B" src="../_images/plot_JHK_ngc7798.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/plot_JHK_ngc7798.png"><img alt="ds9 grismJ A-B" src="../_images/plot_JHK_ngc7798.png" style="width: 100%;" />
+</a>
 </section>
 </section>
 

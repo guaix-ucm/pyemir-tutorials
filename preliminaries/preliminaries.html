@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preliminaries &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,6 +33,7 @@
           
           <a href="../index.html" class="icon icon-home">
             pyemir-tutorials
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -83,7 +81,7 @@
            <div itemprop="articleBody">
              
   <section id="preliminaries">
-<span id="pyemir-preliminaries"></span><h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Permalink to this heading"></a></h1>
+<span id="pyemir-preliminaries"></span><h1>Preliminaries<a class="headerlink" href="#preliminaries" title="Link to this heading"></a></h1>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>All the commands are assumed to be executed in a terminal running the <strong>bash
@@ -93,10 +91,10 @@ PyEmir.  In this document, the prompt <code class="docutils literal notranslate"
 is the case.</p>
 </div>
 <section id="running-pyemir-recipes-from-numina">
-<h2>Running PyEmir recipes from Numina<a class="headerlink" href="#running-pyemir-recipes-from-numina" title="Permalink to this heading"></a></h2>
+<h2>Running PyEmir recipes from Numina<a class="headerlink" href="#running-pyemir-recipes-from-numina" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines. In order to execute
 PyEmir recipes you should use execute something like:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run &lt;observation_result_file.yaml&gt; -r &lt;requirements_file.yaml&gt;
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>&lt;observation_result_file.yaml&gt;<span class="w"> </span>-r<span class="w"> </span>&lt;requirements_file.yaml&gt;
 </pre></div>
 </div>
 <p>where <code class="docutils literal notranslate"><span class="pre">&lt;observation_result_file.yaml&gt;</span></code> is an observation result in YAML
@@ -106,14 +104,14 @@ format.</p>
 <a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax desciption</a>)</p>
 </section>
 <section id="initial-file-tree">
-<span id="id1"></span><h2>Initial file tree<a class="headerlink" href="#initial-file-tree" title="Permalink to this heading"></a></h2>
+<span id="id1"></span><h2>Initial file tree<a class="headerlink" href="#initial-file-tree" title="Link to this heading"></a></h2>
 <p>Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.</p>
 <p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz">pyemir_initial_tree_v2a.tgz</a>.</p>
 <p>If you find any trouble trying to download the previous file, try with the
 following command line:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
 </pre></div>
 </div>
 <div class="admonition warning">
@@ -128,30 +126,30 @@ properly with images captured using the original EMIR detector.</p>
 </div>
 <p>It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ mkdir newdir
-(emir) $ cd newdir
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>mkdir<span class="w"> </span>newdir
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nb">cd</span><span class="w"> </span>newdir
 
-# copy here the downloaded tgz file
+<span class="gp"># </span>copy<span class="w"> </span>here<span class="w"> </span>the<span class="w"> </span>downloaded<span class="w"> </span>tgz<span class="w"> </span>file
 
-(emir) $ tar zxvf pyemir_initial_tree_v2a.tgz
-...
-...
-(emir) $ rm pyemir_initial_tree_v2a.tgz
-(emir) $ tree
-.
-├── control.yaml
-└── data
-    ├── master_bpm.fits
-    ├── master_bpm_zeros.fits
-    ├── master_dark_zeros.fits
-    ├── master_flat_ones.fits
-    ├── master_flat_spec.fits
-    ├── master_flat_spec_H2RG.fits
-    ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json
-    ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json
-    ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json
-    ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
-    └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_initial_tree_v2a.tgz
+<span class="go">...</span>
+<span class="go">...</span>
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_initial_tree_v2a.tgz
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
+<span class="go">.</span>
+<span class="go">├── control.yaml</span>
+<span class="go">└── data</span>
+<span class="go">    ├── master_bpm.fits</span>
+<span class="go">    ├── master_bpm_zeros.fits</span>
+<span class="go">    ├── master_dark_zeros.fits</span>
+<span class="go">    ├── master_flat_ones.fits</span>
+<span class="go">    ├── master_flat_spec.fits</span>
+<span class="go">    ├── master_flat_spec_H2RG.fits</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_H_filter_H.json</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_J_filter_J.json</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_K_filter_Ksp.json</span>
+<span class="go">    ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json</span>
+<span class="go">    └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json</span>
 </pre></div>
 </div>
 <p>The file <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> is a requirements file needed to execute
@@ -173,7 +171,8 @@ using grism J + filter J (X axis) in comparison with the values deduced using
 grism H + filter H, grism K + filter Ksp, grism LR + filter YJ and grism LR +
 filter HK (Y axis). Note that the color scale is given in logarithmic units
 (i.e., most pixels fall in the interval around 1.0 in the 1:1 diagonal line).</p>
-<a class="reference internal image-reference" href="../_images/pixel2pixel.png"><img alt="variation in the pixel2pixel response using different filters" src="../_images/pixel2pixel.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/pixel2pixel.png"><img alt="variation in the pixel2pixel response using different filters" src="../_images/pixel2pixel.png" style="width: 100%;" />
+</a>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rect_wpoly_MOSlibrary_grism*.json</span></code>: empirical distortion and wavelength
 callibrations for the reduction of spectroscopic data. These calibrations
@@ -188,10 +187,10 @@ pixel-to-pixel correction; you can ignore it).</p></li>
 </ul>
 </section>
 <section id="installing-ds9">
-<h2>Installing ds9<a class="headerlink" href="#installing-ds9" title="Permalink to this heading"></a></h2>
+<h2>Installing ds9<a class="headerlink" href="#installing-ds9" title="Link to this heading"></a></h2>
 <p>Probably you already have ds9 installed in your system. If this is not the
 case, you can use conda to do it!</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ conda install ds9
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>conda<span class="w"> </span>install<span class="w"> </span>ds9
 </pre></div>
 </div>
 <p>Note that we have activated the <code class="docutils literal notranslate"><span class="pre">emir</span></code> environment prior to the installation
@@ -199,7 +198,7 @@ of the new package. That means that this particular ds9 installation will be
 exclusively available from within that environment.</p>
 </section>
 <section id="use-of-interactive-matplotlib-plots">
-<h2>Use of interactive matplotlib plots<a class="headerlink" href="#use-of-interactive-matplotlib-plots" title="Permalink to this heading"></a></h2>
+<h2>Use of interactive matplotlib plots<a class="headerlink" href="#use-of-interactive-matplotlib-plots" title="Link to this heading"></a></h2>
 <p>The interactive plots created by some Numina and PyEmir scripts have been
 tested using the Qt5Agg backend of matplotlib. Note that this will require the
 <code class="docutils literal notranslate"><span class="pre">pyqt</span></code> package to be installed in your environment (see for example <a class="reference external" href="https://anaconda.org/anaconda/pyqt">the

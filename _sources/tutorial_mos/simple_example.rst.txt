@@ -79,7 +79,7 @@ containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
 
 Decompress there the previously mentioned tgz file:
 
-::
+.. code-block:: console
 
    (emir) $ tar zxvf pyemir_arc_calibration_tutorial_v1.tgz
    ...
@@ -89,7 +89,7 @@ Decompress there the previously mentioned tgz file:
 This action should have populated the file tree with the 3 arc exposures
 (placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
 
-::
+.. code-block:: console
 
    (emir) $ tree
    .
@@ -113,7 +113,7 @@ This action should have populated the file tree with the 3 arc exposures
 You can easily examine the header of the three arc files using the astropy 
 utility ``fitsheader``:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader data/00010413*fits -k object -k grism -k filter -k exptime -k date-obs -f
                    filename                       OBJECT      GRISM FILTER EXPTIME         DATE-OBS       
@@ -126,7 +126,7 @@ Have a look to any of the tree raw arc images (the three images are similar).
 For that purpose you can use ``ds9`` or the visualization tool provided with
 numina:
    
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow data/0001041345-20160917-EMIR-TEST0.fits
 
@@ -143,7 +143,7 @@ longslit configuration.
 The slitlet configuration can be easily displayed using the auxiliay PyEmir
 script ``pyemir-display_slitlet_arrangement``:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-display_slitlet_arrangement data/0001041345-20160917-EMIR-TEST0.fits
    ...
@@ -162,7 +162,7 @@ aligned slitlets forming a (pseudo) longslit.
    Remember that the ``numina`` script is the interface with GTC pipelines. 
    In order to execute PyEmir recipes you should use type something like:
 
-   ::
+   .. code-block:: console
    
       (emir) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
 
@@ -224,7 +224,7 @@ You are ready to execute the reduction recipe indicated in the file
 ``0_preliminary_calibration.yaml`` (in this case the reduccion recipe named
 ``GENERATE_RECTWV_COEFF``):
 
-::
+.. code-block:: console
 
    (emir) $ numina run 0_preliminary_calibration.yaml -r control.yaml
    ...
@@ -241,7 +241,7 @@ have been created:
 The ``work`` subdirectory
 -------------------------
 
-::
+.. code-block:: console
 
    (emir) $ tree obsid_0001041345_work/
    obsid_0001041345_work/
@@ -273,7 +273,7 @@ links (instead of actual copies of the original raw files) must be placed in
 the* ``work`` *subdirectory.* This behaviour is set using the parameter
 ``--link-files``:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 0_preliminary_calibration.yaml --link-files -r control.yaml
    ...
@@ -357,7 +357,7 @@ of the reduction recipe. In particular:
 The ``results`` subdirectory
 ----------------------------
 
-::
+.. code-block:: console
 
    (emir) $ tree obsid_0001401345_results/
    obsid_0001401345_results/
@@ -380,7 +380,7 @@ important files here are:
 You can easily display the last image using ``ds9`` or the visualization tool
 provided with numina:
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_0001041345_results/reduced_mos.fits --z1z2 0,1000
 
@@ -392,7 +392,7 @@ provided with numina:
 - The wavelength calibration coefficientes are stored in the usual FITS
   keywords ``CRPIX1``, ``CRVAL1`` and ``CDELT1``:
 
-  ::
+  .. code-block:: console
 
      (emir) $ fitsheader obsid_0001041345_results/reduced_mos.fits -k crpix1 -k crval1 -k cdelt1 -f
                       filename                 CRPIX1  CRVAL1 CDELT1
@@ -409,7 +409,7 @@ provided with numina:
 
 - Note that the image dimensions are now NAXIS1=3400 and NAXIS2=2090:
 
-  ::
+  .. code-block:: console
 
      (emir) $ fitsheader obsid_0001041345_results/reduced_mos.fits -k naxis* -f
                       filename                 NAXIS NAXIS1 NAXIS2
@@ -459,7 +459,7 @@ to the preliminary rectified and wavelength calibrated image (making a zoom in
 a relatively narrow range in the X direction) it is clear that the relative
 wavelength calibration between slitlets does not agree within roughtly 1 pixel:
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_0001041345_results/reduced_mos.fits --bbox 1920,2050,1,2090 --z1z2 0,11000
 
@@ -488,7 +488,7 @@ the 3 types of arc lamps were simultaneously ON during the exposure time. An
 easy way to check that this was really the case is to examine the corresponding
 status keywords:
 
-::
+.. code-block:: console
 
    (emir) $ fitsheader obsid_0001041345_results/reduced_mos.fits -k lampxe* -k lampne* -k lamphg* -f
                     filename                 LAMPXE1 LAMPXE2 LAMPNE1 LAMPNE2 LAMPHG1 LAMPHG2
@@ -527,7 +527,7 @@ For example, we can execute the auxiliary script
 previously used (since the three images were obtained consecutively with
 exactly the same configuration, we can choose any of them):
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-overplot_boundary_model \
      data/0001041345-20160917-EMIR-TEST0.fits \
@@ -595,7 +595,7 @@ subdirectory.  In particular:
 
 Open ``ds9`` with the same image
 
-::
+.. code-block:: console
 
    (emir) $ ds9 data/0001041345-20160917-EMIR-TEST0.fits
 
@@ -628,7 +628,7 @@ Since we know that the raw data correspond to arc images, we can overplot the
 expected locations of the some of the brightest arc lines by using the
 additional parameter ``--arc_lines``:
 
-::
+.. code-block:: console
 
    (emir) $ pyemir-overplot_boundary_model \
      data/0001041345-20160917-EMIR-TEST0.fits \
@@ -653,7 +653,7 @@ auxiliary ds9-region with the expected location of the arc lines, created under
 the ``obsid_0001041345_work`` subdirectory. In this case, open ``ds9`` with the
 same image:
 
-::
+.. code-block:: console
 
    (emir) $ ds9 data/0001041345-20160917-EMIR-TEST0.fits
 
@@ -713,7 +713,7 @@ behavior of the reduction recipe:
 
 Execute the reduction recipe using the new observation result file:
 
-::
+.. code-block:: console
 
    (emir) $ numina run 1_refined_calibration.yaml --link-files -r control.yaml
    ...
@@ -725,7 +725,7 @@ wavelength calibration of the different slitlets matches).
 
 The new ``reduced_mos.fits`` image now does exhibit a much better wavelength calibration:
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_0001041345_refined_results/reduced_mos.fits \
      --bbox 1920,2050,1,2090 --z1z2 0,11000
@@ -743,7 +743,7 @@ display that new image zooming into the same region employed in the last plot
 (note that the intensity of the arc lines in ``expected_catalog_lines.fits``
 ranges from 0.0 to 1.0):
 
-::
+.. code-block:: console
 
    (emir) $ numina-ximshow obsid_0001041345_refined_work/expected_catalog_lines.fits \
      --bbox 1920,2050,1,2090 --z1z2 0,0.4
@@ -762,7 +762,7 @@ perfectly horizontal, whereas the expected arc lines are vertical (the image
 has been rectified!). These region files are useful to locate individual
 slitlets by number.
 
-::
+.. code-block:: console
 
    (emir) $ ds9 obsid_0001041345_refined_results/reduced_mos.fits
 

@@ -67,7 +67,7 @@ line 127 has also been changed in order to avoid overwriting the ``work`` and
 The refined version of the combined image is then obtained by executing numina
 again with this new observation result file:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v1.yaml --link-files -r control.yaml
 
@@ -139,7 +139,7 @@ number 148; note also the ``id`` change in line 127):
 
 The contents of the ASCII file with the measured offsets is the following:
 
-::
+.. code-block:: console
 
    (emir) $ cat data/user_offsets.txt
    822 907
@@ -159,7 +159,7 @@ The contents of the ASCII file with the measured offsets is the following:
 
 Execute numina to obtain the new version of the combined image:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v2.yaml --link-files -r control.yaml
 
@@ -225,7 +225,7 @@ In this case we have modified the ``id`` (line 127) and set
 
 Execute numina again with this new observation result file:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v3.yaml --link-files -r control.yaml
 
@@ -329,13 +329,13 @@ computed from the WCS information in the image headers).
 
 Execute numina to start the reduction including object masking:
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v4.yaml --link-files -r control.yaml
 
 It is useful to subtract the new result from the one derived previously:
 
-::
+.. code-block:: console
 
    (emir) $ numina-imath obsid_combined_v1_results/reduced_image.fits - \
       obsid_combined_v4_results/reduced_image.fits difference_v4.fits
@@ -523,7 +523,7 @@ we are using a pattern of 10 x 10 regions in each quadrant. The median value in
 each of these 100 subregions is computed (masking pixels affected by objects)
 and a smooth spline surface is fitted to that collection of points.
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v5.yaml --link-files -r control.yaml
 
@@ -582,7 +582,7 @@ change in the ``id`` in line 127):
 **by default, which means that the correction described next is not performed
 unless splicitly stated.**
 
-::
+.. code-block:: console
 
    (emir) $ numina run dithered_v6.yaml --link-files -r control.yaml
 
@@ -638,7 +638,7 @@ strategy is followed in order to perform this latter reduction step:
 We can easily compare the new result with the one obtained using
 ``dithered_v5.yaml``. For that purpose is useful to subtract the new result from the one derived previously:
 
-::
+.. code-block:: console
 
    (emir) $ numina-imath obsid_combined_v6_results/reduced_image.fits - \
       obsid_combined_v5_results/reduced_image.fits difference_v6.fits

@@ -1,24 +1,21 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
-  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Improving the image combination &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
-        <script src="../_static/jquery.js"></script>
-        <script src="../_static/underscore.js"></script>
-        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
-        <script src="../_static/doctools.js"></script>
-        <script src="../_static/sphinx_highlight.js"></script>
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=e160b93e"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -36,6 +33,7 @@
           
           <a href="../index.html" class="icon icon-home">
             pyemir-tutorials
+              <img src="../_static/logo.png" class="logo" alt="Logo"/>
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -90,7 +88,7 @@
            <div itemprop="articleBody">
              
   <section id="improving-the-image-combination">
-<h1>Improving the image combination<a class="headerlink" href="#improving-the-image-combination" title="Permalink to this heading"></a></h1>
+<h1>Improving the image combination<a class="headerlink" href="#improving-the-image-combination" title="Link to this heading"></a></h1>
 <p>The image combination can be improved by tuning some of the parameters of the
 recipe <code class="docutils literal notranslate"><span class="pre">FULL_DITHERED_IMAGE</span></code> (step 2 in the previous section).
 In this sense, there is no need to repeat the basic reduction of the individual
@@ -129,7 +127,7 @@ smooth surface (using a smoothing kernel in polar coordinates that helps to
 fit the azimuthal shape). See subsection <a class="reference internal" href="#improving-doughnut"><span class="std std-ref">Improving the superflatfield</span></a> below.</p></li>
 </ol>
 <section id="improving-offsets-method-1">
-<span id="improving-offsets-1"></span><h2>Improving offsets (method #1)<a class="headerlink" href="#improving-offsets-method-1" title="Permalink to this heading"></a></h2>
+<span id="improving-offsets-1"></span><h2>Improving offsets (method #1)<a class="headerlink" href="#improving-offsets-method-1" title="Link to this heading"></a></h2>
 <p>We can activate the use of 2D cross-correlation of subimages around bright
 targets to obtain refined offsets. This method works only if the initial
 offsets (either derived from the WCS information in the image headers or from
@@ -167,14 +165,16 @@ line 127 has also been changed in order to avoid overwriting the <code class="do
 </div>
 <p>The refined version of the combined image is then obtained by executing numina
 again with this new observation result file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v1.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v1.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/comparison_v1.gif"><img alt="combined image, version 1 compared with version 0" src="../_images/comparison_v1.gif" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/comparison_v1_zoom.gif"><img alt="combined image, version 1 compared with version 0" src="../_images/comparison_v1_zoom.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/comparison_v1.gif"><img alt="combined image, version 1 compared with version 0" src="../_images/comparison_v1.gif" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/comparison_v1_zoom.gif"><img alt="combined image, version 1 compared with version 0" src="../_images/comparison_v1_zoom.gif" style="width: 100%;" />
+</a>
 </section>
 <section id="improving-offsets-method-2">
-<span id="improving-offsets-2"></span><h2>Improving offsets (method #2)<a class="headerlink" href="#improving-offsets-method-2" title="Permalink to this heading"></a></h2>
+<span id="improving-offsets-2"></span><h2>Improving offsets (method #2)<a class="headerlink" href="#improving-offsets-method-2" title="Link to this heading"></a></h2>
 <p>An alternative to the use of the offsets computed from the WCS information in
 the image header is to provide a two-column ASCII file with the measured (X,Y)
 coordinates of a reference object (i.e., the centroid of a bright star) in
@@ -213,32 +213,34 @@ number 148; note also the <code class="docutils literal notranslate"><span class
 </pre></div>
 </div>
 <p>The contents of the ASCII file with the measured offsets is the following:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ cat data/user_offsets.txt
-822 907
-730 660
-555 863
-620 998
-895 741
-545 674
-708 811
-830 911
-735 666
-561 868
-626 1003
-901 746
-551 679
-715 816
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>cat<span class="w"> </span>data/user_offsets.txt
+<span class="go">822 907</span>
+<span class="go">730 660</span>
+<span class="go">555 863</span>
+<span class="go">620 998</span>
+<span class="go">895 741</span>
+<span class="go">545 674</span>
+<span class="go">708 811</span>
+<span class="go">830 911</span>
+<span class="go">735 666</span>
+<span class="go">561 868</span>
+<span class="go">626 1003</span>
+<span class="go">901 746</span>
+<span class="go">551 679</span>
+<span class="go">715 816</span>
 </pre></div>
 </div>
 <p>Execute numina to obtain the new version of the combined image:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v2.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v2.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/comparison_v2.gif"><img alt="combined image, version 2 compared with version 0" src="../_images/comparison_v2.gif" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/comparison_v2_zoom.gif"><img alt="combined image, version 2 compared with version 0" src="../_images/comparison_v2_zoom.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/comparison_v2.gif"><img alt="combined image, version 2 compared with version 0" src="../_images/comparison_v2.gif" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/comparison_v2_zoom.gif"><img alt="combined image, version 2 compared with version 0" src="../_images/comparison_v2_zoom.gif" style="width: 100%;" />
+</a>
 </section>
 <section id="improving-offsets-method-3">
-<span id="improving-offsets-3"></span><h2>Improving offsets (method #3)<a class="headerlink" href="#improving-offsets-method-3" title="Permalink to this heading"></a></h2>
+<span id="improving-offsets-3"></span><h2>Improving offsets (method #3)<a class="headerlink" href="#improving-offsets-method-3" title="Link to this heading"></a></h2>
 <p>It is also possible to combine both the offsets provided by the user through an
 external ASCII file, as well as the cross-correlation method to improve those
 numbers.</p>
@@ -274,14 +276,16 @@ following:</p>
 <p>In this case we have modified the <code class="docutils literal notranslate"><span class="pre">id</span></code> (line 127) and set
 <code class="docutils literal notranslate"><span class="pre">refine_offsets:</span> <span class="pre">True</span></code> (line 149).</p>
 <p>Execute numina again with this new observation result file:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v3.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v3.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>The comparison with the result obtained by refining the offsets initially
 computed from the WCS information indicates that both methods lead to basically
 the same result.</p>
-<a class="reference internal image-reference" href="../_images/comparison_v3.gif"><img alt="combined image, version 3 compared with version 1" src="../_images/comparison_v3.gif" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/comparison_v3_zoom.gif"><img alt="combined image, version 3 compared with version 1" src="../_images/comparison_v3_zoom.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/comparison_v3.gif"><img alt="combined image, version 3 compared with version 1" src="../_images/comparison_v3.gif" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/comparison_v3_zoom.gif"><img alt="combined image, version 3 compared with version 1" src="../_images/comparison_v3_zoom.gif" style="width: 100%;" />
+</a>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The conclusion of these comparisons is that the user can rely on the offsets
@@ -293,7 +297,7 @@ there just in case it is necessary.</p>
 </div>
 </section>
 <section id="improving-the-sky-background-problem-1">
-<span id="improving-skybackground-1"></span><h2>Improving the sky background (problem #1)<a class="headerlink" href="#improving-the-sky-background-problem-1" title="Permalink to this heading"></a></h2>
+<span id="improving-skybackground-1"></span><h2>Improving the sky background (problem #1)<a class="headerlink" href="#improving-the-sky-background-problem-1" title="Link to this heading"></a></h2>
 <p>The first obvious way to improve the background computation is by masking the
 objects present in the image. This masking process requires an initial object
 detection, that must be carried out on the result of an initial image
@@ -354,30 +358,35 @@ maximum number of exposures before repeating the same dithering pointing).</p></
 <code class="docutils literal notranslate"><span class="pre">offsets</span></code> with an external ASCII file (i.e., the initial offsets will be
 computed from the WCS information in the image headers).</p>
 <p>Execute numina to start the reduction including object masking:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v4.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v4.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>It is useful to subtract the new result from the one derived previously:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-imath obsid_combined_v1_results/reduced_image.fits - \
-   obsid_combined_v4_results/reduced_image.fits difference_v4.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_combined_v1_results/reduced_image.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>obsid_combined_v4_results/reduced_image.fits<span class="w"> </span>difference_v4.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/comparison_v4.gif"><img alt="combined image, version 4 compared with version 1" src="../_images/comparison_v4.gif" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/comparison_v4_zoom.gif"><img alt="combined image, version 4 compared with version 1" src="../_images/comparison_v4_zoom.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/comparison_v4.gif"><img alt="combined image, version 4 compared with version 1" src="../_images/comparison_v4.gif" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/comparison_v4_zoom.gif"><img alt="combined image, version 4 compared with version 1" src="../_images/comparison_v4_zoom.gif" style="width: 100%;" />
+</a>
 </section>
 <section id="improving-the-sky-background-problem-2">
-<span id="improving-skybackground-2"></span><h2>Improving the sky background (problem #2)<a class="headerlink" href="#improving-the-sky-background-problem-2" title="Permalink to this heading"></a></h2>
+<span id="improving-skybackground-2"></span><h2>Improving the sky background (problem #2)<a class="headerlink" href="#improving-the-sky-background-problem-2" title="Link to this heading"></a></h2>
 <p>In all the previous examples, the combined images always exhibit variations in
 the sky background that are clearly visible at the image borders. The reason
 for that is that some individual exposures (in this particular example the
 first two individual images), have a wrong image background.</p>
 <p>The problem is more severe in the regions where the number of images used for
 the combination is lower:</p>
-<a class="reference internal image-reference" href="../_images/data_npix_v4.png"><img alt="combined data and number of pixels used in combination, version 4" src="../_images/data_npix_v4.png" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/combined_v4_statistics.png"><img alt="combined data version 4, statistical analysis" src="../_images/combined_v4_statistics.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/data_npix_v4.png"><img alt="combined data and number of pixels used in combination, version 4" src="../_images/data_npix_v4.png" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/combined_v4_statistics.png"><img alt="combined data version 4, statistical analysis" src="../_images/combined_v4_statistics.png" style="width: 100%;" />
+</a>
 <p>It is also possible to examine the sky-subtracted individual images (files
 ending in <code class="docutils literal notranslate"><span class="pre">_rfs_i?.fits</span></code> within the <code class="docutils literal notranslate"><span class="pre">work</span></code> subdirectories):</p>
-<a class="reference internal image-reference" href="../_images/skysub_v4.gif"><img alt="individual sky-subtracted images" src="../_images/skysub_v4.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/skysub_v4.gif"><img alt="individual sky-subtracted images" src="../_images/skysub_v4.gif" style="width: 100%;" />
+</a>
 <p>In this case we realize that the first two images exhibit an unexpected
 non-flat background (in the previous movie the first two images correspond to
 <code class="docutils literal notranslate"><span class="pre">reduced_image_d58cea92-0cd9-11ed-9e29-3c15c2e3dc50_rfs_i1.fits</span></code> and
@@ -426,11 +435,13 @@ of subdivisions (in X and Y) in which each quadrant is subdivided. In this case
 we are using a pattern of 10 x 10 regions in each quadrant. The median value in
 each of these 100 subregions is computed (masking pixels affected by objects)
 and a smooth spline surface is fitted to that collection of points.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v5.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v5.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/comparison_v5.gif"><img alt="combined image, version 5 compared with version 4" src="../_images/comparison_v5.gif" style="width: 100%;" /></a>
-<a class="reference internal image-reference" href="../_images/combined_v5_statistics.png"><img alt="combined data version 5, statistical analysis" src="../_images/combined_v5_statistics.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/comparison_v5.gif"><img alt="combined image, version 5 compared with version 4" src="../_images/comparison_v5.gif" style="width: 100%;" />
+</a>
+<a class="reference internal image-reference" href="../_images/combined_v5_statistics.png"><img alt="combined data version 5, statistical analysis" src="../_images/combined_v5_statistics.png" style="width: 100%;" />
+</a>
 <p>In the last combination (v5) the sky background level is much flatter around
 zero, except for those pixels in the combined image where only one single
 exposure is available. By looking at the file <code class="docutils literal notranslate"><span class="pre">result_i1_npix.fits</span></code> it is
@@ -438,7 +449,7 @@ possible to check that those pixels are just at the borders of the combined
 image.</p>
 </section>
 <section id="improving-the-superflatfield">
-<span id="improving-doughnut"></span><h2>Improving the superflatfield<a class="headerlink" href="#improving-the-superflatfield" title="Permalink to this heading"></a></h2>
+<span id="improving-doughnut"></span><h2>Improving the superflatfield<a class="headerlink" href="#improving-the-superflatfield" title="Link to this heading"></a></h2>
 <p>Here we are modifying the last observation result file (<code class="docutils literal notranslate"><span class="pre">dithered_v5.yaml</span></code>)
 to generate <code class="docutils literal notranslate"><span class="pre">dithered_v6.yaml</span></code>. The only change that we need to introduce
 here is to set the requirement <code class="docutils literal notranslate"><span class="pre">fit_doughnut:</span> <span class="pre">True</span></code> (line 149; note also the
@@ -473,7 +484,7 @@ change in the <code class="docutils literal notranslate"><span class="pre">id</s
 <p><strong>Note that this parameter</strong> <code class="docutils literal notranslate"><span class="pre">fit_doughnut</span></code> <strong>is assumed to be</strong> <code class="docutils literal notranslate"><span class="pre">False</span></code>
 <strong>by default, which means that the correction described next is not performed
 unless splicitly stated.</strong></p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina run dithered_v6.yaml --link-files -r control.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina<span class="w"> </span>run<span class="w"> </span>dithered_v6.yaml<span class="w"> </span>--link-files<span class="w"> </span>-r<span class="w"> </span>control.yaml
 </pre></div>
 </div>
 <p>The refined version of the superflatfield is then obtained by fitting a smooth
@@ -482,12 +493,15 @@ superflatfield (dividing by the fitted doughnut-like shape), which provides a
 quite flat new superflatfield.</p>
 <p>In this example, the initial superflatfield computed in iteration 1 (masking
 objects) is the following:</p>
-<a class="reference internal image-reference" href="../_images/superflat_comb_i1_v6_trimmed.png"><img alt="initial superflatfield, version 6" src="../_images/superflat_comb_i1_v6_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/superflat_comb_i1_v6_trimmed.png"><img alt="initial superflatfield, version 6" src="../_images/superflat_comb_i1_v6_trimmed.png" style="width: 100%;" />
+</a>
 <p>The fitted doughnut-like model, displayed using the same cuts is:</p>
-<a class="reference internal image-reference" href="../_images/superflat_doughnut_i1_v6_trimmed.png"><img alt="fitted doughnut-like surface, version 6" src="../_images/superflat_doughnut_i1_v6_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/superflat_doughnut_i1_v6_trimmed.png"><img alt="fitted doughnut-like surface, version 6" src="../_images/superflat_doughnut_i1_v6_trimmed.png" style="width: 100%;" />
+</a>
 <p>The resulting refined superflatfield, obtained after dividing the initial
 superflatfield by the fitted surface, has the following aspect:</p>
-<a class="reference internal image-reference" href="../_images/superflat_comb_dc_i1_v6_trimmed.png"><img alt="refined superflatfield, version 6" src="../_images/superflat_comb_dc_i1_v6_trimmed.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/superflat_comb_dc_i1_v6_trimmed.png"><img alt="refined superflatfield, version 6" src="../_images/superflat_comb_dc_i1_v6_trimmed.png" style="width: 100%;" />
+</a>
 <p>In addition, since this doughnut-like shape is
 present in every single exposure prior to the sky subtraction, the following
 strategy is followed in order to perform this latter reduction step:</p>
@@ -506,11 +520,12 @@ computation of the refined superflatfield itself).</p></li>
 </div></blockquote>
 <p>We can easily compare the new result with the one obtained using
 <code class="docutils literal notranslate"><span class="pre">dithered_v5.yaml</span></code>. For that purpose is useful to subtract the new result from the one derived previously:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(emir) $ numina-imath obsid_combined_v6_results/reduced_image.fits - \
-   obsid_combined_v5_results/reduced_image.fits difference_v6.fits
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_combined_v6_results/reduced_image.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>obsid_combined_v5_results/reduced_image.fits<span class="w"> </span>difference_v6.fits
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/comparison_v6.gif"><img alt="combined image, version 6 compared with version 5" src="../_images/comparison_v6.gif" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../_images/comparison_v6.gif"><img alt="combined image, version 6 compared with version 5" src="../_images/comparison_v6.gif" style="width: 100%;" />
+</a>
 <p>In this particular example, the introduction of the refined superflatfield
 introduces changes in the signal of some objects that can be as large as 20%,
 depending on the location of the targets relative to the doughnut-like shape

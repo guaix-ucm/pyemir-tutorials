@@ -20,7 +20,7 @@ Running PyEmir recipes from Numina
 The ``numina`` script is the interface with GTC pipelines. In order to execute
 PyEmir recipes you should use execute something like:
 
-::
+.. code-block:: console
 
    (emir) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
 
@@ -48,7 +48,7 @@ Download the following file: `pyemir_initial_tree_v2a.tgz
 If you find any trouble trying to download the previous file, try with the
 following command line:
 
-::
+.. code-block:: console
 
    (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2a.tgz
 
@@ -65,7 +65,7 @@ following command line:
 It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:
 
-::
+.. code-block:: console
 
    (emir) $ mkdir newdir
    (emir) $ cd newdir
@@ -138,7 +138,7 @@ Installing ds9
 Probably you already have ds9 installed in your system. If this is not the
 case, you can use conda to do it!
 
-::
+.. code-block:: console
 
    (emir) $ conda install ds9
 
