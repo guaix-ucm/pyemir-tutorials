@@ -1,0 +1,178 @@
+id: _4006361
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006361-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006365-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006369-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006374
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006374-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006378-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006382-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006387
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006387-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006391-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006395-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006400
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006400-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006404-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006408-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006413
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006413-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006417-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006421-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006426
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006426-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006430-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006434-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006439
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006439-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006443-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006447-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006643
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006643-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006647-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006651-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006656
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006656-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006660-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006664-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006669
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006669-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006673-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006677-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006682
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006682-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006686-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006690-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006695
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006695-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006699-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006703-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006708
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006708-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006712-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006716-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _4006721
+instrument: EMIR
+mode: STARE_IMAGE
+frames:
+ - 0004006721-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006725-20231119-EMIR-STARE_IMAGE.fits
+ - 0004006729-20231119-EMIR-STARE_IMAGE.fits
+requirements:
+  reprojection_method: interp
+enabled: False
+---
+id: _combined_v5_h2rg
+instrument: EMIR
+mode: FULL_DITHERED_IMAGE
+children:
+ - _4006361
+ - _4006374
+ - _4006387
+ - _4006400
+ - _4006413
+ - _4006426
+ - _4006439
+ - _4006643
+ - _4006656
+ - _4006669
+ - _4006682
+ - _4006695
+ - _4006708
+ - _4006721
+requirements:
+  iterations: 1
+  sky_images: 6
+  refine_offsets: True
+  adhoc_sky_correction_h2rg: True
+enabled: True
