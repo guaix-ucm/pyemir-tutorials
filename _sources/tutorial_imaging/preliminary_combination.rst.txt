@@ -212,20 +212,23 @@ highlighting the first block (first eight lines):
   valid values are: ``none`` (no reprojection is performed; this leads to bad
   results when combining dithered images, specially at the final image
   borders), ``interp`` (fastest reprojection method), ``adaptive``, or
-  ``exact`` (slowest). Please, have a look to the documentation in the
+  ``exact`` (slowest). Please, have a look to the documentation in the**
   `reproject <https://reproject.readthedocs.io/en/stable/>`_ package if you
-  need additional information concerning the reprojetion methods. In this 
-  example we are using ``interp``, which provides
-  good results. PyEmir users can try to use the slower ``adaptive`` or
-  ``exact`` methods and compare the final combined images to check for the
-  impact of the adopted method (we do not expect important differences).
-   
-- The key ``enabled: True`` indicates that this block is going to be reduced.
-  As it is going to be shown later, the user can easily
-  activate/deactivate the execution of particular reduction recipes (i.e.
-  blocks in this file) just by modifying this flag.
+  need additional information concerning the reprojetion methods. In this
+  example we are using** ``interp``, which provides good results and is fast.
 
-.. warning::
+  .. warning::
+   
+     **IMPORTANT: PyEmir users should try to use the slower** ``adaptive`` **or
+     the slowest** ``exact`` **methods, and compare the final combined images
+     to check for the impact of the adopted method.**
+
+- The key ``enabled: True`` indicates that this block is going to be reduced.
+  As it is going to be shown later, the user can easily activate/deactivate the
+  execution of particular reduction recipes (i.e.  blocks in this file) just by
+  modifying this flag.
+
+.. note::
    
    Since the generation of the file ``dithered_ini.yaml`` can be cumbersome,
    specially
@@ -428,7 +431,7 @@ As it will be explained later, the use of these parameters can help to obtain
 better results. So far we are only interested in showing a fast way to generate
 a combined image.
 
-.. warning::
+.. note::
 
    The file ``dithered_v0.yaml`` can also be automatically generated using
    the same script previously mentioned in step 1:

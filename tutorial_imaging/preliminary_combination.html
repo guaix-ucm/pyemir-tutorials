@@ -370,7 +370,7 @@ highlighting the first block (first eight lines):</p>
 <span class="linenos">125</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
-<ul class="simple">
+<ul>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> value is an arbitrary label that is employed to generate the name
 of two auxiliary subdirectories. In this example the reduction of the first
 block will generate two subdirectories named <code class="docutils literal notranslate"><span class="pre">obsid_0001877553_work</span></code> and
@@ -396,20 +396,24 @@ between the different resampling algorithms implemented in that package:
 valid values are: <code class="docutils literal notranslate"><span class="pre">none</span></code> (no reprojection is performed; this leads to bad
 results when combining dithered images, specially at the final image
 borders), <code class="docutils literal notranslate"><span class="pre">interp</span></code> (fastest reprojection method), <code class="docutils literal notranslate"><span class="pre">adaptive</span></code>, or
-<code class="docutils literal notranslate"><span class="pre">exact</span></code> (slowest). Please, have a look to the documentation in the
+<code class="docutils literal notranslate"><span class="pre">exact</span></code> (slowest). Please, have a look to the documentation in the**
 <a class="reference external" href="https://reproject.readthedocs.io/en/stable/">reproject</a> package if you
 need additional information concerning the reprojetion methods. In this
-example we are using <code class="docutils literal notranslate"><span class="pre">interp</span></code>, which provides
-good results. PyEmir users can try to use the slower <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> or
-<code class="docutils literal notranslate"><span class="pre">exact</span></code> methods and compare the final combined images to check for the
-impact of the adopted method (we do not expect important differences).</p></li>
-<li><p>The key <code class="docutils literal notranslate"><span class="pre">enabled:</span> <span class="pre">True</span></code> indicates that this block is going to be reduced.
-As it is going to be shown later, the user can easily
-activate/deactivate the execution of particular reduction recipes (i.e.
-blocks in this file) just by modifying this flag.</p></li>
-</ul>
+example we are using** <code class="docutils literal notranslate"><span class="pre">interp</span></code>, which provides good results and is fast.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
+<p><strong>IMPORTANT: PyEmir users should try to use the slower</strong> <code class="docutils literal notranslate"><span class="pre">adaptive</span></code> <strong>or
+the slowest</strong> <code class="docutils literal notranslate"><span class="pre">exact</span></code> <strong>methods, and compare the final combined images
+to check for the impact of the adopted method.</strong></p>
+</div>
+</li>
+<li><p>The key <code class="docutils literal notranslate"><span class="pre">enabled:</span> <span class="pre">True</span></code> indicates that this block is going to be reduced.
+As it is going to be shown later, the user can easily activate/deactivate the
+execution of particular reduction recipes (i.e.  blocks in this file) just by
+modifying this flag.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>Since the generation of the file <code class="docutils literal notranslate"><span class="pre">dithered_ini.yaml</span></code> can be cumbersome,
 specially
 when the number of images is large, an auxiliary script has been
@@ -762,8 +766,8 @@ brightest objects.</p></li>
 <p>As it will be explained later, the use of these parameters can help to obtain
 better results. So far we are only interested in showing a fast way to generate
 a combined image.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
 <p>The file <code class="docutils literal notranslate"><span class="pre">dithered_v0.yaml</span></code> can also be automatically generated using
 the same script previously mentioned in step 1:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_dithered_image<span class="w"> </span><span class="se">\</span>
