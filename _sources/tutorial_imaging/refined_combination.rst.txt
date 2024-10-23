@@ -389,8 +389,15 @@ It is useful to subtract the new result from the one derived previously:
 
 .. _improving_skybackground_2:
 
-Improving the sky background (problem #2)
------------------------------------------
+Improving the sky background (problem #2, old EMIR detector)
+------------------------------------------------------------
+
+.. warning::
+
+   This section explains how to improve the sky background in observations
+   obtained with the original EMIR detector. The analogous explanation for the
+   correction of images obtained with the latest H2RG detector can be found in
+   Section :ref:`improving_skybackground_2_h2rg`.
 
 In all the previous examples, the combined images always exhibit variations in
 the sky background that are clearly visible at the image borders. The reason
@@ -561,6 +568,67 @@ zero, except for those pixels in the combined image where only one single
 exposure is available. By looking at the file ``result_i1_npix.fits`` it is
 possible to check that those pixels are just at the borders of the combined
 image.
+
+.. _improving_skybackground_2_h2rg:
+
+Improving the sky background (problem #2, new EMIR detector H2RG)
+-----------------------------------------------------------------
+
+.. warning::
+
+   This section explains how to improve the sky background in observations
+   obtained with the new EMIR detector H2RG. The analogous explanation for the
+   correction of images obtained with original detector can be found in
+   Section :ref:`improving_skybackground_2`.
+
+Exposures taken with the new H2RG detector may show signal variations among the
+32 channels of the detector (which are arrange vertically), as illustrated in
+the following figure (we thank Alan Watson and Yuhang Yang for providing the
+example data for the following screenshots):
+
+.. cd w/GTC/emir/20241016_test_modo_imagen_H2RG
+.. numina-ximshow obsid_combined_v4_results/reduced_image.fits --z1z2 "[-40,40]" --pdf skysub_v4_h2rg.pdf --figuredict "{'figsize':(8, 10), 'dpi':100}"
+.. convert -density 100 skysub_v4_h2rg.pdf -trim skysub_v4_h2rg.png
+
+.. only:: html
+
+   .. image:: skysub_v4_h2rg.png
+      :width: 100%
+      :alt: combined data version 4, detector H2RG
+   
+.. only:: latex
+
+   .. image:: skysub_v4_h2rg.png
+      :width: 82%
+      :alt: combined data version 4, detector H2RG
+
+It is possible to correct this problem by determining and subtracting the
+median value in the background signal in each of the channels. For that
+purpose, you should include the requirement ``adhoc_sky_correction_h2rg: True``
+(note that the requirement ``nside_adhoc_sky_correction: 10`` used with the
+original EMIR detector is not valid for the H2RG detector, since the geometry
+of the channels is different!).
+
+.. literalinclude:: dithered_v5_h2rg.yaml
+   :lines: 155-178
+   :emphasize-lines: 1,23
+   :linenos:
+   :lineno-start: 155
+
+.. numina-ximshow obsid_combined_v5_h2rg_results/reduced_image.fits --z1z2 "[-40,40]" --pdf skysub_v5_h2rg.pdf --figuredict "{'figsize':(8, 10), 'dpi':100}"
+.. convert -density 100 skysub_v5_h2rg.pdf -trim skysub_v5_h2rg.png
+
+.. only:: html
+
+   .. image:: skysub_v5_h2rg.png
+      :width: 100%
+      :alt: combined data version 5, detector H2RG
+   
+.. only:: latex
+
+   .. image:: skysub_v5_h2rg.png
+      :width: 82%
+      :alt: combined data version 5, detector H2RG
 
 .. _improving_doughnut:
 
