@@ -583,7 +583,7 @@ Improving the sky background (problem #2, new EMIR detector H2RG)
 
 Exposures taken with the new H2RG detector may show signal variations among the
 32 channels of the detector (which are arrange vertically), as illustrated in
-the following figure (we thank Alan Watson and Yuhang Yang for providing the
+the following figure (we thank Alan Watson and Yuhan Yang for providing the
 example data for the following screenshots):
 
 .. cd w/GTC/emir/20241016_test_modo_imagen_H2RG
