@@ -28,6 +28,7 @@ frames:
  - 0002004893-20190424-EMIR-STARE_SPECTRA.fits
 requirements:
   pattern: ABBA
+  repeat: 1
   list_rectwv_coeff:
     - ../obsid_0002004226_rectwv_results/rectwv_coeff.json
     - ../obsid_0002004255_rectwv_results/rectwv_coeff.json

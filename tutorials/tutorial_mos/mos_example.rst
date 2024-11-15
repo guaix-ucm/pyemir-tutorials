@@ -30,15 +30,15 @@ needed!
 Downloading the tutorial data
 =============================
 
-Download the following file: `pyemir_mos_tutorial.tgz 
-<https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz>`_.
+Download the following file: `pyemir_mos_tutorial_v1b.tgz 
+<https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
 command line:
 
 .. code-block:: console
 
-   (emir) $ curl -O <https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
+   (emir) $ curl -O <https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
 
 Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
@@ -47,10 +47,10 @@ Decompress there the previously mentioned tgz file:
 
 .. code-block:: console
 
-   (emir) $ tar zxvf pyemir_mos_tutorial_v1.tgz
+   (emir) $ tar zxvf pyemir_mos_tutorial_v1b.tgz
    ...
    ...
-   (emir) $ rm pyemir_mos_tutorial_v1.tgz
+   (emir) $ rm pyemir_mos_tutorial_v1b.tgz
 
 This action should have populated the file tree with 24 science exposures
 (placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
@@ -608,7 +608,9 @@ execution of the reduction recipe, with the expected location of the airglow
 .. code-block:: console
 
    (emir) $ numina-ximshow obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits \
-     --z1z2 0,0.3
+     --z1z2 -0.1,0.3
+
+(Note: in mac OS under zshell you may need to use ``--z1z2 "[-0.1,0.3]"``)
 
 .. numina-ximshow obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits --geometry 0,0,1060,850 --z1z2 [-0.1,0.4]
 
@@ -805,7 +807,11 @@ The ``requirements`` section (lines 29-36) is now different:
 
 - ``pattern``: indicates that the images in the ``frames`` sections correspond
   to ABBA sequences. That means that the total number of images must be an
-  interger multiple of 4.
+  integer multiple of 4.
+
+- ``repeat``: number of exposures at each position in the previous pattern. By
+  default, a value of 1 is assumed. If, for example, ``repeat: 2``, the actual
+  observation pattern would be AABBBBAA.
 
 - ``rectwv_coeff``: the value that appears here is the expected file name for
   the rectification and wavelength calibration coefficients of the first image.
@@ -866,11 +872,11 @@ pixels. We can introduce this number in the requirement ``voffset_pix``:
    ...
 
 We modify the label in line 1 (adding the suffix ``_bis``), and set the
-vertical offset to 38 pixels in line 36:
+vertical offset to 38 pixels in line 37:
 
 .. literalinclude:: 2_abba_fast_bis.yaml
    :linenos:
-   :emphasize-lines: 1, 36
+   :emphasize-lines: 1, 37
    :lineno-start: 1
 
 Execute the again the same reduction recipe but using the new observation
@@ -927,9 +933,9 @@ region:
 
 .. code-block:: console
 
-   (emir) $ list_a=`fitsheader data/0002004*.fits -k IMGOBBL -f | awk '$2 == 1 || $2 == 4 {print $1}'`
+   (emir) $ fitsheader data/0002004*.fits -k IMGOBBL -f | awk '$2 == 1 || $2 == 4 {print $1}' > list_a.txt
 
-   (emir) $  numina-ximshow $list_a \
+   (emir) $ numina-ximshow list_a.txt \
     --bbox 86,2047,9,70 \
     --z1z2 0,1100 \
     --pdffile brightspectrum_a.pdf \
@@ -1076,12 +1082,12 @@ content:
 
 .. literalinclude:: 3_abba_template.yaml
    :linenos:
-   :emphasize-lines: 1, 36-46
+   :emphasize-lines: 1, 37-47
    :lineno-start: 1
 
 The ``id`` label (line 1) is again different (to avoid overwriting the previous
 reductions). The ``requirements`` section now contains a new subsection called
-``refine_target_along_slitlet`` (lines 36-46), where specific parameters for
+``refine_target_along_slitlet`` (lines 37-47), where specific parameters for
 the computation of the relative offsets between images appear.  Some of them
 are predefined, but others need to be inserted by the user (in particular, 
 all the *To Be Defined* ``TBD`` values):
@@ -1157,8 +1163,8 @@ section of this file you can find the relevant parameters already set:
 
 .. code-block:: console
 
-   (emir) $ $ diff 3_abba_template.yaml 3_abba.yaml 
-   40,46c40,46
+   (emir) $ diff 3_abba_template.yaml 3_abba.yaml 
+   41,47c41,47
    <     ab_different_target: TBD
    <     vpix_region_a_target: [TBD, TBD]
    <     vpix_region_a_sky: [TBD, TBD]
@@ -1403,7 +1409,8 @@ auxiliary script ``pyemir-generate_yaml_for_abba``:
 
 .. code-block:: console
 
-   (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt --step 3 --outfile 3_abba_template_individual.yaml
+   (emir) $ pyemir-generate_yaml_for_abba data/list_abba.txt \
+     --step 3 --outfile 3_abba_template_individual.yaml
 
 Note that in this case we have not employed the flag ``--rectwv_combined``
 (that we used previously when generating ``3_abba_template.yaml``). The new
@@ -1412,13 +1419,13 @@ content:
 
 .. literalinclude:: 3_abba_template_individual.yaml
    :linenos:
-   :emphasize-lines: 31-55
+   :emphasize-lines: 32-56
    :lineno-start: 1
 
 The difference between the new file ``3_abba_template_individual.yaml`` and the
 previous ``3_abba_template.yaml`` is that the ``requirements`` section now
-contains the keyword ``list_rectwv_coeff`` (line 31) followed by a list of the
-24 locations of the individual ``rectwv_coeff.json`` files (lines 32 to 55).
+contains the keyword ``list_rectwv_coeff`` (line 32) followed by a list of the
+24 locations of the individual ``rectwv_coeff.json`` files (lines 33 to 56).
 
 Before making use of this file via numina, we have to fill the ``TBD``
 parameters under the ``refine_target_along_slitlet`` block. 
@@ -1436,7 +1443,7 @@ already set:
    < id: _abba
    ---
    > id: _abba_individual
-   64,70c64,70
+   65,71c65,71
    <     ab_different_target: TBD
    <     vpix_region_a_target: [TBD, TBD]
    <     vpix_region_a_sky: [TBD, TBD]
