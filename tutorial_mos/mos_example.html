@@ -122,19 +122,19 @@ produce a good wavelength calibration. This means that no arc exposures are
 needed!</p>
 <section id="downloading-the-tutorial-data">
 <h2>Downloading the tutorial data<a class="headerlink" href="#downloading-the-tutorial-data" title="Link to this heading"></a></h2>
-<p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz">pyemir_mos_tutorial.tgz</a>.</p>
+<p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz">pyemir_mos_tutorial_v1b.tgz</a>.</p>
 <p>If you find any trouble trying to download the previous file, try with the
 command line:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>&lt;https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>&lt;https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
 </pre></div>
 </div>
 <p>Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a>).</p>
 <p>Decompress there the previously mentioned tgz file:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_mos_tutorial_v1.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tar<span class="w"> </span>zxvf<span class="w"> </span>pyemir_mos_tutorial_v1b.tgz
 <span class="go">...</span>
 <span class="go">...</span>
-<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_mos_tutorial_v1.tgz
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>rm<span class="w"> </span>pyemir_mos_tutorial_v1b.tgz
 </pre></div>
 </div>
 <p>This action should have populated the file tree with 24 science exposures
@@ -625,9 +625,10 @@ direction:</p>
 execution of the reduction recipe, with the expected location of the airglow
 (OH) lines (line intensities are normalized in the range from 0.0 to 1.0):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>obsid_0002004226_rectwv_combined_work/expected_catalog_lines.fits<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--z1z2<span class="w"> </span><span class="m">0</span>,0.3
+<span class="w">  </span>--z1z2<span class="w"> </span>-0.1,0.3
 </pre></div>
 </div>
+<p>(Note: in mac OS under zshell you may need to use <code class="docutils literal notranslate"><span class="pre">--z1z2</span> <span class="pre">&quot;[-0.1,0.3]&quot;</span></code>)</p>
 <a class="reference internal image-reference" href="../_images/0002004226_expected_oh_lines.png"><img alt="Image 0002004226 expected oh lines" src="../_images/0002004226_expected_oh_lines.png" style="width: 100%;" />
 </a>
 <p>In the <code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_work</span></code> subdirectory you can also find
@@ -813,20 +814,24 @@ rectification and wavelength calibration process is carried out only once).</p>
 <span class="linenos">28</span> <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
 <span class="linenos">29</span><span class="n">requirements</span><span class="p">:</span>
 <span class="linenos">30</span>  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
-<span class="linenos">31</span>  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-<span class="linenos">32</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
-<span class="linenos">33</span>  <span class="n">method_kwargs</span><span class="p">:</span>
-<span class="linenos">34</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="linenos">35</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="linenos">36</span>  <span class="n">voffset_pix</span><span class="p">:</span> <span class="mf">0.0</span>
-<span class="linenos">37</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">31</span>  <span class="n">repeat</span><span class="p">:</span> <span class="mi">1</span>
+<span class="linenos">32</span>  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+<span class="linenos">33</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+<span class="linenos">34</span>  <span class="n">method_kwargs</span><span class="p">:</span>
+<span class="linenos">35</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="linenos">36</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="linenos">37</span>  <span class="n">voffset_pix</span><span class="p">:</span> <span class="mf">0.0</span>
+<span class="linenos">38</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section (lines 29-36) is now different:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">pattern</span></code>: indicates that the images in the <code class="docutils literal notranslate"><span class="pre">frames</span></code> sections correspond
 to ABBA sequences. That means that the total number of images must be an
-interger multiple of 4.</p></li>
+integer multiple of 4.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">repeat</span></code>: number of exposures at each position in the previous pattern. By
+default, a value of 1 is assumed. If, for example, <code class="docutils literal notranslate"><span class="pre">repeat:</span> <span class="pre">2</span></code>, the actual
+observation pattern would be AABBBBAA.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rectwv_coeff</span></code>: the value that appears here is the expected file name for
 the rectification and wavelength calibration coefficients of the first image.
 Since the calibrations are assumed to be placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code>
@@ -875,7 +880,7 @@ pixels. We can introduce this number in the requirement <code class="docutils li
 </pre></div>
 </div>
 <p>We modify the label in line 1 (adding the suffix <code class="docutils literal notranslate"><span class="pre">_bis</span></code>), and set the
-vertical offset to 38 pixels in line 36:</p>
+vertical offset to 38 pixels in line 37:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="hll"><span class="linenos"> 1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_abba_fast_bis</span>
 </span><span class="linenos"> 2</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
 <span class="linenos"> 3</span><span class="n">mode</span><span class="p">:</span> <span class="n">ABBA_SPECTRA_FAST_RECTWV</span>
@@ -906,13 +911,14 @@ vertical offset to 38 pixels in line 36:</p>
 <span class="linenos">28</span> <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
 <span class="linenos">29</span><span class="n">requirements</span><span class="p">:</span>
 <span class="linenos">30</span>  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
-<span class="linenos">31</span>  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-<span class="linenos">32</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
-<span class="linenos">33</span>  <span class="n">method_kwargs</span><span class="p">:</span>
-<span class="linenos">34</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="linenos">35</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="hll"><span class="linenos">36</span>  <span class="n">voffset_pix</span><span class="p">:</span> <span class="mi">38</span>
-</span><span class="linenos">37</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">31</span>  <span class="n">repeat</span><span class="p">:</span> <span class="mi">1</span>
+<span class="linenos">32</span>  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+<span class="linenos">33</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+<span class="linenos">34</span>  <span class="n">method_kwargs</span><span class="p">:</span>
+<span class="linenos">35</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="linenos">36</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="hll"><span class="linenos">37</span>  <span class="n">voffset_pix</span><span class="p">:</span> <span class="mi">38</span>
+</span><span class="linenos">38</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>Execute the again the same reduction recipe but using the new observation
@@ -957,9 +963,9 @@ in detail at some bright sources. For example, in these observations, 4 stars
 were employed to align the CSU on sky. The brightest one was placed in slitlet
 number 2. Let’s select all the A images and display a zoom around this slitlet
 region:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span><span class="nv">list_a</span><span class="o">=</span><span class="sb">`</span>fitsheader<span class="w"> </span>data/0002004*.fits<span class="w"> </span>-k<span class="w"> </span>IMGOBBL<span class="w"> </span>-f<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$2 == 1 || $2 == 4 {print $1}&#39;</span><span class="sb">`</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0002004*.fits<span class="w"> </span>-k<span class="w"> </span>IMGOBBL<span class="w"> </span>-f<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$2 == 1 || $2 == 4 {print $1}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>list_a.txt
 
-<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$  </span>numina-ximshow<span class="w"> </span><span class="nv">$list_a</span><span class="w"> </span><span class="se">\</span>
+<span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>list_a.txt<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--bbox<span class="w"> </span><span class="m">86</span>,2047,9,70<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--z1z2<span class="w"> </span><span class="m">0</span>,1100<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--pdffile<span class="w"> </span>brightspectrum_a.pdf<span class="w"> </span><span class="se">\</span>
@@ -1057,28 +1063,29 @@ content:</p>
 <span class="linenos">28</span> <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
 <span class="linenos">29</span><span class="n">requirements</span><span class="p">:</span>
 <span class="linenos">30</span>  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
-<span class="linenos">31</span>  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-<span class="linenos">32</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
-<span class="linenos">33</span>  <span class="n">method_kwargs</span><span class="p">:</span>
-<span class="linenos">34</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="linenos">35</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="hll"><span class="linenos">36</span>  <span class="n">refine_target_along_slitlet</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">37</span>    <span class="n">npix_removed_near_ohlines</span><span class="p">:</span> <span class="mi">3</span>
-</span><span class="hll"><span class="linenos">38</span>    <span class="n">nwidth_medfilt</span><span class="p">:</span> <span class="mi">11</span>
-</span><span class="hll"><span class="linenos">39</span>    <span class="n">save_individual_images</span><span class="p">:</span> <span class="mi">0</span>
-</span><span class="hll"><span class="linenos">40</span>    <span class="n">ab_different_target</span><span class="p">:</span> <span class="n">TBD</span>
-</span><span class="hll"><span class="linenos">41</span>    <span class="n">vpix_region_a_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-</span><span class="hll"><span class="linenos">42</span>    <span class="n">vpix_region_a_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-</span><span class="hll"><span class="linenos">43</span>    <span class="n">vpix_region_b_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-</span><span class="hll"><span class="linenos">44</span>    <span class="n">vpix_region_b_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-</span><span class="hll"><span class="linenos">45</span>    <span class="n">list_valid_wvregions_a</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
-</span><span class="hll"><span class="linenos">46</span>    <span class="n">list_valid_wvregions_b</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
-</span><span class="linenos">47</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">31</span>  <span class="n">repeat</span><span class="p">:</span> <span class="mi">1</span>
+<span class="linenos">32</span>  <span class="n">rectwv_coeff</span><span class="p">:</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_combined_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+<span class="linenos">33</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+<span class="linenos">34</span>  <span class="n">method_kwargs</span><span class="p">:</span>
+<span class="linenos">35</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="linenos">36</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="hll"><span class="linenos">37</span>  <span class="n">refine_target_along_slitlet</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">38</span>    <span class="n">npix_removed_near_ohlines</span><span class="p">:</span> <span class="mi">3</span>
+</span><span class="hll"><span class="linenos">39</span>    <span class="n">nwidth_medfilt</span><span class="p">:</span> <span class="mi">11</span>
+</span><span class="hll"><span class="linenos">40</span>    <span class="n">save_individual_images</span><span class="p">:</span> <span class="mi">0</span>
+</span><span class="hll"><span class="linenos">41</span>    <span class="n">ab_different_target</span><span class="p">:</span> <span class="n">TBD</span>
+</span><span class="hll"><span class="linenos">42</span>    <span class="n">vpix_region_a_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos">43</span>    <span class="n">vpix_region_a_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos">44</span>    <span class="n">vpix_region_b_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos">45</span>    <span class="n">vpix_region_b_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+</span><span class="hll"><span class="linenos">46</span>    <span class="n">list_valid_wvregions_a</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+</span><span class="hll"><span class="linenos">47</span>    <span class="n">list_valid_wvregions_b</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+</span><span class="linenos">48</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>The <code class="docutils literal notranslate"><span class="pre">id</span></code> label (line 1) is again different (to avoid overwriting the previous
 reductions). The <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section now contains a new subsection called
-<code class="docutils literal notranslate"><span class="pre">refine_target_along_slitlet</span></code> (lines 36-46), where specific parameters for
+<code class="docutils literal notranslate"><span class="pre">refine_target_along_slitlet</span></code> (lines 37-47), where specific parameters for
 the computation of the relative offsets between images appear.  Some of them
 are predefined, but others need to be inserted by the user (in particular,
 all the <em>To Be Defined</em> <code class="docutils literal notranslate"><span class="pre">TBD</span></code> values):</p>
@@ -1142,8 +1149,8 @@ corresponding to the boundaries of the different slitlets:</p>
 <p>The distribution tgz file of this example already generated a file in our
 directory tree named <code class="docutils literal notranslate"><span class="pre">3_abba.yaml</span></code>. Note that in the <code class="docutils literal notranslate"><span class="pre">requirements</span></code>
 section of this file you can find the relevant parameters already set:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>$<span class="w"> </span>diff<span class="w"> </span>3_abba_template.yaml<span class="w"> </span>3_abba.yaml
-<span class="go">40,46c40,46</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>diff<span class="w"> </span>3_abba_template.yaml<span class="w"> </span>3_abba.yaml
+<span class="go">41,47c41,47</span>
 <span class="go">&lt;     ab_different_target: TBD</span>
 <span class="go">&lt;     vpix_region_a_target: [TBD, TBD]</span>
 <span class="go">&lt;     vpix_region_a_sky: [TBD, TBD]</span>
@@ -1572,7 +1579,8 @@ observation result file that must contain the list of all the files
 <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> generated within the  <code class="docutils literal notranslate"><span class="pre">obsid_0002004???_rectwv_work</span></code>
 subdirectories. This file can be generated automatically using, once again, the
 auxiliary script <code class="docutils literal notranslate"><span class="pre">pyemir-generate_yaml_for_abba</span></code>:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span>--step<span class="w"> </span><span class="m">3</span><span class="w"> </span>--outfile<span class="w"> </span>3_abba_template_individual.yaml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pyemir-generate_yaml_for_abba<span class="w"> </span>data/list_abba.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--step<span class="w"> </span><span class="m">3</span><span class="w"> </span>--outfile<span class="w"> </span>3_abba_template_individual.yaml
 </pre></div>
 </div>
 <p>Note that in this case we have not employed the flag <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>
@@ -1609,53 +1617,54 @@ content:</p>
 <span class="linenos">28</span> <span class="o">-</span> <span class="mi">0002004893</span><span class="o">-</span><span class="mi">20190424</span><span class="o">-</span><span class="n">EMIR</span><span class="o">-</span><span class="n">STARE_SPECTRA</span><span class="o">.</span><span class="n">fits</span>
 <span class="linenos">29</span><span class="n">requirements</span><span class="p">:</span>
 <span class="linenos">30</span>  <span class="n">pattern</span><span class="p">:</span> <span class="n">ABBA</span>
-<span class="hll"><span class="linenos">31</span>  <span class="n">list_rectwv_coeff</span><span class="p">:</span>
-</span><span class="hll"><span class="linenos">32</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">33</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004255_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">34</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004284_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">35</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004313_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">36</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004342_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">37</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004371_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">38</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004400_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">39</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004429_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">40</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004458_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">41</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004487_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">42</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004516_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">43</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004545_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">44</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004574_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">45</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004603_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">46</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004632_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">47</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004661_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">48</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004690_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">49</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004719_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">50</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004748_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">51</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004777_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">52</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004806_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">53</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004835_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">54</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004864_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="hll"><span class="linenos">55</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004893_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
-</span><span class="linenos">56</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
-<span class="linenos">57</span>  <span class="n">method_kwargs</span><span class="p">:</span>
-<span class="linenos">58</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="linenos">59</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
-<span class="linenos">60</span>  <span class="n">refine_target_along_slitlet</span><span class="p">:</span>
-<span class="linenos">61</span>    <span class="n">npix_removed_near_ohlines</span><span class="p">:</span> <span class="mi">3</span>
-<span class="linenos">62</span>    <span class="n">nwidth_medfilt</span><span class="p">:</span> <span class="mi">11</span>
-<span class="linenos">63</span>    <span class="n">save_individual_images</span><span class="p">:</span> <span class="mi">0</span>
-<span class="linenos">64</span>    <span class="n">ab_different_target</span><span class="p">:</span> <span class="n">TBD</span>
-<span class="linenos">65</span>    <span class="n">vpix_region_a_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-<span class="linenos">66</span>    <span class="n">vpix_region_a_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-<span class="linenos">67</span>    <span class="n">vpix_region_b_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-<span class="linenos">68</span>    <span class="n">vpix_region_b_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
-<span class="linenos">69</span>    <span class="n">list_valid_wvregions_a</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
-<span class="linenos">70</span>    <span class="n">list_valid_wvregions_b</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
-<span class="linenos">71</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
+<span class="linenos">31</span>  <span class="n">repeat</span><span class="p">:</span> <span class="mi">1</span>
+<span class="hll"><span class="linenos">32</span>  <span class="n">list_rectwv_coeff</span><span class="p">:</span>
+</span><span class="hll"><span class="linenos">33</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004226_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">34</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004255_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">35</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004284_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">36</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004313_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">37</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004342_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">38</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004371_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">39</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004400_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">40</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004429_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">41</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004458_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">42</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004487_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">43</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004516_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">44</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004545_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">45</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004574_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">46</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004603_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">47</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004632_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">48</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004661_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">49</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004690_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">50</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004719_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">51</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004748_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">52</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004777_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">53</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004806_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">54</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004835_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">55</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004864_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="hll"><span class="linenos">56</span>    <span class="o">-</span> <span class="o">../</span><span class="n">obsid_0002004893_rectwv_results</span><span class="o">/</span><span class="n">rectwv_coeff</span><span class="o">.</span><span class="n">json</span>
+</span><span class="linenos">57</span>  <span class="n">method</span><span class="p">:</span> <span class="n">sigmaclip</span>
+<span class="linenos">58</span>  <span class="n">method_kwargs</span><span class="p">:</span>
+<span class="linenos">59</span>    <span class="n">low</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="linenos">60</span>    <span class="n">high</span><span class="p">:</span> <span class="mf">3.0</span>
+<span class="linenos">61</span>  <span class="n">refine_target_along_slitlet</span><span class="p">:</span>
+<span class="linenos">62</span>    <span class="n">npix_removed_near_ohlines</span><span class="p">:</span> <span class="mi">3</span>
+<span class="linenos">63</span>    <span class="n">nwidth_medfilt</span><span class="p">:</span> <span class="mi">11</span>
+<span class="linenos">64</span>    <span class="n">save_individual_images</span><span class="p">:</span> <span class="mi">0</span>
+<span class="linenos">65</span>    <span class="n">ab_different_target</span><span class="p">:</span> <span class="n">TBD</span>
+<span class="linenos">66</span>    <span class="n">vpix_region_a_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+<span class="linenos">67</span>    <span class="n">vpix_region_a_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+<span class="linenos">68</span>    <span class="n">vpix_region_b_target</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+<span class="linenos">69</span>    <span class="n">vpix_region_b_sky</span><span class="p">:</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span>
+<span class="linenos">70</span>    <span class="n">list_valid_wvregions_a</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+<span class="linenos">71</span>    <span class="n">list_valid_wvregions_b</span><span class="p">:</span> <span class="p">[</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">],</span> <span class="p">[</span><span class="n">TBD</span><span class="p">,</span> <span class="n">TBD</span><span class="p">]</span> <span class="p">]</span>
+<span class="linenos">72</span><span class="n">enabled</span><span class="p">:</span> <span class="kc">True</span>
 </pre></div>
 </div>
 <p>The difference between the new file <code class="docutils literal notranslate"><span class="pre">3_abba_template_individual.yaml</span></code> and the
 previous <code class="docutils literal notranslate"><span class="pre">3_abba_template.yaml</span></code> is that the <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section now
-contains the keyword <code class="docutils literal notranslate"><span class="pre">list_rectwv_coeff</span></code> (line 31) followed by a list of the
-24 locations of the individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files (lines 32 to 55).</p>
+contains the keyword <code class="docutils literal notranslate"><span class="pre">list_rectwv_coeff</span></code> (line 32) followed by a list of the
+24 locations of the individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files (lines 33 to 56).</p>
 <p>Before making use of this file via numina, we have to fill the <code class="docutils literal notranslate"><span class="pre">TBD</span></code>
 parameters under the <code class="docutils literal notranslate"><span class="pre">refine_target_along_slitlet</span></code> block.</p>
 <p>The distribution tgz file of this example already generated a file in our
@@ -1668,7 +1677,7 @@ already set:</p>
 <span class="go">&lt; id: _abba</span>
 <span class="go">---</span>
 <span class="go">&gt; id: _abba_individual</span>
-<span class="go">64,70c64,70</span>
+<span class="go">65,71c65,71</span>
 <span class="go">&lt;     ab_different_target: TBD</span>
 <span class="go">&lt;     vpix_region_a_target: [TBD, TBD]</span>
 <span class="go">&lt;     vpix_region_a_sky: [TBD, TBD]</span>
