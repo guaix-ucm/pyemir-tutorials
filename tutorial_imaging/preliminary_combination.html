@@ -91,6 +91,25 @@
 structure by following the instructions provided in the
 <a class="reference internal" href="../preliminaries/preliminaries.html#initial-file-tree"><span class="std std-ref">Initial file tree</span></a> section of this documentation.</p>
 </div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When combining a large number of images, and depending on the operating
+system, users may get an error indicating <code class="docutils literal notranslate"><span class="pre">OSError:</span> <span class="pre">[Errno</span> <span class="pre">24]</span> <span class="pre">Too</span> <span class="pre">many</span>
+<span class="pre">open</span> <span class="pre">files</span></code></p>
+<p>You can easily check the maximum number of open files allowed in your
+operating system using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>emir<span class="o">)</span><span class="w"> </span>$<span class="w"> </span><span class="nb">ulimit</span><span class="w"> </span>-Sn
+</pre></div>
+</div>
+<p>This number can be easily increased employing</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">(</span>emir<span class="o">)</span><span class="w"> </span>$<span class="w"> </span><span class="nb">ulimit</span><span class="w"> </span>-n<span class="w"> </span>&lt;number&gt;
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">&lt;number&gt;</span></code> is the required number. <strong>Note that you need this number
+to be at least twice the number of images to be combined</strong> (at some
+particular steps during the image combination the pipeline requires to
+access the intermediate images and the same number of mask files).</p>
+</div>
 <p>Assume you want to combine the following raw images obtained using a dithered
 pattern of 7 positions iterated twice (i.e., you have gathered a total of 14
 images):</p>
