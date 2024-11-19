@@ -8,6 +8,29 @@ Preliminary combination
    structure by following the instructions provided in the
    :ref:`initial_file_tree` section of this documentation.
 
+.. warning::
+
+   When combining a large number of images, and depending on the operating
+   system, users may get an error indicating ``OSError: [Errno 24] Too many
+   open files``
+
+   You can easily check the maximum number of open files allowed in your
+   operating system using
+
+   .. code-block:: bash
+
+      (emir) $ ulimit -Sn
+
+   This number can be easily increased employing
+
+   .. code-block:: bash
+
+      (emir) $ ulimit -n <number>
+
+   where ``<number>`` is the required number. **Note that you need this number
+   to be at least twice the number of images to be combined** (at some
+   particular steps during the image combination the pipeline requires to
+   access the intermediate images and the same number of mask files).
 
 Assume you want to combine the following raw images obtained using a dithered
 pattern of 7 positions iterated twice (i.e., you have gathered a total of 14
