@@ -6,6 +6,15 @@ Simple example: arc exposure
 
 .. warning::
 
+   The wavelength calibration is performed using vacuum wavelengths. Some of
+   the arc lines were identified using the `NIST Atomic Spectra Database
+   <https://physics.nist.gov/PhysRefData/ASD/lines_form.html>`_, which provides
+   wavelengths in vacuum above 2000 nm, and in air between 200 and 2000 nm. The
+   latter were accordingly transformed to vacuum following `Ciddor (1996)
+   <https://doi.org/10.1364/AO.35.001566>`_.
+
+.. warning::
+
    All the commands are assumed to be executed in a terminal running the **bash
    shell** (or a compatible one).
 
