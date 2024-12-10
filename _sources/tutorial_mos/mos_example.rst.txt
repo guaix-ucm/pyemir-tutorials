@@ -208,6 +208,12 @@ slitlets in two groups: slitlets closed (widths < 1.475 mm) and opened (width >
 Preliminary rectification and wavelength calibration using OH lines
 ===================================================================
 
+.. warning::
+
+   The wavelength calibration performed using OH lines makes use of the vacuum
+   wavelengths published by `Oliva et al. (2013)
+   <https://www.aanda.org/articles/aa/pdf/2013/07/aa21366-13.pdf>`_.
+
 As explained in :ref:`simple_example`, the rectification and wavelength
 calibration of any EMIR spectroscopic image can be obtained with two levels of
 quality:
