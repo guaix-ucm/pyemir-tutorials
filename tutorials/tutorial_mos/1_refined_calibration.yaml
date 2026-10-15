@@ -8,5 +8,5 @@ frames:
 enabled: True
 requirements:
   refine_wavecalib_mode: 2
-  global_integer_offset_x_pix : 3 
-  global_integer_offset_y_pix : 0 
+  global_integer_offset_x_pix : 3
+  global_integer_offset_y_pix : 0

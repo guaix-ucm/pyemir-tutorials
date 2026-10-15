@@ -108,7 +108,7 @@ check that the lamp OFF signal in this case is negligible.
    0002069573-20190519-EMIR-STARE_SPECTRA.fits
    0002069576-20190519-EMIR-STARE_SPECTRA.fits
    0002069579-20190519-EMIR-STARE_SPECTRA.fits
-   
+
 
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
@@ -133,7 +133,7 @@ Decompress there the previously mentioned tgz file:
    ...
    (emir) $ rm pyemir_flatpix2pix_tutorial_v1.tgz
 
-This action should have populated the file tree with the 
+This action should have populated the file tree with the
 20 tungsten FITS images (placed wihtin the ``data``
 subdirectory) and some additional auxiliary files:
 
@@ -173,14 +173,14 @@ subdirectory) and some additional auxiliary files:
    │   ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
    │   └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
    └── flatpix2pix.yaml
-   
+
 You can easily examine the header of the scientific FITS images using the
 astropy utility ``fitsheader``:
 
 .. code-block:: console
 
    (emir) $ fitsheader data/0002069*.fits -k object -k lampincd -k lampintn -f
-                       filename                         OBJECT    LAMPINCD     LAMPINTN    
+                       filename                         OBJECT    LAMPINCD     LAMPINTN
    ------------------------------------------------ ------------- -------- ----------------
    data/0002069432-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
    data/0002069435-20190519-EMIR-STARE_SPECTRA.fits Goya Mask1b H        1 8.99973011016846
@@ -231,20 +231,20 @@ Let's have a look to the CSU configuration:
 The previous histogram indicates that the valid slitlet widths for the present
 CSU configuration are given by:
 
-- ``minimum_slitlet_width_mm: 1.5`` 
+- ``minimum_slitlet_width_mm: 1.5``
 
 - ``maximum_slitlet_width_mm: 2.5``
 
 We can also display the first image with lamp ON and the first with lamp OFF:
 
 .. numina-ximshow data/0002069432-20190519-EMIR-STARE_SPECTRA.fits --geometry 0,0,650,850
-   
+
 .. image:: 0002069432_original.png
    :width: 100%
    :alt: original 0002069432 image
 
 .. numina-ximshow data/0002069552-20190519-EMIR-STARE_SPECTRA.fits --geometry 0,0,650,850
-   
+
 .. image:: 0002069552_original.png
    :width: 100%
    :alt: original 0002069552 image
@@ -304,7 +304,7 @@ distortion calibration), and some new parameters:
   Pixel values below this limit are receiving a very low illumination and the
   pixel-to-pixel response is highly uncertain.
 
-- ``minimum_value_in_output: 0.01`` and ``maximum_value_in_output: 10`` are 
+- ``minimum_value_in_output: 0.01`` and ``maximum_value_in_output: 10`` are
   the minimum and maximum pixel-to-pixel value allowed
   in the generated flatfield. This truncation avoids having undesired divisions
   by too small or too large numbers (typically spurious estimates computed at

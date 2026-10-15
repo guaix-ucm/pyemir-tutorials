@@ -67,4 +67,3 @@ html_theme_options = {
     #'show_relbar_bottom': True,
     #'show_relbar_top': False
 }
-

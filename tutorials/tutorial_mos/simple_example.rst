@@ -27,11 +27,11 @@ can be obtained with two levels of quality:
 
 - **Preliminary (empirical) calibration**, without auxiliary calibration
   images, computed from the empirical calibration derived by the instrument
-  team. 
-  
+  team.
+
   -  This is the on-line reduction perfomed at the GTC while gathering the
-     images. 
-     
+     images.
+
   - Note that although the empirical calibrations were computed using a large
     set of initial calibration (continuum and arc) images, *it is not
     expected that the absolute wavelength calibration to be correct within a
@@ -67,8 +67,8 @@ lamps):
 
 ::
 
-   0001041345-20160917-EMIR-TEST0.fits  
-   0001041348-20160917-EMIR-TEST0.fits  
+   0001041345-20160917-EMIR-TEST0.fits
+   0001041348-20160917-EMIR-TEST0.fits
    0001041351-20160917-EMIR-TEST0.fits
 
 These images should be similar since they were taken consecutively with the
@@ -119,13 +119,13 @@ This action should have populated the file tree with the 3 arc exposures
        ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
        └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
 
-You can easily examine the header of the three arc files using the astropy 
+You can easily examine the header of the three arc files using the astropy
 utility ``fitsheader``:
 
 .. code-block:: console
 
    (emir) $ fitsheader data/00010413*fits -k object -k grism -k filter -k exptime -k date-obs -f
-                   filename                       OBJECT      GRISM FILTER EXPTIME         DATE-OBS       
+                   filename                       OBJECT      GRISM FILTER EXPTIME         DATE-OBS
    ---------------------------------------- ----------------- ----- ------ -------- ----------------------
    data/0001041345-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:29.61
    data/0001041348-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:32.68
@@ -134,7 +134,7 @@ utility ``fitsheader``:
 Have a look to any of the tree raw arc images (the three images are similar).
 For that purpose you can use ``ds9`` or the visualization tool provided with
 numina:
-   
+
 .. code-block:: console
 
    (emir) $ numina-ximshow data/0001041345-20160917-EMIR-TEST0.fits
@@ -168,18 +168,18 @@ aligned slitlets forming a (pseudo) longslit.
 
 .. note::
 
-   Remember that the ``numina`` script is the interface with GTC pipelines. 
+   Remember that the ``numina`` script is the interface with GTC pipelines.
    In order to execute PyEmir recipes you should use type something like:
 
    .. code-block:: console
-   
+
       (emir) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
 
-   where ``<observation_result_file.yaml>`` is an observation result file in 
-   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also 
+   where ``<observation_result_file.yaml>`` is an observation result file in
+   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also
    in YAML format.
 
-   YAML is a human-readable data serialization language (for details see 
+   YAML is a human-readable data serialization language (for details see
    `YAML Syntax
    <https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html>`_)
 
@@ -202,16 +202,16 @@ contains the reduction recipe to be applied and the images involved.
   below), where the intermediate results and the final results are going to be
   stored, respectively. Note that we have arbitrarily chosen the 10 digits of
   the unique running number assigned to the first image of this set.
-   
+
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
   Numina is at present also employed to reduce MEGARA data, and hopefully
   future GTC instruments).
-   
+
 - The key ``mode`` indicates the identification of the reduction recipe
-  (``GENERATE_RECTWV_COEFF`` in this example). 
-     
+  (``GENERATE_RECTWV_COEFF`` in this example).
+
 - The key ``frames`` lists the images to be combined.
-   
+
 - The key ``enabled: True`` indicates that this block is going to be reduced.
   As it is going to be shown later, it is possible to concatenate several
   blocks in the same observation result file; the user can easily
@@ -228,7 +228,7 @@ of generic calibration files. You do not need to modify anything here.
    :lineno-start: 1
 
 **Numina execution**
-      
+
 You are ready to execute the reduction recipe indicated in the file
 ``0_preliminary_calibration.yaml`` (in this case the reduccion recipe named
 ``GENERATE_RECTWV_COEFF``):
@@ -415,7 +415,7 @@ provided with numina:
   corresponding to raw images obtained the same grism+filter, have the same
   linear coverage and sampling in wavelength, which should facilitate the
   scientific analysis of images obtained with distinct CSU configurations.
-     
+
 
 - Note that the image dimensions are now NAXIS1=3400 and NAXIS2=2090:
 
@@ -442,15 +442,15 @@ provided with numina:
 - The coordinates of the useful rectangular region of each slitlet in the
   rectified and wavelength calibrated image are stored in the FITS header under
   the keywords:
-  
+
   - ``IMNSLT??`` (minimum Y pixel)
-  
+
   - ``IMXSLT??`` (maximum Y pixel)
 
   - ``JMNSLT??`` (minimum X pixel)
-  
+
   - ``JMXSLT??`` (maximum X pixel)
-  
+
   where ``??`` runs from 01 to 55 (slitlet number). In principle ``IMNSLT??``
   and ``IMXSLT??`` are always the same for all the grism + filter combinations,
   and are independent of the slitlet location along the wavelength direction (X
@@ -818,5 +818,3 @@ each slitlet showing the cross-correlation function:
 .. image:: images/0001041345_crosscorrelation3.png
    :width: 100%
    :alt: cross-correlation example 3
-
-

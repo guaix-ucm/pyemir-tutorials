@@ -20,7 +20,7 @@ Preliminaries
    conda environments, following the `installation instructions of PyEmir
    <https://pyemir.readthedocs.io/en/stable/installation/index.html>`_. You
    can check the installed version of numina with ``numina --version``.
-   
+
 
 Running PyEmir recipes from Numina
 ----------------------------------
@@ -50,7 +50,7 @@ Here you can find the initial file structure with basic calibrations, required
 to start the data reduction with PyEmir, either in imaging or spectroscopic
 mode.
 
-Download the following file: `pyemir_initial_tree_v2b.tgz 
+Download the following file: `pyemir_initial_tree_v2b.tgz
 <https://guaix.fis.ucm.es/data/pyemir/pyemir_initial_tree_v2b.tgz>`_.
 
 If you find any trouble trying to download the previous file, try with the
@@ -81,14 +81,14 @@ you can comfortably start the reduction of your data:
 
    (emir) $ mkdir newdir
    (emir) $ cd newdir
-   
+
    # copy here the downloaded tgz file
 
    (emir) $ tar zxvf pyemir_initial_tree_v2b.tgz
    ...
    ...
    (emir) $ rm pyemir_initial_tree_v2b.tgz
-   (emir) $ tree 
+   (emir) $ tree
    .
    ├── control.yaml
    └── data
@@ -186,6 +186,3 @@ some keystrokes to perform useful plot actions, like zooming, panning, setting
 background and foreground levels, etc. Note that some of these actions are
 already available in the navigation toolbar that appears at the top of the
 graphical windows.
-
-
-

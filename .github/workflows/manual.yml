@@ -7,21 +7,21 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        
+
       - uses: actions/setup-python@v5
         name: Install Python 3.12
         with:
           python-version: '3.12'
-          
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      
+
       - name: Build docs
         run: |
           make html
-          
+
       - uses: actions/upload-artifact@v4
         with:
           name: pyemir-tutorials-docs
@@ -37,11 +37,10 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: pyemir-tutorials-docs
-    
+
       - name: Commit to branch
         run: |
           git config --global user.name 'Sergio Pascual'
           git config --global user.email 'sergiopasra@users.noreply.github.com'
           git commit -am "Automated deployment" || true
           git push
-        

@@ -18,7 +18,7 @@ individual 2D spectroscopic image corresponding to each particular slitlet.
 In addition to that, it also important to keep in mind that the frontiers
 between diferent slitlets change as a function of the location of the slitlet
 (along the wavelength direction) in the focal plane of the telescope (i.e., the
-configuration of the slitlets in the Cold Slit Unit). 
+configuration of the slitlets in the Cold Slit Unit).
 
 The described geometric distortion, as well as the wavelength calibration for
 each slitlet, have been modelled for any arbitrary configuration of the Cold
@@ -53,4 +53,3 @@ different slitlet configurations in the following videos:
 
 - `Video 2: <https://www.youtube.com/embed/whWaEtFQlkk>`_ Same as the previous
   video, but zooming in the frontier between slitlet 3 and 4.
-

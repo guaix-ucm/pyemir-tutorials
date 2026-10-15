@@ -1,4 +1,4 @@
-                   filename                    NOBSBLCK OBSBLOCK NIMGOBBL IMGOBBL NEXP EXP OBJECT EXPTIME  READMODE FILTER GRISM        DATE-OBS             RA           DEC     
+                   filename                    NOBSBLCK OBSBLOCK NIMGOBBL IMGOBBL NEXP EXP OBJECT EXPTIME  READMODE FILTER GRISM        DATE-OBS             RA           DEC
 ---------------------------------------------- -------- -------- -------- ------- ---- --- ------ -------- -------- ------ ----- ---------------------- ------------ -------------
 data/0001877553-20181217-EMIR-STARE_IMAGE.fits       18        1        7       1    1   1   TEST 29.99926     RAMP  F1230  OPEN 2018-12-17T23:57:24.72 02:39:54.057 -01:34:33.537
 data/0001877559-20181217-EMIR-STARE_IMAGE.fits       18        1        7       2    1   1   TEST 29.99926     RAMP  F1230  OPEN 2018-12-17T23:58:11.73 02:39:51.624 -01:35:09.313

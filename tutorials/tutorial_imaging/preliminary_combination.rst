@@ -51,7 +51,7 @@ images):
    0001877613-20181217-EMIR-STARE_IMAGE.fits
    0001877619-20181217-EMIR-STARE_IMAGE.fits
    0001877625-20181217-EMIR-STARE_IMAGE.fits
-   0001877631-20181217-EMIR-STARE_IMAGE.fits   
+   0001877631-20181217-EMIR-STARE_IMAGE.fits
 
 Those files (together with some additional files that you will need to follow
 this imaging example) are available as a compressed tgz file:
@@ -83,7 +83,7 @@ Decompress there the previously mentioned tgz file:
    ...
    (emir) $ rm pyemir_imaging_tutorial_v4.tgz
 
-This action should have populated the file tree with the 
+This action should have populated the file tree with the
 14 scientific raw FITS (placed wihtin the ``data``
 subdirectory) and some additional auxiliary files:
 
@@ -162,18 +162,18 @@ flatfielding, and image reprojection.
 
 .. note::
 
-   Remember that the ``numina`` script is the interface with GTC pipelines. 
+   Remember that the ``numina`` script is the interface with GTC pipelines.
    In order to execute PyEmir recipes you should type something like:
 
    .. code-block:: console
-   
+
       (emir) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
 
-   where ``<observation_result_file.yaml>`` is an observation result file in 
-   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also 
+   where ``<observation_result_file.yaml>`` is an observation result file in
+   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also
    in YAML format.
 
-   YAML is a human-readable data serialization language (for details see 
+   YAML is a human-readable data serialization language (for details see
    `YAML Syntax
    <https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html>`_)
 
@@ -187,11 +187,11 @@ Let's have a look to each of them separately.
 
 This is what we call an observation result file, which basically contains the
 reduction recipes to be applied and the images involved. Note that this
-particular file contains 14 blocks, one for each individual image. 
+particular file contains 14 blocks, one for each individual image.
 
 Each block is separated by a line containing just three dashes (``---``):
 
-- Do not forget the separation line ``---`` between blocks (otherwise the 
+- Do not forget the separation line ``---`` between blocks (otherwise the
   pipeline will not recognize where one block ends and the next one begins).
 
 - This separation line must not appear after the last block.
@@ -213,18 +213,18 @@ highlighting the first block (first eight lines):
   results are going to be stored, respectively. Note that we have arbitrarily
   chosen the 10 digits of the unique running number assigned to each image
   obtained with the GTC to build the label.
- 
+
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
   Numina is at present also employed to reduce MEGARA data, and hopefully,
   future GTC instruments).
-   
+
 - The key ``mode`` indicates the identification of the reduction recipe
-  (``STARE_IMAGE`` in this example). 
-     
+  (``STARE_IMAGE`` in this example).
+
 - The key ``frames`` lists the images to be combined prior to the execution of
   the reduction recipe. In this case a single image has been obtained at each
   point of the dithering pattern before moving to the next location within the
-  pattern. For that reason a single image appears in each block. 
+  pattern. For that reason a single image appears in each block.
 
 - The key ``requirements`` is employed to pass additional parameters to the
   reduction recipe. In this case, we are specifying the reprojection method to
@@ -241,7 +241,7 @@ highlighting the first block (first eight lines):
   example we are using** ``interp``, which provides good results and is fast.
 
   .. warning::
-   
+
      **IMPORTANT: PyEmir users should try to use the slower** ``adaptive`` **or
      the slowest** ``exact`` **methods, and compare the final combined images
      to check for the impact of the adopted method.**
@@ -252,7 +252,7 @@ highlighting the first block (first eight lines):
   modifying this flag.
 
 .. note::
-   
+
    Since the generation of the file ``dithered_ini.yaml`` can be cumbersome,
    specially
    when the number of images is large, an auxiliary script has been
@@ -274,12 +274,12 @@ highlighting the first block (first eight lines):
 
    Note that a temporary file ``list_images.txt`` is created with a list of the
    the individual exposures. The script
-   ``pyemir-generate_yaml_for_dithered_image`` reads that file and generates 
+   ``pyemir-generate_yaml_for_dithered_image`` reads that file and generates
    the observation result file ``dithered_ini.yaml``.
 
    The parameter ``--step 0``
    indicates that the reduction recipe to be used here is ``STARE_IMAGE``,
-   which corresponds to the preliminary image reduction. 
+   which corresponds to the preliminary image reduction.
 
    The parameter ``--repeat 1`` indicates that there is only a single exposure
    at each telescope pointing within the dithering pattern. In a general case
@@ -293,7 +293,7 @@ highlighting the first block (first eight lines):
 
 **The requirements file:** ``control.yaml``
 
-This is the requirements file, containing the expected name of generic 
+This is the requirements file, containing the expected name of generic
 calibration files. You do not need to modify anything here.
 
 .. literalinclude:: control.yaml
@@ -387,7 +387,7 @@ recipes. In particular, for the first block:
    ├── reduced_image.fits
    ├── result.json
    └── task.json
-   
+
 Note that although all the reduced images receive the same name in all these
 ``results`` subdirectories (for this reduction recipe ``reduced_image.fits``),
 there is no confusion because the subdirectory name contains a unique label for
@@ -399,7 +399,7 @@ Step 2: image combination
 
 After the basic reduction performed in step 1, we can proceed with the
 combination of the images. For that purpose a different reduction recipe must
-be employed: ``FULL_DITHERED_IMAGE``. 
+be employed: ``FULL_DITHERED_IMAGE``.
 
 This task is carried out using a new
 observation result file: ``dithered_v0.yaml``: the first 125 lines of this new
@@ -504,7 +504,7 @@ tool shipped with numina based on matplotlib), or with any other tool:
    (emir) $ numina-ximshow obsid_combined_v0_results/reduced_image.fits
 
 
-.. generada con --geometry 0,0,850,1200  
+.. generada con --geometry 0,0,850,1200
 .. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert image.png -trim image_trimmed.png
 .. image:: combined_v0_trimmed.png
@@ -530,7 +530,7 @@ exposures does exhibit a doughnut-like shape that must be taken account
 (something that we have not yet done). In particular, the image
 ``obsid_combined_v0_work/superflat_comb_i0.fits`` has the following aspect:
 
-.. generada con --geometry 0,0,850,1200  
+.. generada con --geometry 0,0,850,1200
 .. (--geometry 0,0,567,800 en el MacBook Pro)
 .. convert image.png -trim image_trimmed.png
 .. image:: superflat_v0_trimmed.png

@@ -8,4 +8,3 @@ To generate the documentation:
 $ pip install sphinx_rtd_theme
 $ sphinx-build -M html tutorials build
 ```
-

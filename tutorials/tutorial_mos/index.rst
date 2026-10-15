@@ -14,7 +14,7 @@ Installation
 <https://pyemir.readthedocs.io/en/latest/installation/index.html>`_.
 
 .. image:: pyemir_mos_scheme.png
-   :width: 100% 
+   :width: 100%
    :alt: PyEmir MOS Scheme
 
 As shown in the previous diagram, PyEmir helps to generate a rectified and
@@ -62,4 +62,3 @@ then facing the proper reduction of MOS observations.
    simple_example
    mos_example
    ngc7798
-
