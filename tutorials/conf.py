@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'pyemir-tutorials'
-copyright = '2018-2024, Universidad Complutense de Madrid'
+copyright = '2018-2026, Universidad Complutense de Madrid'
 author = 'Nicolás Cardiel, Sergio Pascual'
 
 # The full version, including alpha/beta/rc tags

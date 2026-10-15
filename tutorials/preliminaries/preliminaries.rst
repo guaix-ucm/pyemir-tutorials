@@ -12,6 +12,14 @@ Preliminaries
    Don't forget to activate the same Python environment employed to install
    PyEmir.  In this document, the prompt ``(emir) $`` will indicate that this
    is the case.
+
+.. note::
+
+   These tutorials require PyEmir 0.24 or later and numina 0.40 or later
+   (Python 3.10 or later). Install them with ``pip install pyemir``, also in
+   conda environments, following the `installation instructions of PyEmir
+   <https://pyemir.readthedocs.io/en/stable/installation/index.html>`_. You
+   can check the installed version of numina with ``numina --version``.
    
 
 Running PyEmir recipes from Numina
@@ -61,6 +69,10 @@ following command line:
    is part of an ongoing process as we continue to develop proper calibrations
    for the H2RG detector. In the meantime, the pipeline should function
    properly with images captured using the original EMIR detector.
+
+   numina 0.40 and later only accept this format of the ``control.yaml``
+   file, with the calibrations of each detector. If you have an initial file
+   tree downloaded before February 2024, download it again.
 
 It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:
@@ -151,9 +163,12 @@ Use of interactive matplotlib plots
 -----------------------------------
 
 The interactive plots created by some Numina and PyEmir scripts have been
-tested using the Qt5Agg backend of matplotlib. Note that this will require the
-``pyqt`` package to be installed in your environment (see for example `the
-conda instructions to install pyqt <https://anaconda.org/anaconda/pyqt>`_).
+tested using the QtAgg backend of matplotlib. Note that this will require
+the Qt bindings to be installed in your environment, which can be done with:
+
+.. code-block:: console
+
+   (emir) $ pip install "pyemir[gui]"
 
 If you want to use the same backend (this is not really necessary), check that
 the following line appears in the file ``.matplotlib/matplotlibrc`` (under your
@@ -161,7 +176,7 @@ home directory):
 
 ::
 
-   backend: Qt5Agg
+   backend: QtAgg
 
 If that file does not exist, generate it with the above line.
 

@@ -252,38 +252,6 @@ The ``work`` subdirectory
 
 .. code-block:: console
 
-   (emir) $ tree obsid_0001041345_work/
-   obsid_0001041345_work/
-   ├── 0001041345-20160917-EMIR-TEST0.fits
-   ├── 0001041348-20160917-EMIR-TEST0.fits
-   ├── 0001041351-20160917-EMIR-TEST0.fits
-   ├── ds9_arc_rawimage.reg
-   ├── ds9_arc_rectified.reg
-   ├── ds9_boundaries_rawimage.reg
-   ├── ds9_boundaries_rectified.reg
-   ├── ds9_frontiers_rawimage.reg
-   ├── ds9_frontiers_rectified.reg
-   ├── ds9_oh_rawimage.reg
-   ├── ds9_oh_rectified.reg
-   ├── index.pkl
-   ├── master_bpm.fits
-   ├── master_dark_zeros.fits
-   ├── master_flat_spec.fits
-   ├── median_spectra_full.fits
-   ├── median_spectra_slitlets.fits
-   ├── median_spectrum_slitlets.fits
-   └── reduced_image.fits
-
-All the relevant raw images ``00010413*-EMIR-TEST0.fits`` have been copied into
-this working directory in order to preserve the original files.
-
-*When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in
-the* ``work`` *subdirectory.* This behaviour is set using the parameter
-``--link-files``:
-
-.. code-block:: console
-
    (emir) $ numina run 0_preliminary_calibration.yaml --link-files -r control.yaml
    ...
    ...
@@ -300,10 +268,43 @@ the* ``work`` *subdirectory.* This behaviour is set using the parameter
    ├── ds9_frontiers_rectified.reg
    ├── ds9_oh_rawimage.reg
    ├── ds9_oh_rectified.reg
-   ├── index.pkl
    ├── master_bpm.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_bpm.fits
    ├── master_dark_zeros.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_dark_zeros.fits
    ├── master_flat_spec.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_flat_spec.fits
+   ├── median_spectra_full.fits
+   ├── median_spectra_slitlets.fits
+   ├── median_spectrum_slitlets.fits
+   └── reduced_image.fits
+
+All the relevant raw images ``00010413*-EMIR-TEST0.fits`` and the calibrations
+are linked into this working directory: by default, numina places there links
+to the original files, which are not modified (the parameter ``--link-files``,
+used in the commands of this tutorial, does the same).
+
+*If you prefer actual copies of the files in the* ``work`` *subdirectory,*
+use the parameter ``--copy-files``:
+
+.. code-block:: console
+
+   (emir) $ numina run 0_preliminary_calibration.yaml --copy-files -r control.yaml
+   ...
+   ...
+   (emir) $ tree obsid_0001041345_work/
+   obsid_0001041345_work/
+   ├── 0001041345-20160917-EMIR-TEST0.fits
+   ├── 0001041348-20160917-EMIR-TEST0.fits
+   ├── 0001041351-20160917-EMIR-TEST0.fits
+   ├── ds9_arc_rawimage.reg
+   ├── ds9_arc_rectified.reg
+   ├── ds9_boundaries_rawimage.reg
+   ├── ds9_boundaries_rectified.reg
+   ├── ds9_frontiers_rawimage.reg
+   ├── ds9_frontiers_rectified.reg
+   ├── ds9_oh_rawimage.reg
+   ├── ds9_oh_rectified.reg
+   ├── master_bpm.fits
+   ├── master_dark_zeros.fits
+   ├── master_flat_spec.fits
    ├── median_spectra_full.fits
    ├── median_spectra_slitlets.fits
    ├── median_spectrum_slitlets.fits
@@ -368,8 +369,8 @@ The ``results`` subdirectory
 
 .. code-block:: console
 
-   (emir) $ tree obsid_0001401345_results/
-   obsid_0001401345_results/
+   (emir) $ tree obsid_0001041345_results/
+   obsid_0001041345_results/
    ├── processing.log
    ├── rectwv_coeff.json
    ├── reduced_mos.fits

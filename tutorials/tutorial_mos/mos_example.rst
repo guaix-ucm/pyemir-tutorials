@@ -38,7 +38,7 @@ command line:
 
 .. code-block:: console
 
-   (emir) $ curl -O <https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
+   (emir) $ curl -O https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
 
 Move to the directory where you have deployed the initial file tree structure
 containing the basic PyEmir calibration files (see  :ref:`initial_file_tree`).
@@ -528,7 +528,7 @@ Execute the reduction recipe:
 As expected, two new subdirectories have been created:
 
 - ``obsid_0002004226_rectwv_combined_work``: temporary subdirectory where all
-  the relevant files have been copied (or linked), and where the auxiliary
+  the relevant files have been linked (or copied, with ``--copy-files``), and where the auxiliary
   ``ds9`` region lines have been stored.
 
 - ``obsid_0002004226_rectwv_combined_results``: subdirectory where the

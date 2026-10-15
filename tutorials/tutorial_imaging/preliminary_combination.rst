@@ -300,7 +300,7 @@ calibration files. You do not need to modify anything here.
    :linenos:
    :lineno-start: 1
 
-Starting from March 2024, the format of this file has been updated to include calibrations for both the original EMIR detector and the subsequent replacement, the H2RG detector.
+Starting from February 2024, the format of this file has been updated to include calibrations for both the original EMIR detector and the subsequent replacement, the H2RG detector.
 
 **Numina execution**
 
@@ -337,25 +337,12 @@ block should have appeared:
 **The** ``work`` **subdirectories**
 
 All the relevant images (scientific and calibrations) involved in the reduction
-of a particular block of the observation result file are copied into the
-``work`` subdirectories in order to preserve the original files. 
+of a particular block of the observation result file are placed in the
+``work`` subdirectories. By default, numina places there links to the
+original files, which are not modified (the parameter ``--link-files``, used
+in the commands of this tutorial, does the same).
 
 In particular, for the first block:
-
-.. code-block:: console
-
-   (emir) $ tree obsid_0001877553_work/
-   obsid_0001877553_work/
-   ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits
-   ├── index.pkl
-   ├── mask_bpm.fits
-   ├── master_dark_zeros.fits
-   └── master_flatframe.fits
-
-*When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in
-the* ``work`` *subdirectory.* This behaviour is set using the parameter
-``--link-files``:
 
 .. code-block:: console
 
@@ -366,10 +353,25 @@ the* ``work`` *subdirectory.* This behaviour is set using the parameter
    (emir) $ tree obsid_0001877553_work/
    obsid_0001877553_work/
    ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/0001877553-20181217-EMIR-STARE_IMAGE.fits
-   ├── index.pkl
    ├── master_bpm.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_bpm.fits
    ├── master_dark_zeros.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_dark_zeros.fits
    └── master_flat_spec.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/x/data/master_flat_spec.fits
+
+*If you prefer actual copies of the files in the* ``work`` *subdirectory,*
+use the parameter ``--copy-files``:
+
+.. code-block:: console
+
+   (emir) $ numina run dithered_ini.yaml --copy-files -r control.yaml
+   ...
+   ...
+
+   (emir) $ tree obsid_0001877553_work/
+   obsid_0001877553_work/
+   ├── 0001877553-20181217-EMIR-STARE_IMAGE.fits
+   ├── master_bpm.fits
+   ├── master_dark_zeros.fits
+   └── master_flat_spec.fits
 
 
 **The** ``results`` **subdirectories**

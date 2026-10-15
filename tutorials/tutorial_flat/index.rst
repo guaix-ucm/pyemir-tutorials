@@ -31,7 +31,7 @@ Concerning pixel-to-pixel variation, in principle PyEmir distinguishes between:
   reducing data obtained in imaging mode: for example, when using the recipe
   ``STARE_IMAGE`` when performing the basic initial reduction of the images.
 
-- Spectroscopic flatfield: identified as ``MasterSpectralFalt`` in the file
+- Spectroscopic flatfield: identified as ``MasterSpectralFlat`` in the file
   ``control.yaml``. This should be set to the flatfield to be applied when
   reducing data obtained in spectroscopic mode: for example, when using the
   recipe ``GENERATE_RECTWV_COEFF`` to generate the rectification and wavelength
@@ -50,7 +50,9 @@ Furthermore, imaging mode observations, as those described in
 sky signal in different images.  In this sense, the use of a pixel-to-pixel
 flatfield in the initial basic reduction of the original images is not
 essential. The user can easily check this by setting ``MasterIntensityFlat`` to
-``master_flat_ones.fits`` in the ``control.yaml`` file, i.e.:
+``master_flat_ones.fits`` in the ``control.yaml`` file, in the section of the
+detector of the images (under the UUID of the instrument profile; the
+calibrations of the H2RG detector use ``master_flat_spec_H2RG.fits``), i.e.:
 
 .. code-block:: yaml
 
@@ -288,7 +290,7 @@ the lamp ON or OFF (the order of the images here is not relevant; the recipe
 examines the value of the keyword ``LAMPINCD`` to determine which images
 correspond to each lamp status).
 
-The ``requeriments`` section includes some parameters already employed in other
+The ``requirements`` section includes some parameters already employed in other
 reduction recipes (like the combination method, the width interval for valid
 slitlets, or the integer offsets between the images and the empirical
 distortion calibration), and some new parameters:
@@ -297,7 +299,7 @@ distortion calibration), and some new parameters:
   filtering in the spectral direction) the averaged rectified spectrum of each
   slitlet before unrectifying it.
 
-- ``mininum_fraction: 0.01`` is the minimum fraction of the maximum signal of
+- ``minimum_fraction: 0.01`` is the minimum fraction of the maximum signal of
   the tungsten lamp that is employed to estimate the pixel-to-pixel response.
   Pixel values below this limit are receiving a very low illumination and the
   pixel-to-pixel response is highly uncertain.
