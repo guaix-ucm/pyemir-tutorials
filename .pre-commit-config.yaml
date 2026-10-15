@@ -1,0 +1,29 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+        args: [--allow-multiple-documents]
+      - id: check-added-large-files
+        args: [--maxkb=3000]
+      - id: check-merge-conflict
+  - repo: https://github.com/sphinx-contrib/sphinx-lint
+    rev: v1.0.2
+    hooks:
+      - id: sphinx-lint
+  - repo: https://github.com/codespell-project/codespell
+    rev: v2.4.3
+    hooks:
+      - id: codespell
+  - repo: local
+    hooks:
+      # The control files and the observing blocks of the tutorials
+      # must be valid for the current version of numina
+      - id: numina-yaml
+        name: validate YAML files with the schemas of numina
+        entry: python tools/check_numina_yaml.py
+        language: python
+        additional_dependencies: ["numina>=0.40"]
+        files: ^tutorials/.*\.yaml$
