@@ -27,11 +27,11 @@ can be obtained with two levels of quality:
 
 - **Preliminary (empirical) calibration**, without auxiliary calibration
   images, computed from the empirical calibration derived by the instrument
-  team. 
-  
-  -  This is the on-line reduction perfomed at the GTC while gathering the
-     images. 
-     
+  team.
+
+  -  This is the on-line reduction performed at the GTC while gathering the
+     images.
+
   - Note that although the empirical calibrations were computed using a large
     set of initial calibration (continuum and arc) images, *it is not
     expected that the absolute wavelength calibration to be correct within a
@@ -43,7 +43,7 @@ can be obtained with two levels of quality:
     calibration constitutes a good starting point in order to have a look to
     the data.
 
-- **Refined calibration**, which requires either auxilary arc exposures or a
+- **Refined calibration**, which requires either auxiliary arc exposures or a
   more detailed reduction of scientific images with good signal on the airglow
   emission (OH emission lines). In this case, the preliminary calibration is
   refined *in order to guarantee that both, the absolute wavelength calibration
@@ -67,8 +67,8 @@ lamps):
 
 ::
 
-   0001041345-20160917-EMIR-TEST0.fits  
-   0001041348-20160917-EMIR-TEST0.fits  
+   0001041345-20160917-EMIR-TEST0.fits
+   0001041348-20160917-EMIR-TEST0.fits
    0001041351-20160917-EMIR-TEST0.fits
 
 These images should be similar since they were taken consecutively with the
@@ -96,7 +96,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_arc_calibration_tutorial_v1.tgz
 
 This action should have populated the file tree with the 3 arc exposures
-(placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
+(placed within the ``data`` subdirectory) and some additional auxiliary files:
 
 .. code-block:: console
 
@@ -119,13 +119,13 @@ This action should have populated the file tree with the 3 arc exposures
        ├── rect_wpoly_MOSlibrary_grism_LR_filter_HK.json
        └── rect_wpoly_MOSlibrary_grism_LR_filter_YJ.json
 
-You can easily examine the header of the three arc files using the astropy 
+You can easily examine the header of the three arc files using the astropy
 utility ``fitsheader``:
 
 .. code-block:: console
 
    (emir) $ fitsheader data/00010413*fits -k object -k grism -k filter -k exptime -k date-obs -f
-                   filename                       OBJECT      GRISM FILTER EXPTIME         DATE-OBS       
+                   filename                       OBJECT      GRISM FILTER EXPTIME         DATE-OBS
    ---------------------------------------- ----------------- ----- ------ -------- ----------------------
    data/0001041345-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:29.61
    data/0001041348-20160917-EMIR-TEST0.fits CSU_RETI ALL SPEC     J      J 1.999288 2016-09-17T18:32:32.68
@@ -134,7 +134,7 @@ utility ``fitsheader``:
 Have a look to any of the tree raw arc images (the three images are similar).
 For that purpose you can use ``ds9`` or the visualization tool provided with
 numina:
-   
+
 .. code-block:: console
 
    (emir) $ numina-ximshow data/0001041345-20160917-EMIR-TEST0.fits
@@ -168,18 +168,18 @@ aligned slitlets forming a (pseudo) longslit.
 
 .. note::
 
-   Remember that the ``numina`` script is the interface with GTC pipelines. 
+   Remember that the ``numina`` script is the interface with GTC pipelines.
    In order to execute PyEmir recipes you should use type something like:
 
    .. code-block:: console
-   
+
       (emir) $ numina run <observation_result_file.yaml> -r <requirements_file.yaml>
 
-   where ``<observation_result_file.yaml>`` is an observation result file in 
-   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also 
+   where ``<observation_result_file.yaml>`` is an observation result file in
+   YAML format, and ``<requirements_files.yaml>`` is a requirements file, also
    in YAML format.
 
-   YAML is a human-readable data serialization language (for details see 
+   YAML is a human-readable data serialization language (for details see
    `YAML Syntax
    <https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html>`_)
 
@@ -202,16 +202,16 @@ contains the reduction recipe to be applied and the images involved.
   below), where the intermediate results and the final results are going to be
   stored, respectively. Note that we have arbitrarily chosen the 10 digits of
   the unique running number assigned to the first image of this set.
-   
+
 - Not surprisingly, the key ``instrument`` is set to EMIR (do not forget that
   Numina is at present also employed to reduce MEGARA data, and hopefully
   future GTC instruments).
-   
+
 - The key ``mode`` indicates the identification of the reduction recipe
-  (``GENERATE_RECTWV_COEFF`` in this example). 
-     
+  (``GENERATE_RECTWV_COEFF`` in this example).
+
 - The key ``frames`` lists the images to be combined.
-   
+
 - The key ``enabled: True`` indicates that this block is going to be reduced.
   As it is going to be shown later, it is possible to concatenate several
   blocks in the same observation result file; the user can easily
@@ -228,7 +228,7 @@ of generic calibration files. You do not need to modify anything here.
    :lineno-start: 1
 
 **Numina execution**
-      
+
 You are ready to execute the reduction recipe indicated in the file
 ``0_preliminary_calibration.yaml`` (in this case the reduccion recipe named
 ``GENERATE_RECTWV_COEFF``):
@@ -252,38 +252,6 @@ The ``work`` subdirectory
 
 .. code-block:: console
 
-   (emir) $ tree obsid_0001041345_work/
-   obsid_0001041345_work/
-   ├── 0001041345-20160917-EMIR-TEST0.fits
-   ├── 0001041348-20160917-EMIR-TEST0.fits
-   ├── 0001041351-20160917-EMIR-TEST0.fits
-   ├── ds9_arc_rawimage.reg
-   ├── ds9_arc_rectified.reg
-   ├── ds9_boundaries_rawimage.reg
-   ├── ds9_boundaries_rectified.reg
-   ├── ds9_frontiers_rawimage.reg
-   ├── ds9_frontiers_rectified.reg
-   ├── ds9_oh_rawimage.reg
-   ├── ds9_oh_rectified.reg
-   ├── index.pkl
-   ├── master_bpm.fits
-   ├── master_dark_zeros.fits
-   ├── master_flat_spec.fits
-   ├── median_spectra_full.fits
-   ├── median_spectra_slitlets.fits
-   ├── median_spectrum_slitlets.fits
-   └── reduced_image.fits
-
-All the relevant raw images ``00010413*-EMIR-TEST0.fits`` have been copied into
-this working directory in order to preserve the original files.
-
-*When disk space is an issue, it is possible to execute numina indicating that
-links (instead of actual copies of the original raw files) must be placed in
-the* ``work`` *subdirectory.* This behaviour is set using the parameter
-``--link-files``:
-
-.. code-block:: console
-
    (emir) $ numina run 0_preliminary_calibration.yaml --link-files -r control.yaml
    ...
    ...
@@ -300,10 +268,43 @@ the* ``work`` *subdirectory.* This behaviour is set using the parameter
    ├── ds9_frontiers_rectified.reg
    ├── ds9_oh_rawimage.reg
    ├── ds9_oh_rectified.reg
-   ├── index.pkl
    ├── master_bpm.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_bpm.fits
    ├── master_dark_zeros.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_dark_zeros.fits
    ├── master_flat_spec.fits -> /Users/cardiel/w/GTC/emir/work/z_tutorials_201907/w_arc_calibration_tutorial/data/master_flat_spec.fits
+   ├── median_spectra_full.fits
+   ├── median_spectra_slitlets.fits
+   ├── median_spectrum_slitlets.fits
+   └── reduced_image.fits
+
+All the relevant raw images ``00010413*-EMIR-TEST0.fits`` and the calibrations
+are linked into this working directory: by default, numina places there links
+to the original files, which are not modified (the parameter ``--link-files``,
+used in the commands of this tutorial, does the same).
+
+*If you prefer actual copies of the files in the* ``work`` *subdirectory,*
+use the parameter ``--copy-files``:
+
+.. code-block:: console
+
+   (emir) $ numina run 0_preliminary_calibration.yaml --copy-files -r control.yaml
+   ...
+   ...
+   (emir) $ tree obsid_0001041345_work/
+   obsid_0001041345_work/
+   ├── 0001041345-20160917-EMIR-TEST0.fits
+   ├── 0001041348-20160917-EMIR-TEST0.fits
+   ├── 0001041351-20160917-EMIR-TEST0.fits
+   ├── ds9_arc_rawimage.reg
+   ├── ds9_arc_rectified.reg
+   ├── ds9_boundaries_rawimage.reg
+   ├── ds9_boundaries_rectified.reg
+   ├── ds9_frontiers_rawimage.reg
+   ├── ds9_frontiers_rectified.reg
+   ├── ds9_oh_rawimage.reg
+   ├── ds9_oh_rectified.reg
+   ├── master_bpm.fits
+   ├── master_dark_zeros.fits
+   ├── master_flat_spec.fits
    ├── median_spectra_full.fits
    ├── median_spectra_slitlets.fits
    ├── median_spectrum_slitlets.fits
@@ -368,8 +369,8 @@ The ``results`` subdirectory
 
 .. code-block:: console
 
-   (emir) $ tree obsid_0001401345_results/
-   obsid_0001401345_results/
+   (emir) $ tree obsid_0001041345_results/
+   obsid_0001041345_results/
    ├── processing.log
    ├── rectwv_coeff.json
    ├── reduced_mos.fits
@@ -382,7 +383,7 @@ important files here are:
 - ``reduced_mos.fits`` is the preliminary version of the rectified and
   wavelength calibrated image (please, keep reading).
 
-- ``rectwv_coeff.json``: rectification and wavelength calibration polinomial
+- ``rectwv_coeff.json``: rectification and wavelength calibration polynomial
   coefficients derived from the empirical model, and computed for the specific
   CSU configuration of the considered raw images.
 
@@ -414,7 +415,7 @@ provided with numina:
   corresponding to raw images obtained the same grism+filter, have the same
   linear coverage and sampling in wavelength, which should facilitate the
   scientific analysis of images obtained with distinct CSU configurations.
-     
+
 
 - Note that the image dimensions are now NAXIS1=3400 and NAXIS2=2090:
 
@@ -441,15 +442,15 @@ provided with numina:
 - The coordinates of the useful rectangular region of each slitlet in the
   rectified and wavelength calibrated image are stored in the FITS header under
   the keywords:
-  
+
   - ``IMNSLT??`` (minimum Y pixel)
-  
+
   - ``IMXSLT??`` (maximum Y pixel)
 
   - ``JMNSLT??`` (minimum X pixel)
-  
+
   - ``JMXSLT??`` (maximum X pixel)
-  
+
   where ``??`` runs from 01 to 55 (slitlet number). In principle ``IMNSLT??``
   and ``IMXSLT??`` are always the same for all the grism + filter combinations,
   and are independent of the slitlet location along the wavelength direction (X
@@ -466,7 +467,7 @@ inspection of the data (for example when observing at the telescope), but it is
 possible to do a better job with some extra effort. For example, having a look
 to the preliminary rectified and wavelength calibrated image (making a zoom in
 a relatively narrow range in the X direction) it is clear that the relative
-wavelength calibration between slitlets does not agree within roughtly 1 pixel:
+wavelength calibration between slitlets does not agree within roughly 1 pixel:
 
 .. code-block:: console
 
@@ -487,7 +488,7 @@ The user can obtain a more refined rectified and wavelength calibrated image
 using precise wavelength calibration data. For this purpose one can use arc
 exposures (obtained just before or after de scientific images), or even the
 scientific images themselves, when the airglow emission (OH emission lines) are
-brigth enough to be employed as wavelength signposts).
+bright enough to be employed as wavelength signposts).
 
 In this simple example, since the image we are trying to reduce is precisely an
 arc exposure, we are using its own arc-line set to refine the calibration.
@@ -508,7 +509,7 @@ Note that the EMIR calibration unit has 3 types of arc lamps: Xe, Ne, and Hg
 (actually two lamps of each type). In principle the six lamps should be ON
 (keyword = 1) for the refinement procedure to work properly.  If separate
 exposures were obtained for each lamp type, the user must previously combine
-the images, multiplying each frame by the appropiate factor in order to
+the images, multiplying each frame by the appropriate factor in order to
 simulate simultaneous exposures of the three arc lamp types *with the same
 exposure time*.
 
@@ -817,5 +818,3 @@ each slitlet showing the cross-correlation function:
 .. image:: images/0001041345_crosscorrelation3.png
    :width: 100%
    :alt: cross-correlation example 3
-
-

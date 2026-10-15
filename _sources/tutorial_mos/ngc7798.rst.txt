@@ -21,7 +21,7 @@ NGC7798
    same level of detail (or even mentioned at all!).
 
 In this case we are going to reduce simple spectroscopic observations obtained
-in the central region of the HII galaxy NGC7798 using the J, H and K grisms. 
+in the central region of the HII galaxy NGC7798 using the J, H and K grisms.
 **The target was observed with all the EMIR slitlets aligned,
 simulating a single (pseudo) longslit.**
 
@@ -56,7 +56,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_ngc7798_tutorial_v2.tgz
 
 This action should have populated the file tree with 12 science exposures
-(placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
+(placed within the ``data`` subdirectory) and some additional auxiliary files:
 
 .. code-block:: console
 
@@ -94,7 +94,7 @@ utility ``fitsheader``:
 .. code-block:: console
 
    (emir) $ fitsheader data/0001005* -k object -k grism -k filter -k exptime -f
-                   filename                  OBJECT  GRISM FILTER  EXPTIME  
+                   filename                  OBJECT  GRISM FILTER  EXPTIME
    ---------------------------------------- -------- ----- ------ ----------
    data/0001005178-20160727-EMIR-TEST0.fits  NGC7798     J      J 119.991601
    data/0001005189-20160727-EMIR-TEST0.fits  NGC7798     J      J 119.991601
@@ -155,7 +155,7 @@ As expected, two new subdirectories (``obsid_00010052??_work`` and
 Since we have 2 images for each grism (positions A and B along the slit), it is
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script ``numina-imath`` (which performs binary operations
-betwen images of the same size):
+between images of the same size):
 
 .. code-block:: console
 
@@ -180,8 +180,8 @@ and another with negavite counts) in each case:
    :alt: ds9 grismJ A-B
 
 **From this point, we continue the reduction of the spectrophotometric standard
-using Python (within a Jupyter notebook).** 
-See `final reduction of HD209290 
+using Python (within a Jupyter notebook).**
+See `final reduction of HD209290
 <https://guaix.fis.ucm.es/~ncl/emir/reduction_hd209290.html>`_.
 
 
@@ -214,7 +214,7 @@ As expected, two new subdirectories (``obsid_00010052??_work`` and
 Since we have 2 images for each grism (positions A and B along the slit), it is
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script ``numina-imath`` (which performs binary operations
-betwen images of the same size):
+between images of the same size):
 
 .. code-block:: console
 
@@ -238,12 +238,11 @@ and another with negavite counts) in each case:
    :width: 100%
    :alt: ds9 grismJ A-B
 
-**From this point, we continue the reduction of the galaxy spectra using 
-Python (within a Jupyter notebook).** 
+**From this point, we continue the reduction of the galaxy spectra using
+Python (within a Jupyter notebook).**
 See `final reduction of NGC7798
 <https://guaix.fis.ucm.es/~ncl/emir/reduction_ngc7798.html>`_.
 
 .. image:: images/plot_JHK_ngc7798.png
    :width: 100%
    :alt: ds9 grismJ A-B
-

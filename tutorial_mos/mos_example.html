@@ -7,15 +7,15 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>MOS example &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=e160b93e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -125,7 +125,7 @@ needed!</p>
 <p>Download the following file: <a class="reference external" href="https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz">pyemir_mos_tutorial_v1b.tgz</a>.</p>
 <p>If you find any trouble trying to download the previous file, try with the
 command line:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>&lt;https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>curl<span class="w"> </span>-O<span class="w"> </span>https://guaix.fis.ucm.es/data/pyemir/pyemir_mos_tutorial_v1b.tgz
 </pre></div>
 </div>
 <p>Move to the directory where you have deployed the initial file tree structure
@@ -138,7 +138,7 @@ containing the basic PyEmir calibration files (see  <a class="reference internal
 </pre></div>
 </div>
 <p>This action should have populated the file tree with 24 science exposures
-(placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
+(placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
 <span class="go">...</span>
 </pre></div>
@@ -579,7 +579,7 @@ section appears with the parameters employed when invoking the script
 <p>As expected, two new subdirectories have been created:</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_work</span></code>: temporary subdirectory where all
-the relevant files have been copied (or linked), and where the auxiliary
+the relevant files have been linked (or copied, with <code class="docutils literal notranslate"><span class="pre">--copy-files</span></code>), and where the auxiliary
 <code class="docutils literal notranslate"><span class="pre">ds9</span></code> region lines have been stored.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">obsid_0002004226_rectwv_combined_results</span></code>: subdirectory where the
 results of the recipe are saved. In this case:</p>
@@ -624,7 +624,7 @@ transmit data objects (see details in <a class="reference external" href="https:
 calibrated image shows that, apart from a global offset in the wavelength
 calibration, the OH lines are much more aligned when moving along the spatial
 direction:</p>
-<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" style="width: 800px;" />
+<a class="reference internal image-reference" href="../_images/0002004226_rectwv_comparison.gif"><img alt="Image 0002004226 comparison rectification and wavelength calibration" src="../_images/0002004226_rectwv_comparison.gif" width="800" />
 </a>
 <p>It is also possible to display the synthetic image, generated during the
 execution of the reduction recipe, with the expected location of the airglow
@@ -739,7 +739,7 @@ expected location of the OH lines. This image is stored in the
 <code class="docutils literal notranslate"><span class="pre">synthetic_raw_image.fits</span></code>.</p>
 <a class="reference internal image-reference" href="../_images/0002004226_synthetic.png"><img alt="synthetic images with OH lines" src="../_images/0002004226_synthetic.png" style="width: 100%;" />
 </a>
-<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" style="width: 800px;" />
+<a class="reference internal image-reference" href="../_images/0002004226_synthetic_comparison.gif"><img alt="comparison between synthetic and original image" src="../_images/0002004226_synthetic_comparison.gif" width="800" />
 </a>
 <p>The automatic procedure has determined the following offset values:</p>
 <ul class="simple">
@@ -754,13 +754,13 @@ coefficients are the same:</p>
 <span class="w">  </span>obsid_0002004226_rectwv_combined_results/rectwv_coeff.json
 
 <span class="go">8c8</span>
-<span class="go">&lt;   &quot;uuid&quot;: &quot;1139443e-99db-11e9-b393-3c15c2e3dc50&quot;,</span>
+<span class="go">&lt;   "uuid": "1139443e-99db-11e9-b393-3c15c2e3dc50",</span>
 <span class="go">---</span>
-<span class="go">&gt;   &quot;uuid&quot;: &quot;aca6d82e-99da-11e9-abf7-3c15c2e3dc50&quot;,</span>
+<span class="go">&gt;   "uuid": "aca6d82e-99da-11e9-abf7-3c15c2e3dc50",</span>
 <span class="go">18c18</span>
-<span class="go">&lt;     &quot;creation_date&quot;: &quot;2019-06-28T19:29:37.736426&quot;,</span>
+<span class="go">&lt;     "creation_date": "2019-06-28T19:29:37.736426",</span>
 <span class="go">---</span>
-<span class="go">&gt;     &quot;creation_date&quot;: &quot;2019-06-28T19:26:49.004673&quot;,</span>
+<span class="go">&gt;     "creation_date": "2019-06-28T19:26:49.004673",</span>
 </pre></div>
 </div>
 <p>Note that the contents of both files are identical except for the unique
@@ -770,7 +770,7 @@ coefficients are the same:</p>
 </section>
 <section id="fast-abba-combination">
 <h2>Fast ABBA combination<a class="headerlink" href="#fast-abba-combination" title="Link to this heading"></a></h2>
-<p>The reduction recipe `` ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
+<p>The reduction recipe <code class="docutils literal notranslate"><span class="pre">ABBA_SPECTRA_FAST_RECTWV</span></code> performs a fast ABBA
 combination since it employs a single rectification and wavelength calibration
 solution for all the individual images. For that reason, all the A images in
 the ABBA sequences can be combined before rectification and wavelength
@@ -968,19 +968,19 @@ in detail at some bright sources. For example, in these observations, 4 stars
 were employed to align the CSU on sky. The brightest one was placed in slitlet
 number 2. Let’s select all the A images and display a zoom around this slitlet
 region:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0002004*.fits<span class="w"> </span>-k<span class="w"> </span>IMGOBBL<span class="w"> </span>-f<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">&#39;$2 == 1 || $2 == 4 {print $1}&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>list_a.txt
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>fitsheader<span class="w"> </span>data/0002004*.fits<span class="w"> </span>-k<span class="w"> </span>IMGOBBL<span class="w"> </span>-f<span class="w"> </span><span class="p">|</span><span class="w"> </span>awk<span class="w"> </span><span class="s1">'$2 == 1 || $2 == 4 {print $1}'</span><span class="w"> </span>&gt;<span class="w"> </span>list_a.txt
 
 <span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>list_a.txt<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--bbox<span class="w"> </span><span class="m">86</span>,2047,9,70<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--z1z2<span class="w"> </span><span class="m">0</span>,1100<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--pdffile<span class="w"> </span>brightspectrum_a.pdf<span class="w"> </span><span class="se">\</span>
-<span class="w"> </span>--keystitle<span class="w"> </span>ra,dec,rotang.<span class="s2">&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;</span>
+<span class="w"> </span>--keystitle<span class="w"> </span>ra,dec,rotang.<span class="s2">"RA: %s, DEC: %s, rotang: %5.2f"</span>
 </pre></div>
 </div>
 <p>The first command defines the list of images for which the keyword <code class="docutils literal notranslate"><span class="pre">IMGOBBL</span></code>
 is either 1 or 4 (A images). The second command generates a PDF file in which
 a zoom around slitlet number 2 is displayed for all the selected images.</p>
-<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" style="width: 800px;" />
+<a class="reference internal image-reference" href="../_images/brightspectrum_a.gif"><img alt="variation of brightspectrum of A images" src="../_images/brightspectrum_a.gif" width="800" />
 </a>
 <p>It is clear that the actual location of the A spectra changed along the
 sequence. Unfortunately, there were no bright spectra in the B images to check
@@ -1216,10 +1216,10 @@ direction) when comparing different images. These variations are easy to detect
 (when present) making a zoom in a relatively small are of the images:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-ximshow<span class="w"> </span>data/0002004*fits<span class="w"> </span>--bbox<span class="w"> </span><span class="m">1180</span>,1320,1180,1280<span class="w">  </span><span class="se">\</span>
 <span class="w">  </span>--z1z2<span class="w"> </span><span class="m">0</span>,1100<span class="w"> </span>--pdffile<span class="w"> </span>abba_imageoffsets.pdf<span class="w">  </span><span class="se">\</span>
-<span class="w">  </span>--keystitle<span class="w"> </span>ra,dec,rotang.<span class="s2">&quot;RA: %s, DEC: %s, rotang: %5.2f&quot;</span>
+<span class="w">  </span>--keystitle<span class="w"> </span>ra,dec,rotang.<span class="s2">"RA: %s, DEC: %s, rotang: %5.2f"</span>
 </pre></div>
 </div>
-<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" style="width: 800px;" />
+<a class="reference internal image-reference" href="../_images/abba_imageoffsets.gif"><img alt="looking for offsets between individual images" src="../_images/abba_imageoffsets.gif" width="800" />
 </a>
 <p>Although the previous animation does not show an apparent variation in the
 location of the OH lines throughout the whole ABBA sequence, we are going to
@@ -1249,7 +1249,7 @@ image.</p>
 employed above to generate <code class="docutils literal notranslate"><span class="pre">1_rectwv_combined.yaml</span></code>, but here we have omitted
 the flag <code class="docutils literal notranslate"><span class="pre">--rectwv_combined</span></code>. Leaving out this parameter leads to the
 following observation result file (that we have named
-<code class="docutils literal notranslate"><span class="pre">1_rectwv_individual.yaml</span></code> to avoid overwritting the previous one):</p>
+<code class="docutils literal notranslate"><span class="pre">1_rectwv_individual.yaml</span></code> to avoid overwriting the previous one):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="nb">id</span><span class="p">:</span> <span class="n">_0002004226_rectwv</span>
 <span class="linenos">  2</span><span class="n">instrument</span><span class="p">:</span> <span class="n">EMIR</span>
 <span class="linenos">  3</span><span class="n">mode</span><span class="p">:</span> <span class="n">GENERATE_RECTWV_COEFF</span>
@@ -1711,7 +1711,7 @@ avoid overwriting previous reductions:</p>
 <p>Finally, we can compare the result of this reduction, in which we have employed
 an individual <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> file for each of the 24 scientific images,
 with the one derived using the same <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> for all of them:</p>
-<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" style="width: 800px;" />
+<a class="reference internal image-reference" href="../_images/abba_combinedcomparison.gif"><img alt="comparison between using single of multiple rectwv_coeff.json files" src="../_images/abba_combinedcomparison.gif" width="800" />
 </a>
 <p>Not surprisingly, the combination obtained after using the 24 individual
 <code class="docutils literal notranslate"><span class="pre">rectwv_coeff.json</span></code> files is not very different from the one derived
@@ -1751,7 +1751,7 @@ using a single <code class="docutils literal notranslate"><span class="pre">rect
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

@@ -7,15 +7,15 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>NGC7798 &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=e160b93e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -127,7 +127,7 @@ containing the basic PyEmir calibration files (see  <a class="reference internal
 </pre></div>
 </div>
 <p>This action should have populated the file tree with 12 science exposures
-(placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
+(placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code> subdirectory) and some additional auxiliary files:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
 <span class="go">.</span>
 <span class="go">├── 0_stare_hd209290.yaml</span>
@@ -221,7 +221,7 @@ result <code class="docutils literal notranslate"><span class="pre">0_stare_hd20
 <p>Since we have 2 images for each grism (positions A and B along the slit), it is
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script <code class="docutils literal notranslate"><span class="pre">numina-imath</span></code> (which performs binary operations
-betwen images of the same size):</p>
+between images of the same size):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005278_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>obsid_0001005275_results/reduced_mos.fits<span class="w"> </span>grismJ_hd209290_A-B.fits
 
@@ -277,7 +277,7 @@ result <code class="docutils literal notranslate"><span class="pre">0_stare_ngc7
 <p>Since we have 2 images for each grism (positions A and B along the slit), it is
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script <code class="docutils literal notranslate"><span class="pre">numina-imath</span></code> (which performs binary operations
-betwen images of the same size):</p>
+between images of the same size):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>numina-imath<span class="w"> </span>obsid_0001005178_results/reduced_mos.fits<span class="w"> </span>-<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>obsid_0001005189_results/reduced_mos.fits<span class="w"> </span>grismJ_ngc7798_A-B.fits
 
@@ -314,7 +314,7 @@ See <a class="reference external" href="https://guaix.fis.ucm.es/~ncl/emir/reduc
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

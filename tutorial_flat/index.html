@@ -7,15 +7,15 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Flatfield generation &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=e160b93e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -99,7 +99,7 @@ Installation</a>.</p>
 <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>. This should be set to the flatfield to be applied when
 reducing data obtained in imaging mode: for example, when using the recipe
 <code class="docutils literal notranslate"><span class="pre">STARE_IMAGE</span></code> when performing the basic initial reduction of the images.</p></li>
-<li><p>Spectroscopic flatfield: identified as <code class="docutils literal notranslate"><span class="pre">MasterSpectralFalt</span></code> in the file
+<li><p>Spectroscopic flatfield: identified as <code class="docutils literal notranslate"><span class="pre">MasterSpectralFlat</span></code> in the file
 <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>. This should be set to the flatfield to be applied when
 reducing data obtained in spectroscopic mode: for example, when using the
 recipe <code class="docutils literal notranslate"><span class="pre">GENERATE_RECTWV_COEFF</span></code> to generate the rectification and wavelength
@@ -117,8 +117,10 @@ purposes for both, imaging and spectroscopic observations.</p>
 sky signal in different images.  In this sense, the use of a pixel-to-pixel
 flatfield in the initial basic reduction of the original images is not
 essential. The user can easily check this by setting <code class="docutils literal notranslate"><span class="pre">MasterIntensityFlat</span></code> to
-<code class="docutils literal notranslate"><span class="pre">master_flat_ones.fits</span></code> in the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> file, i.e.:</p>
-<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;MasterIntensityFlat&#39;</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;master_flat_ones.fits&#39;</span><span class="p p-Indicator">}</span>
+<code class="docutils literal notranslate"><span class="pre">master_flat_ones.fits</span></code> in the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code> file, in the section of the
+detector of the images (under the UUID of the instrument profile; the
+calibrations of the H2RG detector use <code class="docutils literal notranslate"><span class="pre">master_flat_spec_H2RG.fits</span></code>), i.e.:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="nv">4</span><span class="p p-Indicator">,</span><span class="nt"> type</span><span class="p">:</span><span class="w"> </span><span class="s">'MasterIntensityFlat'</span><span class="p p-Indicator">,</span><span class="nt"> tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{},</span><span class="nt"> content</span><span class="p">:</span><span class="w"> </span><span class="s">'master_flat_ones.fits'</span><span class="p p-Indicator">}</span>
 </pre></div>
 </div>
 <p>Note that <code class="docutils literal notranslate"><span class="pre">master_flat_ones.fits</span></code> is a dummy image in which all the pixels
@@ -134,7 +136,7 @@ recommendations:</p>
 <ul class="simple">
 <li><p>The exposures should be obtained with the same MOS configuration
 as the scientific images to which we plan to apply the computed flatfiled;
-otherwise, the pixel-to-pixel reponse may not be available in the wavelength
+otherwise, the pixel-to-pixel response may not be available in the wavelength
 range covered by each particular slitlet.</p></li>
 <li><p>For observations covering the K band it is advisable to obtain images with the
 tungsten lamp both ON and OFF, since in this case the OFF images exhibit a
@@ -187,7 +189,7 @@ containing the basic PyEmir calibration files (see  <a class="reference internal
 </pre></div>
 </div>
 <p>This action should have populated the file tree with the
-20 tungsten FITS images (placed wihtin the <code class="docutils literal notranslate"><span class="pre">data</span></code>
+20 tungsten FITS images (placed within the <code class="docutils literal notranslate"><span class="pre">data</span></code>
 subdirectory) and some additional auxiliary files:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>tree
 <span class="go">.</span>
@@ -347,7 +349,7 @@ tungsten lamp images, independently of whether the images were obtained with
 the lamp ON or OFF (the order of the images here is not relevant; the recipe
 examines the value of the keyword <code class="docutils literal notranslate"><span class="pre">LAMPINCD</span></code> to determine which images
 correspond to each lamp status).</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">requeriments</span></code> section includes some parameters already employed in other
+<p>The <code class="docutils literal notranslate"><span class="pre">requirements</span></code> section includes some parameters already employed in other
 reduction recipes (like the combination method, the width interval for valid
 slitlets, or the integer offsets between the images and the empirical
 distortion calibration), and some new parameters:</p>
@@ -355,7 +357,7 @@ distortion calibration), and some new parameters:</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">nwindow_median:</span> <span class="pre">5</span></code> is the numbers of pixels employed to smooth (via median
 filtering in the spectral direction) the averaged rectified spectrum of each
 slitlet before unrectifying it.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">mininum_fraction:</span> <span class="pre">0.01</span></code> is the minimum fraction of the maximum signal of
+<li><p><code class="docutils literal notranslate"><span class="pre">minimum_fraction:</span> <span class="pre">0.01</span></code> is the minimum fraction of the maximum signal of
 the tungsten lamp that is employed to estimate the pixel-to-pixel response.
 Pixel values below this limit are receiving a very low illumination and the
 pixel-to-pixel response is highly uncertain.</p></li>
@@ -384,7 +386,7 @@ properly for all combinations of grism+filter.</p>
 <p>It is very illustrative to compare the derived flatfield with the file
 <code class="docutils literal notranslate"><span class="pre">master_flat_spec.fits</span></code>, provided in the initial PyEmir tree. Let’s have a
 look to that comparison in a small image region:</p>
-<a class="reference internal image-reference" href="../_images/comparison_flatpix2pix.gif"><img alt="flat pixel-to-pixel" src="../_images/comparison_flatpix2pix.gif" style="width: 800px;" />
+<a class="reference internal image-reference" href="../_images/comparison_flatpix2pix.gif"><img alt="flat pixel-to-pixel" src="../_images/comparison_flatpix2pix.gif" width="800" />
 </a>
 <p>This comparison reveals that the flatfield just computed exhibits:</p>
 <ul class="simple">
@@ -414,7 +416,7 @@ unless you have a good reason for not doing it.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

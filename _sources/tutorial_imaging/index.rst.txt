@@ -38,7 +38,7 @@ attempting to refine the combination procedure.
      An absolute astrometric calibration will require the comparison of the
      derived astrometry with accurate coordinates of objects in the field of
      view.
-     
+
    - Only integer offsets between (reprojected) images are considered: this is
      not especially important considering that the PSF is well oversampled. The
      benefit of using integer offsets is that we avoid reprojecting the images
@@ -47,10 +47,9 @@ attempting to refine the combination procedure.
 .. only:: html
 
    **Tutorial index:**
-   
+
 .. toctree::
    :maxdepth: 2
-   
+
    preliminary_combination
    refined_combination
-   

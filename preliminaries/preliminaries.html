@@ -7,15 +7,15 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Preliminaries &mdash; pyemir-tutorials v1.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
 
   
       <script src="../_static/jquery.js?v=5d32c60e"></script>
       <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
       <script src="../_static/documentation_options.js?v=e160b93e"></script>
-      <script src="../_static/doctools.js?v=9bcbadda"></script>
-      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -90,6 +90,13 @@ shell</strong> (or a compatible one).</p>
 PyEmir.  In this document, the prompt <code class="docutils literal notranslate"><span class="pre">(emir)</span> <span class="pre">$</span></code> will indicate that this
 is the case.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These tutorials require PyEmir 0.24 or later and numina 0.40 or later
+(Python 3.10 or later). Install them with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pyemir</span></code>, also in
+conda environments, following the <a class="reference external" href="https://pyemir.readthedocs.io/en/stable/installation/index.html">installation instructions of PyEmir</a>. You
+can check the installed version of numina with <code class="docutils literal notranslate"><span class="pre">numina</span> <span class="pre">--version</span></code>.</p>
+</div>
 <section id="running-pyemir-recipes-from-numina">
 <h2>Running PyEmir recipes from Numina<a class="headerlink" href="#running-pyemir-recipes-from-numina" title="Link to this heading"></a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">numina</span></code> script is the interface with GTC pipelines. In order to execute
@@ -101,7 +108,7 @@ PyEmir recipes you should use execute something like:</p>
 format, and <code class="docutils literal notranslate"><span class="pre">&lt;requirements_files.yaml&gt;</span></code> is a reqruirements file, also in YAML
 format.</p>
 <p>Note: YAML is a human-readable data serialization language (for details, see
-<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax desciption</a>)</p>
+<a class="reference external" href="https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html">YAML Syntax description</a>)</p>
 </section>
 <section id="initial-file-tree">
 <span id="id1"></span><h2>Initial file tree<a class="headerlink" href="#initial-file-tree" title="Link to this heading"></a></h2>
@@ -123,6 +130,9 @@ support varying calibrations based on the detector being used. This update
 is part of an ongoing process as we continue to develop proper calibrations
 for the H2RG detector. In the meantime, the pipeline should function
 properly with images captured using the original EMIR detector.</p>
+<p>numina 0.40 and later only accept this format of the <code class="docutils literal notranslate"><span class="pre">control.yaml</span></code>
+file, with the calibrations of each detector. If you have an initial file
+tree downloaded before February 2024, download it again.</p>
 </div>
 <p>It is advisable to decompress the previous file in a pristine directory where
 you can comfortably start the reduction of your data:</p>
@@ -175,7 +185,7 @@ filter HK (Y axis). Note that the color scale is given in logarithmic units
 </a>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rect_wpoly_MOSlibrary_grism*.json</span></code>: empirical distortion and wavelength
-callibrations for the reduction of spectroscopic data. These calibrations
+calibrations for the reduction of spectroscopic data. These calibrations
 allow an initial rectification and wavelength calibration without the need of
 auxiliary calibration images (e.g. arc exposures).</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">master_dark_zeros.fits</span></code>: is a dummy 2048x2048 image of zeros (this image is
@@ -200,13 +210,15 @@ exclusively available from within that environment.</p>
 <section id="use-of-interactive-matplotlib-plots">
 <h2>Use of interactive matplotlib plots<a class="headerlink" href="#use-of-interactive-matplotlib-plots" title="Link to this heading"></a></h2>
 <p>The interactive plots created by some Numina and PyEmir scripts have been
-tested using the Qt5Agg backend of matplotlib. Note that this will require the
-<code class="docutils literal notranslate"><span class="pre">pyqt</span></code> package to be installed in your environment (see for example <a class="reference external" href="https://anaconda.org/anaconda/pyqt">the
-conda instructions to install pyqt</a>).</p>
+tested using the QtAgg backend of matplotlib. Note that this will require
+the Qt bindings to be installed in your environment, which can be done with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp gp-VirtualEnv">(emir)</span> <span class="gp">$ </span>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">"pyemir[gui]"</span>
+</pre></div>
+</div>
 <p>If you want to use the same backend (this is not really necessary), check that
 the following line appears in the file <code class="docutils literal notranslate"><span class="pre">.matplotlib/matplotlibrc</span></code> (under your
 home directory):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span><span class="p">:</span> <span class="n">Qt5Agg</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">backend</span><span class="p">:</span> <span class="n">QtAgg</span>
 </pre></div>
 </div>
 <p>If that file does not exist, generate it with the above line.</p>
@@ -230,7 +242,7 @@ graphical windows.</p>
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2018-2024, Universidad Complutense de Madrid.</p>
+    <p>&#169; Copyright 2018-2026, Universidad Complutense de Madrid.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
