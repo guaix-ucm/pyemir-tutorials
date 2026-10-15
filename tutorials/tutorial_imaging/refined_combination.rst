@@ -122,8 +122,8 @@ An alternative to the use of the offsets computed from the WCS information in
 the image header is to provide a two-column ASCII file with the measured (X,Y)
 coordinates of a reference object (i.e., the centroid of a bright star) in
 every individual image. These values are employed to determine the relative
-offsets between the individual exposures. The (arbitray) name of that file must
-be provided through the requirement ``offsets:``. For this tutoral, we are
+offsets between the individual exposures. The (arbitrary) name of that file must
+be provided through the requirement ``offsets:``. For this tutorial, we are
 providing such a file with the name ``user_offsets.txt``. Note that this file
 must be placed within the ``data`` subdirectory.
 
@@ -275,7 +275,7 @@ the same result.
    The conclusion of these comparisons is that the user can rely on the offsets
    computed from the WCS information in the image headers as a
    reasonable initial guess, but that these offsets need to be refined. Unless
-   something is really wrong with that WCS information, the user probabily will
+   something is really wrong with that WCS information, the user probably will
    not need to measure the offsets manually. Anyway, this last option is always
    there just in case it is necessary.
 

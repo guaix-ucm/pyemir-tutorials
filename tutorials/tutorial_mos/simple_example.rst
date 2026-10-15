@@ -29,7 +29,7 @@ can be obtained with two levels of quality:
   images, computed from the empirical calibration derived by the instrument
   team.
 
-  -  This is the on-line reduction perfomed at the GTC while gathering the
+  -  This is the on-line reduction performed at the GTC while gathering the
      images.
 
   - Note that although the empirical calibrations were computed using a large
@@ -43,7 +43,7 @@ can be obtained with two levels of quality:
     calibration constitutes a good starting point in order to have a look to
     the data.
 
-- **Refined calibration**, which requires either auxilary arc exposures or a
+- **Refined calibration**, which requires either auxiliary arc exposures or a
   more detailed reduction of scientific images with good signal on the airglow
   emission (OH emission lines). In this case, the preliminary calibration is
   refined *in order to guarantee that both, the absolute wavelength calibration
@@ -96,7 +96,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_arc_calibration_tutorial_v1.tgz
 
 This action should have populated the file tree with the 3 arc exposures
-(placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
+(placed within the ``data`` subdirectory) and some additional auxiliary files:
 
 .. code-block:: console
 
@@ -383,7 +383,7 @@ important files here are:
 - ``reduced_mos.fits`` is the preliminary version of the rectified and
   wavelength calibrated image (please, keep reading).
 
-- ``rectwv_coeff.json``: rectification and wavelength calibration polinomial
+- ``rectwv_coeff.json``: rectification and wavelength calibration polynomial
   coefficients derived from the empirical model, and computed for the specific
   CSU configuration of the considered raw images.
 
@@ -467,7 +467,7 @@ inspection of the data (for example when observing at the telescope), but it is
 possible to do a better job with some extra effort. For example, having a look
 to the preliminary rectified and wavelength calibrated image (making a zoom in
 a relatively narrow range in the X direction) it is clear that the relative
-wavelength calibration between slitlets does not agree within roughtly 1 pixel:
+wavelength calibration between slitlets does not agree within roughly 1 pixel:
 
 .. code-block:: console
 
@@ -488,7 +488,7 @@ The user can obtain a more refined rectified and wavelength calibrated image
 using precise wavelength calibration data. For this purpose one can use arc
 exposures (obtained just before or after de scientific images), or even the
 scientific images themselves, when the airglow emission (OH emission lines) are
-brigth enough to be employed as wavelength signposts).
+bright enough to be employed as wavelength signposts).
 
 In this simple example, since the image we are trying to reduce is precisely an
 arc exposure, we are using its own arc-line set to refine the calibration.
@@ -509,7 +509,7 @@ Note that the EMIR calibration unit has 3 types of arc lamps: Xe, Ne, and Hg
 (actually two lamps of each type). In principle the six lamps should be ON
 (keyword = 1) for the refinement procedure to work properly.  If separate
 exposures were obtained for each lamp type, the user must previously combine
-the images, multiplying each frame by the appropiate factor in order to
+the images, multiplying each frame by the appropriate factor in order to
 simulate simultaneous exposures of the three arc lamp types *with the same
 exposure time*.
 

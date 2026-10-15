@@ -16,7 +16,7 @@ way it was easier to recognize the detector region spanned by each (distorted)
 individual 2D spectroscopic image corresponding to each particular slitlet.
 
 In addition to that, it also important to keep in mind that the frontiers
-between diferent slitlets change as a function of the location of the slitlet
+between different slitlets change as a function of the location of the slitlet
 (along the wavelength direction) in the focal plane of the telescope (i.e., the
 configuration of the slitlets in the Cold Slit Unit).
 

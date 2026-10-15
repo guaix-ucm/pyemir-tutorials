@@ -56,7 +56,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_ngc7798_tutorial_v2.tgz
 
 This action should have populated the file tree with 12 science exposures
-(placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
+(placed within the ``data`` subdirectory) and some additional auxiliary files:
 
 .. code-block:: console
 
@@ -155,7 +155,7 @@ As expected, two new subdirectories (``obsid_00010052??_work`` and
 Since we have 2 images for each grism (positions A and B along the slit), it is
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script ``numina-imath`` (which performs binary operations
-betwen images of the same size):
+between images of the same size):
 
 .. code-block:: console
 
@@ -214,7 +214,7 @@ As expected, two new subdirectories (``obsid_00010052??_work`` and
 Since we have 2 images for each grism (positions A and B along the slit), it is
 useful to subtract them. You can use for this task your favourite software, or
 the auxiliary Numina script ``numina-imath`` (which performs binary operations
-betwen images of the same size):
+between images of the same size):
 
 .. code-block:: console
 

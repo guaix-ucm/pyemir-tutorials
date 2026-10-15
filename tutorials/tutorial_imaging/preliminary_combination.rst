@@ -84,7 +84,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_imaging_tutorial_v4.tgz
 
 This action should have populated the file tree with the
-14 scientific raw FITS (placed wihtin the ``data``
+14 scientific raw FITS (placed within the ``data``
 subdirectory) and some additional auxiliary files:
 
 .. code-block:: console
@@ -442,7 +442,7 @@ default values in this initial combination:
   background is simply computed as the median value in the same image in which
   the pixel background is being estimated. Using a value larger than zero sets
   the number of closest images (in time) where the signal of a particular pixel
-  is averaged (for example, a value of ``6`` will tipically mean that the sky
+  is averaged (for example, a value of ``6`` will typically mean that the sky
   background will be estimated using 3 images acquired before and 3 images
   acquired after the current one; note that at the beginning and at the end of
   a given observation sequence, the closest nearby images correspond to
@@ -515,7 +515,7 @@ It is clear that this combined image is far from perfect. In particular, there
 are inhomogeneities in the background level, which are easier to see at the
 image borders. In addition, the objects appear elongated, which indicates that
 the offsets between individual exposures, determined from the WCS header
-information, are not suficiently precise. The zoomed region shown in the next
+information, are not sufficiently precise. The zoomed region shown in the next
 image reveals that the problem is not negligible:
 
 .. generada con --geometry 0,0,850,1200 --bbox 1100,1600,800,1300

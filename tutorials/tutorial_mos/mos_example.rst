@@ -53,7 +53,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_mos_tutorial_v1b.tgz
 
 This action should have populated the file tree with 24 science exposures
-(placed wihtin the ``data`` subdirectory) and some additional auxiliary files:
+(placed within the ``data`` subdirectory) and some additional auxiliary files:
 
 .. code-block:: console
 
@@ -782,7 +782,7 @@ Note that the contents of both files are identical except for the unique
 Fast ABBA combination
 =====================
 
-The reduction recipe `` ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
+The reduction recipe ``ABBA_SPECTRA_FAST_RECTWV`` performs a fast ABBA
 combination since it employs a single rectification and wavelength calibration
 solution for all the individual images. For that reason, all the A images in
 the ABBA sequences can be combined before rectification and wavelength
@@ -1381,7 +1381,7 @@ Note that we have used the script with the same parameters that we
 employed above to generate ``1_rectwv_combined.yaml``, but here we have omitted
 the flag ``--rectwv_combined``. Leaving out this parameter leads to the
 following observation result file (that we have named
-``1_rectwv_individual.yaml`` to avoid overwritting the previous one):
+``1_rectwv_individual.yaml`` to avoid overwriting the previous one):
 
 .. literalinclude:: 1_rectwv_individual.yaml
      :linenos:

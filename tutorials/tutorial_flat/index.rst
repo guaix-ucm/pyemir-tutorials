@@ -72,7 +72,7 @@ recommendations:
 
 - The exposures should be obtained with the same MOS configuration
   as the scientific images to which we plan to apply the computed flatfiled;
-  otherwise, the pixel-to-pixel reponse may not be available in the wavelength
+  otherwise, the pixel-to-pixel response may not be available in the wavelength
   range covered by each particular slitlet.
 
 - For observations covering the K band it is advisable to obtain images with the
@@ -134,7 +134,7 @@ Decompress there the previously mentioned tgz file:
    (emir) $ rm pyemir_flatpix2pix_tutorial_v1.tgz
 
 This action should have populated the file tree with the
-20 tungsten FITS images (placed wihtin the ``data``
+20 tungsten FITS images (placed within the ``data``
 subdirectory) and some additional auxiliary files:
 
 .. code-block:: console

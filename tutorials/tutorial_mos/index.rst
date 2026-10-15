@@ -29,7 +29,7 @@ The rectification and wavelength calibration of the original 2048x2048-size raw
 images generates reduced 3400x2090-size images. The spatial and spectral
 sampling of the raw images are preserved, as much as possible (to minimise
 resampling problems) in the reduced images, and the spectral direction axis is
-enlarged to acommodate the varying wavelength ranges covered by the slitlet
+enlarged to accommodate the varying wavelength ranges covered by the slitlet
 spectra depending on the location of the slitlets on the plane defined by the
 CSU (Cold Slit Unit).
 

@@ -37,7 +37,7 @@ format, and ``<requirements_files.yaml>`` is a reqruirements file, also in YAML
 format.
 
 Note: YAML is a human-readable data serialization language (for details, see
-`YAML Syntax desciption
+`YAML Syntax description
 <https://docs.ansible.com/ansible/latest/reference_appendices/YAMLSyntax.html>`_)
 
 
@@ -131,7 +131,7 @@ The subdirectory ``data`` contains the following calibration files:
      :alt: variation in the pixel2pixel response using different filters
 
 - ``rect_wpoly_MOSlibrary_grism*.json``: empirical distortion and wavelength
-  callibrations for the reduction of spectroscopic data. These calibrations
+  calibrations for the reduction of spectroscopic data. These calibrations
   allow an initial rectification and wavelength calibration without the need of
   auxiliary calibration images (e.g. arc exposures).
 
